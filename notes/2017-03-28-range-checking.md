@@ -2,7 +2,7 @@
 
 * Q: [limits check before a basic move](#limits-check-before-a-basic-move)
 * Q: [limits check before a scan](#limits-check-before-a-scan)
-* Q: [What if motor is moving at start of scan?](#what-if-motor-is-moving-at-start-of-scan)
+* Q: [motor moving at start of scan](#what-if-motor-is-moving-at-start-of-scan)
 
 ## limits check before a basic move
 
