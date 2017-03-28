@@ -9,7 +9,8 @@ The BlueSky documentation provides and [introduction](http://nsls-ii.github.io/b
 to [plans](http://nsls-ii.github.io/bluesky/plans.html).
 This document expands to describe more details about BlueSky *plans*.
 
-Many of the NSLS-II beam lines store their configuration in GitHub.
+Many of the NSLS-II beam lines [store their configurations in 
+GitHub](https://github.com/search?p=4&q=NSLS-II-&type=Repositories&utf8=%E2%9C%93).
 The [custom *plans*](https://github.com/NSLS-II-XPD/ipython_ophyd/blob/master/profile_collection/startup/90-plans.py)
 for the XPD instrument can be used as examples.
 
