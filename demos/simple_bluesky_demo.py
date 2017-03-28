@@ -24,7 +24,6 @@ noisy.describe
 noisy.describe_configuration()
 RE(scan([noisy], m1, 1, 5, 20), LiveTable([noisy, m1]))
 RE(scan([noisy], m1, 1, 5, 20), LivePlot('noisy', 'm1'))
-!mov
 mov(m1, 0)
 history
 
