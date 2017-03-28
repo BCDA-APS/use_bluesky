@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# https://git.aps.anl.gov/jemian/deployments/raw/master/BlueSky/use_bluesky.sh
+# https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/starters/use_bluesky.sh
 
 # start an interactive ipython session running BlueSky (from NSLS-II)
 #
