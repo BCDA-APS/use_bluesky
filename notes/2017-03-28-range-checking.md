@@ -277,7 +277,7 @@ three points of the scan had been collected.
 *A*: Apparently, there is no check at the start of a scan that waits because a motor is moving.
 
     In [43]: print(m3.position)
-    	...: epics.caput(m3.prefix, -4)
+    	...: m3.move(-4, wait=False)   # PyEpics:  epics.caput(m3.prefix, -4)
     	...: sleep(0.5)
     	...: print(m3.position)
     	...: RE(scan([noisy], m3, 4, 4.5, 5), LiveTable([noisy, m3]), comment='was moving, OK?')
