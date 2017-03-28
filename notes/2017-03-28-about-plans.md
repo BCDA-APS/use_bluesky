@@ -25,13 +25,17 @@ The *RunEngine* is a state machine (states: idle, running, paused),
 reponsible for executing a *plan*.  It will emit a stream of BlueSky *documents*
 as it executes the plan.  *The Run Engine executes messages and emits Documents.*
 (A *document* is the fundamental record of storage in the BlueSky datastore.  It is a 
-[json](http://json.org/) string.)
+[json](http://json.org/) string.)  Each and every BlueSky *document* has its own
+unique [*uid*](https://en.wikipedia.org/wiki/Universally_unique_identifier).  
+These are used to identify individual documents and coordinate related
+documents.  (While quite long, they can usually be abbreviated to the first
+seven characters which are probably unique.)
 
-These documents will take one of these forms:
+These documents will take one of these forms (see *Reference* section below for examples):
 
-* `start` : first document of a *plan*
-* `descriptor`: -TODO- (? description of an event ?)
-* `event` : one record of data of a *plan*, includes uid of *start* document
+* `start` : first document of a *plan*, includes values of all metadata objects
+* `descriptor`: details of this *plan* including initial values
+* `event` : one record of data of a *plan*, includes uid of *descriptor* document
 * `stop` : last document of a *plan*, includes uid of *start* document
 
 A plan is *submitted* to the RunEngine through a call such as
