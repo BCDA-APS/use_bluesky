@@ -5,3 +5,6 @@ Tools to help APS use [BlueSky](http://nsls-ii.github.io/bluesky) from [NSLS-II]
 * [notes](notes/README.md): findings, explorations, background to answer FAQ, ...
 * [setup](setup/README.md): tools to help install and configure various aspects of BlueSky
 * [starters](starters/README.md): scripts to get BlueSky started, such as ipython console
+
+
+note: this is a work-in-progress, suggestions are welcome
