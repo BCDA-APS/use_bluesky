@@ -168,50 +168,50 @@ of the `count()` plan:
 ### `descriptors`
 
     {
-        "uid": "6f73de9e-4847-49f9-9cae-9e16309c3301",
-        "configuration": {
-            "noisy": {
-                "data": {
-                    "noisy": 9.912777372647597
-                },
-                "timestamps": {
-                    "noisy": 1490715372.584322
-                },
-                "data_keys": {
-                    "noisy": {
-                        "shape": [],
-                        "lower_ctrl_limit": 0,
-                        "precision": 5,
-                        "upper_ctrl_limit": 0,
-                        "dtype": "number",
-                        "source": "PV:gov:userCalc1",
-                        "units": ""
-                    }
-                }
-            }
-        },
-        "name": "primary",
-        "run_start": "0c5017d1-80b6-491e-a660-d51b57c6ef38",
-        "data_keys": {
-            "noisy": {
-                "shape": [],
-                "lower_ctrl_limit": 0,
-                "precision": 5,
-                "object_name": "noisy",
-                "upper_ctrl_limit": 0,
-            "dtype": "number",
-            "source": "PV:gov:userCalc1",
-            "units": ""
-        }
-    },
-    "_id": "58da82ec4843956977719ae0",
-    "time": 1490715372.6301644,
-    "object_keys": {
-        "noisy": [
-            "noisy"
-        ]
+    	"uid": "6f73de9e-4847-49f9-9cae-9e16309c3301",
+    	"configuration": {
+    	    "noisy": {
+    		"data": {
+    		    "noisy": 9.912777372647597
+    		},
+    		"timestamps": {
+    		    "noisy": 1490715372.584322
+    		},
+    		"data_keys": {
+    		    "noisy": {
+    			"shape": [],
+    			"lower_ctrl_limit": 0,
+    			"precision": 5,
+    			"upper_ctrl_limit": 0,
+    			"dtype": "number",
+    			"source": "PV:gov:userCalc1",
+    			"units": ""
+    		    }
+    		}
+    	    }
+    	},
+    	"name": "primary",
+    	"run_start": "0c5017d1-80b6-491e-a660-d51b57c6ef38",
+    	"data_keys": {
+    	    "noisy": {
+    		"shape": [],
+    		"lower_ctrl_limit": 0,
+    		"precision": 5,
+    		"object_name": "noisy",
+    		"upper_ctrl_limit": 0,
+    		"dtype": "number",
+    		"source": "PV:gov:userCalc1",
+    		"units": ""
+    	    }
+    	},
+    	"_id": "58da82ec4843956977719ae0",
+    	"time": 1490715372.6301644,
+    	"object_keys": {
+    	    "noisy": [
+    		"noisy"
+    	    ]
+    	}
     }
-}
 
 ### `event`
 
