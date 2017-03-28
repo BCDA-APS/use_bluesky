@@ -18,7 +18,7 @@ To understand the BlueSky *plan*, it is first necessary to understand in what co
 a plan is used.
 
 The *RunEngine* is a state machine (states: idle, running, paused), 
-reponsible for executing a *plan*.  It will emit a series of *documents*
+reponsible for executing a *plan*.  It will emit a stream of *documents*
 as it executes the plan.  *The Run Engine executes messages and emits Documents.*
 (A *document* is the fundamental record of storage in the BlueSky datastore.  It is a 
 [json](http://json.org/) string.)
@@ -72,7 +72,13 @@ and the method will print the contents of the `event` document.
 
     RE(plan, subs=None, *, raise_if_interrupted=False, **metadata_kw)
 
-## **Plan** Examples
+## *Plan* Examples
+
+see [`bluesky.plans`](https://github.com/NSLS-II/bluesky/blob/master/bluesky/plans.py)
+
+* [`mv`](https://github.com/NSLS-II/bluesky/blob/master/bluesky/plans.py#L439)
+* [`count`](https://github.com/NSLS-II/bluesky/blob/master/bluesky/plans.py#L1842)
+* [`scan`](https://github.com/NSLS-II/bluesky/blob/master/bluesky/plans.py#L2013)
 
 ## *Movable* & *Readable*
 
