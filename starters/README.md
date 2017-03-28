@@ -2,6 +2,7 @@
 
 Install the script `use_bluesky.sh` (from this directory)
 into your `~/bin` folder (or some place in your PATH).
+Remember to make it executable (`chmod +x use_bluesky.sh`).
 Consider examining and modifying the internal defaults
 to suit your installation.
 
