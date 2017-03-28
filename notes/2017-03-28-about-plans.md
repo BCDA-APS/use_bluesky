@@ -13,8 +13,7 @@ This document expands to describe more details about BlueSky *plans*.
 
 * *plan* : Python command that executes a sequence of *messages*.
 * *message* : instance of [`bluesky.utils.Msg`](https://github.com/NSLS-II/bluesky/blob/master/bluesky/utils.py#L23).
-
-    Msg(command, obj, *args, **kwargs)
+   syntax: `Msg(command, obj, *args, **kwargs)`
 
 ## The BlueSky *Run Engine*
 
