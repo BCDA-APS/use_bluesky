@@ -1,8 +1,8 @@
 # Overview: What is a BlueSky *plan*?
 
 In [BlueSky](https://github.com/NSLS-II/bluesky), all activity happens by the execution of a *plan*.
-A *plan* is a Python function that calls a sequence of operations that runs a data acquisition 
-operation such as a scan or even the collection of a single value, such as counting from a scaler.
+A *plan* is a Python function that calls a sequence of data acquisition operations 
+such as a scan or even the collection of a single value, such as counting from a scaler.
 
 ## The BlueSky *Run Engine*
 
@@ -67,8 +67,7 @@ and the method will print the contents of the `event` document.
 ## *Movable* & *Readable*
 
 [*Movable* & *Readable*](https://github.com/NSLS-II/bluesky/blob/master/bluesky/run_engine.py#L488) 
-are traits of detectors and positioners, respectively.  Lists of available movables and
-readables (& flyables) are found in 
-[`bluesky.global_state`](https://github.com/NSLS-II/bluesky/blob/master/bluesky/global_state.py).
+are traits of detectors and positioners, respectively.
 
-note:  There is reference to a *Flyable* but that is not defined in`bluesky.global_state`.
+note:  There is reference to a *Flyable* but that is not defined in
+[`bluesky.global_state`](https://github.com/NSLS-II/bluesky/blob/master/bluesky/global_state.py).
