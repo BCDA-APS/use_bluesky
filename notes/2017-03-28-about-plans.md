@@ -61,6 +61,7 @@ of the `bluesky.global_state.RunEngineTraitType` class.  Use it as a
 
 Simplest example (from the 
 [source code](https://github.com/NSLS-II/bluesky/blob/master/bluesky/run_engine.py#L488)):
+
     >>> RE(my_scan)
 
 Examples using subscriptions (a.k.a. callbacks):
