@@ -267,3 +267,33 @@ three points of the scan had been collected.
     	824	@raise_if_disconnected
 
     LimitError: Value 5.125 outside of range: [-5.0, 5.0]
+
+## What if motor is moving at start of scan?
+
+Apparently, there is no check at the start of a scan that waits because a motor is moving.
+
+    In [43]: print(m3.position)
+    	...: epics.caput(m3.prefix, -4)
+    	...: sleep(0.5)
+    	...: print(m3.position)
+    	...: RE(scan([noisy], m3, 4, 4.5, 5), LiveTable([noisy, m3]), comment='was moving, OK?')
+    	...:
+    4.5
+    4.11
+    Transient Scan ID: 14
+    Persistent Unique Scan ID: 'a823c794-3d0d-40e5-abe6-0762d92f76c5'
+    +-----------+------------+------------+------------+------------------+
+    |	seq_num |	time |      noisy |	    m3 | m3_user_setpoint |
+    +-----------+------------+------------+------------+------------------+
+    |	      1 | 16:07:34.8 |    9.99924 |    4.00000 |	  4.00000 |
+    |	      2 | 16:07:35.2 |    9.99668 |    4.13000 |	  4.12500 |
+    |	      3 | 16:07:35.6 |    9.99079 |    4.25000 |	  4.25000 |
+    |	      4 | 16:07:36.0 |    9.99181 |    4.38000 |	  4.37500 |
+    |	      5 | 16:07:36.4 |    9.99791 |    4.50000 |	  4.50000 |
+    +-----------+------------+------------+------------+------------------+
+    generator scan ['a823c7'] (scan num: 14)
+    ['descriptors', 'start', 'stop']
+    wrote: /home/oxygen18/JEMIAN/Documents/gov_14.h5
+    Value 5.125 outside of range: [-5.0, 5.0]
+    Out[43]: ['a823c794-3d0d-40e5-abe6-0762d92f76c5']
+
