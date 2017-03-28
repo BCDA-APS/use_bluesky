@@ -1,8 +1,12 @@
-# Are motor ranges checked before a scan?
+# Are certain checks conducted before a scan?
+
+* Q: [limits check before a basic move](#limits-check-before-a-basic-move)
+* Q: [limits check before a scan](#limits-check-before-a-scan)
+* Q: [What if motor is moving at start of scan?](#what-if-motor-is-moving-at-start-of-scan)
 
 ## limits check before a basic move
 
-out-of-bounds limit caught by ophyd, raised `LimitError: Value 200 outside of range: [-100.0, 100.0]`
+*A*: out-of-bounds limit caught by ophyd, raised `LimitError: Value 200 outside of range: [-100.0, 100.0]`
 
     In [1]: wh_pos()
 
@@ -68,7 +72,7 @@ out-of-bounds limit caught by ophyd, raised `LimitError: Value 200 outside of ra
 
 ## limits check before a scan
 
-This was not caught until the specific move that would violate the limits was caught by ophyd.
+*A*: This was not caught until the specific move that would violate the limits was caught by ophyd.
 Again, this returned `LimitError: Value 5.125 outside of range: [-5.0, 5.0]` but only after the first
 three points of the scan had been collected.
 
@@ -270,7 +274,7 @@ three points of the scan had been collected.
 
 ## What if motor is moving at start of scan?
 
-Apparently, there is no check at the start of a scan that waits because a motor is moving.
+*A*: Apparently, there is no check at the start of a scan that waits because a motor is moving.
 
     In [43]: print(m3.position)
     	...: epics.caput(m3.prefix, -4)
