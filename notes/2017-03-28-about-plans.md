@@ -100,24 +100,27 @@ note:  There is reference to a *Flyable* but that is not defined in
 
 For this BlueSky command:
 
-    In [3]: RE(count([noisy], num=5), LiveTable(['noisy',]), comment='Hi, Jeff')
-    Transient Scan ID: 7
-    Persistent Unique Scan ID: '47a29b0a-2f54-4569-9692-28cbb0e59a21'
+    In [4]: RE(count([noisy], num=5, delay=1), LiveTable(['noisy',]), comment='Hi, Jeff')
+    Transient Scan ID: 8
+    Persistent Unique Scan ID: '0c5017d1-80b6-491e-a660-d51b57c6ef38'
     +-----------+------------+------------+
     |   seq_num |       time |      noisy |
     +-----------+------------+------------+
-    |         1 | 10:18:29.5 |    9.85723 |
-    |         2 | 10:18:29.5 |    9.85723 |
-    |         3 | 10:18:29.5 |    9.85723 |
-    |         4 | 10:18:29.5 |    9.85723 |
-    |         5 | 10:18:29.5 |    9.91683 |
+    |         1 | 10:36:12.6 |    9.91278 |
+    |         2 | 10:36:13.6 |    9.84153 |
+    |         3 | 10:36:14.6 |    9.85545 |
+    |         4 | 10:36:15.6 |    9.90464 |
+    |         5 | 10:36:16.6 |    9.85591 |
     +-----------+------------+------------+
-    generator count ['47a29b'] (scan num: 7)
+    generator count ['0c5017'] (scan num: 8)
     ['descriptors', 'start', 'stop']
-    wrote: /home/oxygen18/JEMIAN/Documents/gov_7.h5
-    Out[3]: ['47a29b0a-2f54-4569-9692-28cbb0e59a21']
+    wrote: /home/oxygen18/JEMIAN/Documents/gov_8.h5
+    Out[4]: ['0c5017d1-80b6-491e-a660-d51b57c6ef38']
 
-these BlueSky `documents` are examples:
+
+these BlueSky `documents` are examples of the stream of documents 
+(in chronological order) emitted by the *Run Engine* for this instance
+of the `count()` plan:
 
 ### `start`
 
@@ -134,36 +137,36 @@ these BlueSky `documents` are examples:
         "EPICS_CA_AUTO_ADDR_LIST": "yes",
         "plan_name": "count",
         "num_steps": 5,
-        "uid": "47a29b0a-2f54-4569-9692-28cbb0e59a21",
+        "uid": "0c5017d1-80b6-491e-a660-d51b57c6ef38",
         "EPICS_CA_ADDR_LIST": "164.54.124.4",
         "EPICS_EXTENSIONS": "/APSshare/epics/extensions",
         "EPICS_AR_PORT": "7002",
         "plan_args": {
             "num": 5,
             "detectors": [
-                "EpicsSignalRO(read_pv='gov:userCalc1', name='noisy', value=9.85723175110278, timestamp=1490714309.384322, pv_kw={}, auto_monitor=False, string=False)"
+                "EpicsSignalRO(read_pv='gov:userCalc1', name='noisy', value=9.914008858692377, timestamp=1490715372.584322, pv_kw={}, auto_monitor=False, string=False)"
             ]
         },
         "EPICS_HOST_ARCH": "linux-x86_64",
         "comment": "Hi, Jeff",
-        "_id": "58da7ec54843956977719ad7",
+        "_id": "58da82ec4843956977719adf",
         "EPICS_CA_MAX_ARRAY_BYTES": "2500000",
-        "time": 1490714309.530326,
-        "scan_id": 7,
+        "time": 1490715372.6131995,
+        "scan_id": 8,
         "EPICS_BASE_PVT": "/APSshare/epics/extensions-base/3.14.12.3-ext1"
     }
 
 ### `descriptor`
 
     {
-        "uid": "e1674f1a-948d-460b-ba83-bb3ac41d1c60",
+        "uid": "6f73de9e-4847-49f9-9cae-9e16309c3301",
         "configuration": {
             "noisy": {
                 "data": {
-                    "noisy": 9.85723175110278
+                    "noisy": 9.912777372647597
                 },
                 "timestamps": {
-                    "noisy": 1490714309.384322
+                    "noisy": 1490715372.584322
                 },
                 "data_keys": {
                     "noisy": {
@@ -179,7 +182,7 @@ these BlueSky `documents` are examples:
             }
         },
         "name": "primary",
-        "run_start": "47a29b0a-2f54-4569-9692-28cbb0e59a21",
+        "run_start": "0c5017d1-80b6-491e-a660-d51b57c6ef38",
         "data_keys": {
             "noisy": {
                 "shape": [],
@@ -187,94 +190,81 @@ these BlueSky `documents` are examples:
                 "precision": 5,
                 "object_name": "noisy",
                 "upper_ctrl_limit": 0,
-                "dtype": "number",
-                "source": "PV:gov:userCalc1",
-                "units": ""
-            }
-        },
-        "_id": "58da7ec54843956977719ad8",
-        "time": 1490714309.5471988,
-        "object_keys": {
-            "noisy": [
-                "noisy"
-            ]
+            "dtype": "number",
+            "source": "PV:gov:userCalc1",
+            "units": ""
         }
+    },
+    "_id": "58da82ec4843956977719ae0",
+    "time": 1490715372.6301644,
+    "object_keys": {
+        "noisy": [
+            "noisy"
+        ]
     }
+}
 
 ### `event`
 
     {
-        "uid": "e662c60f-8249-47f6-a12d-351fefe6a3fa",
+        "uid": "45ce7233-89a8-43ea-b23f-319f09436612",
         "data": {
-            "noisy": 9.85723175110278
+            "noisy": 9.841530553948303
         },
         "timestamps": {
-            "noisy": 1490714309.384322
+            "noisy": 1490715373.584348
         },
-        "_id": "58da7ec54843956977719ad9",
-    "time": 1490714309.5568695,
-    "descriptor": "e1674f1a-948d-460b-ba83-bb3ac41d1c60",
-    "seq_num": 1
-    }
-    {
-        "uid": "9cfe1905-9061-4aab-a6c1-5fefd99c8232",
-        "data": {
-            "noisy": 9.85723175110278
-        },
-        "timestamps": {
-            "noisy": 1490714309.384322
-        },
-        "_id": "58da7ec54843956977719ada",
-        "time": 1490714309.5644457,
-        "descriptor": "e1674f1a-948d-460b-ba83-bb3ac41d1c60",
+        "_id": "58da82ed4843956977719ae2",
+        "time": 1490715373.648545,
+        "descriptor": "6f73de9e-4847-49f9-9cae-9e16309c3301",
         "seq_num": 2
     }
     {
-        "uid": "24d6d808-23e3-4d27-8de1-4a74b149b894",
+        "uid": "9c757c1a-070a-40e4-aa0a-43db9836615d",
         "data": {
-            "noisy": 9.85723175110278
+            "noisy": 9.855448709240992
         },
         "timestamps": {
-            "noisy": 1490714309.384322
+            "noisy": 1490715374.584376
         },
-        "_id": "58da7ec54843956977719adb",
-        "time": 1490714309.5727956,
-        "descriptor": "e1674f1a-948d-460b-ba83-bb3ac41d1c60",
+        "_id": "58da82ee4843956977719ae3",
+        "time": 1490715374.6576793,
+        "descriptor": "6f73de9e-4847-49f9-9cae-9e16309c3301",
         "seq_num": 3
     }
     {
-        "uid": "d347f41a-bce8-4d96-b349-9998e369f167",
+        "uid": "6a421191-57e3-403b-98a0-ab79885acd2b",
         "data": {
-            "noisy": 9.85723175110278
+            "noisy": 9.904639158623565
         },
         "timestamps": {
-            "noisy": 1490714309.384322
+            "noisy": 1490715375.58433
         },
-        "_id": "58da7ec54843956977719adc",
-        "time": 1490714309.5804646,
-        "descriptor": "e1674f1a-948d-460b-ba83-bb3ac41d1c60",
+        "_id": "58da82ef4843956977719ae4",
+        "time": 1490715375.667277,
+        "descriptor": "6f73de9e-4847-49f9-9cae-9e16309c3301",
         "seq_num": 4
     }
     {
-        "uid": "f435c007-0954-4174-a64f-d4b4950db271",
+        "uid": "2384a6f0-d0c8-4503-a85b-ab186245c5a5",
         "data": {
-            "noisy": 9.916828704464667
+            "noisy": 9.855910948773882
         },
         "timestamps": {
-            "noisy": 1490714309.584365
+            "noisy": 1490715376.584365
         },
-        "_id": "58da7ec54843956977719add",
-        "time": 1490714309.5880601,
-        "descriptor": "e1674f1a-948d-460b-ba83-bb3ac41d1c60",
+        "_id": "58da82f04843956977719ae5",
+        "time": 1490715376.6761823,
+        "descriptor": "6f73de9e-4847-49f9-9cae-9e16309c3301",
         "seq_num": 5
     }
 
 ### `stop`
 
     {
-        "uid": "6e25e54e-2482-4ef7-bbe3-54eaf69e5701",
-        "run_start": "47a29b0a-2f54-4569-9692-28cbb0e59a21",
-        "_id": "58da7ec54843956977719ade",
-        "time": 1490714309.5924358,
+        "uid": "37f0d6d3-9e89-4089-8ffb-702f135423f9",
+        "run_start": "0c5017d1-80b6-491e-a660-d51b57c6ef38",
+        "_id": "58da82f14843956977719ae6",
+        "time": 1490715377.6821551,
         "exit_status": "success"
     }
