@@ -117,7 +117,41 @@ For this BlueSky command:
     wrote: /home/oxygen18/JEMIAN/Documents/gov_7.h5
     Out[3]: ['47a29b0a-2f54-4569-9692-28cbb0e59a21']
 
-these BlueSky `documents` are examples
+these BlueSky `documents` are examples:
+
+### `start`
+
+    {
+        "login_id": "jemian@gov.aps.anl.gov",
+        "plan_type": "generator",
+        "EPICS_BASE": "/APSshare/epics/extensions-base/3.14.12.3-ext1",
+        "beamline_id": "gov",
+        "EPICS_DISPLAY_PATH": "/usr/local/iocapps/adlsys:/usr/local/iocapps/adlsys/temp",
+        "detectors": [
+            "noisy"
+        ],
+        "EPICS_TS_MIN_WEST": "360",
+        "EPICS_CA_AUTO_ADDR_LIST": "yes",
+        "plan_name": "count",
+        "num_steps": 5,
+        "uid": "47a29b0a-2f54-4569-9692-28cbb0e59a21",
+        "EPICS_CA_ADDR_LIST": "164.54.124.4",
+        "EPICS_EXTENSIONS": "/APSshare/epics/extensions",
+        "EPICS_AR_PORT": "7002",
+        "plan_args": {
+            "num": 5,
+            "detectors": [
+                "EpicsSignalRO(read_pv='gov:userCalc1', name='noisy', value=9.85723175110278, timestamp=1490714309.384322, pv_kw={}, auto_monitor=False, string=False)"
+            ]
+        },
+        "EPICS_HOST_ARCH": "linux-x86_64",
+        "comment": "Hi, Jeff",
+        "_id": "58da7ec54843956977719ad7",
+        "EPICS_CA_MAX_ARRAY_BYTES": "2500000",
+        "time": 1490714309.530326,
+        "scan_id": 7,
+        "EPICS_BASE_PVT": "/APSshare/epics/extensions-base/3.14.12.3-ext1"
+    }
 
 ### `descriptor`
 
@@ -170,43 +204,17 @@ these BlueSky `documents` are examples
 ### `event`
 
     {
-        "uid": "f435c007-0954-4174-a64f-d4b4950db271",
-        "data": {
-            "noisy": 9.916828704464667
-        },
-        "timestamps": {
-            "noisy": 1490714309.584365
-        },
-        "_id": "58da7ec54843956977719add",
-        "time": 1490714309.5880601,
-        "descriptor": "e1674f1a-948d-460b-ba83-bb3ac41d1c60",
-        "seq_num": 5
-    }
-    {
-        "uid": "d347f41a-bce8-4d96-b349-9998e369f167",
+        "uid": "e662c60f-8249-47f6-a12d-351fefe6a3fa",
         "data": {
             "noisy": 9.85723175110278
         },
         "timestamps": {
             "noisy": 1490714309.384322
         },
-        "_id": "58da7ec54843956977719adc",
-        "time": 1490714309.5804646,
-        "descriptor": "e1674f1a-948d-460b-ba83-bb3ac41d1c60",
-        "seq_num": 4
-    }
-    {
-        "uid": "24d6d808-23e3-4d27-8de1-4a74b149b894",
-        "data": {
-            "noisy": 9.85723175110278
-        },
-        "timestamps": {
-            "noisy": 1490714309.384322
-        },
-        "_id": "58da7ec54843956977719adb",
-        "time": 1490714309.5727956,
-        "descriptor": "e1674f1a-948d-460b-ba83-bb3ac41d1c60",
-        "seq_num": 3
+        "_id": "58da7ec54843956977719ad9",
+    "time": 1490714309.5568695,
+    "descriptor": "e1674f1a-948d-460b-ba83-bb3ac41d1c60",
+    "seq_num": 1
     }
     {
         "uid": "9cfe1905-9061-4aab-a6c1-5fefd99c8232",
@@ -222,51 +230,43 @@ these BlueSky `documents` are examples
         "seq_num": 2
     }
     {
-        "uid": "e662c60f-8249-47f6-a12d-351fefe6a3fa",
+        "uid": "24d6d808-23e3-4d27-8de1-4a74b149b894",
         "data": {
             "noisy": 9.85723175110278
         },
         "timestamps": {
             "noisy": 1490714309.384322
         },
-        "_id": "58da7ec54843956977719ad9",
-    "time": 1490714309.5568695,
-    "descriptor": "e1674f1a-948d-460b-ba83-bb3ac41d1c60",
-    "seq_num": 1
-}
-
-### `start`
-
+        "_id": "58da7ec54843956977719adb",
+        "time": 1490714309.5727956,
+        "descriptor": "e1674f1a-948d-460b-ba83-bb3ac41d1c60",
+        "seq_num": 3
+    }
     {
-        "login_id": "jemian@gov.aps.anl.gov",
-        "plan_type": "generator",
-        "EPICS_BASE": "/APSshare/epics/extensions-base/3.14.12.3-ext1",
-        "beamline_id": "gov",
-        "EPICS_DISPLAY_PATH": "/usr/local/iocapps/adlsys:/usr/local/iocapps/adlsys/temp",
-        "detectors": [
-            "noisy"
-        ],
-        "EPICS_TS_MIN_WEST": "360",
-        "EPICS_CA_AUTO_ADDR_LIST": "yes",
-        "plan_name": "count",
-        "num_steps": 5,
-        "uid": "47a29b0a-2f54-4569-9692-28cbb0e59a21",
-        "EPICS_CA_ADDR_LIST": "164.54.124.4",
-        "EPICS_EXTENSIONS": "/APSshare/epics/extensions",
-        "EPICS_AR_PORT": "7002",
-        "plan_args": {
-            "num": 5,
-            "detectors": [
-                "EpicsSignalRO(read_pv='gov:userCalc1', name='noisy', value=9.85723175110278, timestamp=1490714309.384322, pv_kw={}, auto_monitor=False, string=False)"
-            ]
+        "uid": "d347f41a-bce8-4d96-b349-9998e369f167",
+        "data": {
+            "noisy": 9.85723175110278
         },
-        "EPICS_HOST_ARCH": "linux-x86_64",
-        "comment": "Hi, Jeff",
-        "_id": "58da7ec54843956977719ad7",
-        "EPICS_CA_MAX_ARRAY_BYTES": "2500000",
-        "time": 1490714309.530326,
-        "scan_id": 7,
-        "EPICS_BASE_PVT": "/APSshare/epics/extensions-base/3.14.12.3-ext1"
+        "timestamps": {
+            "noisy": 1490714309.384322
+        },
+        "_id": "58da7ec54843956977719adc",
+        "time": 1490714309.5804646,
+        "descriptor": "e1674f1a-948d-460b-ba83-bb3ac41d1c60",
+        "seq_num": 4
+    }
+    {
+        "uid": "f435c007-0954-4174-a64f-d4b4950db271",
+        "data": {
+            "noisy": 9.916828704464667
+        },
+        "timestamps": {
+            "noisy": 1490714309.584365
+        },
+        "_id": "58da7ec54843956977719add",
+        "time": 1490714309.5880601,
+        "descriptor": "e1674f1a-948d-460b-ba83-bb3ac41d1c60",
+        "seq_num": 5
     }
 
 ### `stop`
