@@ -16,7 +16,7 @@ for the XPD instrument can be used as examples.
 
 **summary**: 
 
-* *plan* : Python command that executes a sequence of *messages*.
+* *plan* : Python command that executes a sequence of BlueSky *messages*.
 * *message* : instance of [`bluesky.utils.Msg`](https://github.com/NSLS-II/bluesky/blob/master/bluesky/utils.py#L23).
    syntax: `Msg(command, obj, *args, **kwargs)`
 
@@ -38,8 +38,8 @@ seven characters which are probably unique.)
 These documents will take one of these forms (see *Reference* section below for examples):
 
 * `start` : first document of a *plan*, includes values of all metadata objects
-* `descriptor`: details of this *plan* including initial values
-* `event` : one record of data of a *plan*, includes uid of *descriptor* document
+* `descriptors`: details of this *plan* including initial values
+* `event` : one record of data of a *plan*, includes uid of *descriptors* document
 * `stop` : last document of a *plan*, includes uid of *start* document
 
 A plan is *submitted* to the RunEngine through a call such as
@@ -165,7 +165,7 @@ of the `count()` plan:
         "EPICS_BASE_PVT": "/APSshare/epics/extensions-base/3.14.12.3-ext1"
     }
 
-### `descriptor`
+### `descriptors`
 
     {
         "uid": "6f73de9e-4847-49f9-9cae-9e16309c3301",
