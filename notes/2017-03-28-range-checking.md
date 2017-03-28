@@ -3,6 +3,7 @@
 * Q: [limits check before a basic move](#limits-check-before-a-basic-move)
 * Q: [limits check before a scan](#limits-check-before-a-scan)
 * Q: [motor moving at start of scan](#what-if-motor-is-moving-at-start-of-scan)
+* [TODO](#todo)
 
 ## limits check before a basic move
 
@@ -301,3 +302,7 @@ three points of the scan had been collected.
     Value 5.125 outside of range: [-5.0, 5.0]
     Out[43]: ['a823c794-3d0d-40e5-abe6-0762d92f76c5']
 
+# TODO
+
+* create code that checks for valid range and subscribe it to `start` documents
+* create code that checks if scanned motor(s) in motion, waits for *done*,  and subscribe it to `start` documents
