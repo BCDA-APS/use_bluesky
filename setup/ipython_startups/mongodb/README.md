@@ -1,4 +1,6 @@
-This is the IPython startup directory
+# ipython profile startup
+
+This is the IPython startup directory when using mongodb with RW
 
 .py and .ipy files in this directory will be run *prior* to any code or 
 files specified via the exec_lines or exec_files configurables whenever 

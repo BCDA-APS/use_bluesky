@@ -2,7 +2,7 @@
 
 # install mongodb setup for BlueSky DataBroker
 
-APS_GITLAB=https://git.aps.anl.gov/jemian/deployments/raw/master/BlueSky/mongo
+WWW_REPO=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/setup/datastore/mongodb
 
 #----------------------------------------------------
 # mongodb configuration for databroker
@@ -13,5 +13,5 @@ FILE_LIST+=" metadatastore/connection.yml"
 TARGET=${HOME}/.config
 mkdir -p ${TARGET}/filestore ${TARGET}/metadatastore
 for filename in ${FILE_LIST}; do
-	wget ${APS_GITLAB}/${filename} -O ${TARGET}/${filename}
+	wget ${WWW_REPO}/${filename} -O ${TARGET}/${filename}
 done
