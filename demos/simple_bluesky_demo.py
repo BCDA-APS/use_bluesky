@@ -17,7 +17,6 @@ epics.caput(CALC+'.CALC', 'rndm')
 epics.caput(CALC+'.SCAN', '.2 second')
 epics.caput(IOC+'EnableUserCalcs', 1)
 
-
 wh_pos()
 m1.move(2)
 mov(m1, 0)
@@ -28,7 +27,6 @@ RE(scan([noisy], m1, 1, 5, 20), LivePlot('noisy', 'm1'))
 !mov
 mov(m1, 0)
 history
-
 
 # setup "our detector" that is configured in ophyd as "noisy"
 epics.caput(CALC+'.INAN', IOC+'m1.RBV')
