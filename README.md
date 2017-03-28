@@ -2,7 +2,21 @@ Various findings and code samples and thoughts while exploring
 the [NSLS-II](http://nsls-ii.github.io) software called 
 [BlueSky](http://nsls-ii.github.io/bluesky/).
 
-## session using XXX IOC and this PV setup (pseudo detector)
+* [session using XXX IOC](#session-using-xxx-ioc)
+* [ipython session](#ipython-session)
+* [mesh scans](#mesh-scans)
+  * [mesh scan 1](#mesh-scan-1)
+  * [mesh scan 2](#mesh-scan-2)
+  * [mesh scan 3](#mesh-scan-3)
+  * [mesh scan 4](#mesh-scan-4)
+* [ipython commands](#ipython-commands)
+* [save to HDF5 file](#save-to-hdf5-file)
+* [NeXus support](#nexus-support)
+* [*hkl* reciprocal space](#hkl-reciprocal-space)
+
+## session using XXX IOC
+
+session using XXX IOC and this PV setup (using the sscan record as a pseudo detector)
 
 	prjemian@poof ~/.../support/xxx-5-8-3 $ caput xxx:userCalc1.CALC rndm
 	Old : xxx:userCalc1.CALC             0
@@ -135,7 +149,9 @@ Calculation: cos^2(m_1^2+m_2^2+\rho)
 
 ![final image of mesh scan 4](images/cos_aSqr_plus_bSqr_fine.png)
 
-### save last scan's data to HDF5 file
+### save to HDF5 file
+
+save last scan's data to HDF5 file
 
     from suitcase.hdf5 import export
     export(db[-1], 'meshscan4.h5', mds, use_uid=False)
