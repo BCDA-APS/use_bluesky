@@ -72,7 +72,7 @@ and the method will print the contents of the `event` document.
 
     RE(plan, subs=None, *, raise_if_interrupted=False, **metadata_kw)
 
-## *Plan** Examples
+## **Plan** Examples
 
 ## *Movable* & *Readable*
 
