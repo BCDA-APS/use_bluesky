@@ -1,8 +1,16 @@
 # Overview: What is a BlueSky *plan*?
 
 In [BlueSky](https://github.com/NSLS-II/bluesky), all activity happens by the execution of a *plan*.
-A *plan* is a Python function that calls a sequence of data acquisition operations 
+A *plan* is a Python function that calls a sequence of *messages* which
+constitute data acquisition operations 
 such as a scan or even the collection of a single value, such as counting from a scaler.
+
+**summary**: 
+
+* *plan* : Python command that executes a sequence of *messages*.
+* *message* : instance of [`bluesky.utils.Msg`](https://github.com/NSLS-II/bluesky/blob/master/bluesky/utils.py#L23).
+
+    Msg(command, obj, *args, **kwargs)
 
 ## The BlueSky *Run Engine*
 
@@ -11,12 +19,16 @@ a plan is used.
 
 The *RunEngine* is a state machine (states: idle, running, paused), 
 reponsible for executing a *plan*.  It will emit a series of *documents*
-as it executes the plan.  These documents will take one of these forms:
+as it executes the plan.  *The Run Engine executes messages and emits Documents.*
+(A *document* is the fundamental record of storage in the BlueSky datastore.  It is a 
+[json](http://json.org/) string.)
 
-* `start` - TBA ...
-* `descriptor`
-* `event`
-* `stop`
+These documents will take one of these forms:
+
+* `start` : first document of a *plan*
+* `descriptor`: -TODO- (? description of an event ?)
+* `event` : one record of data of a *plan*, includes uid of *start* document
+* `stop` : last document of a *plan*, includes uid of *start* document
 
 A plan is *submitted* to the RunEngine through a call such as
 
@@ -59,8 +71,6 @@ and the method will print the contents of the `event` document.
 [Briefly](https://github.com/NSLS-II/bluesky/blob/master/bluesky/run_engine.py#L488):
 
     RE(plan, subs=None, *, raise_if_interrupted=False, **metadata_kw)
-
-## The BlueSky *Msg* class (a.k.a. *Plan*)
 
 ## *Plan** Examples
 
