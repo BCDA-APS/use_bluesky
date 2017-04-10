@@ -154,8 +154,9 @@ import interlace_tomo
 callbacks = []
 detectors = [scaler,]
 lt = LiveTable([scaler.time, scaler.channels.chan1, scaler.channels.chan2, alpha, beta])
+enc = interlace_tomo.EPICSNotifierCallback("xxx:userStringCalc1.AA", "xxx:userStringCalc1.BB")
 callbacks.append(lt)
-callbacks.append(interlace_tomo.TomoScanCallback())
+callbacks.append(enc)
 
 plan = interlace_tomo.tomo_scan(detectors, alpha, 1.0, 2.0, 5)
 

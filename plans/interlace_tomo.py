@@ -40,6 +40,7 @@ import numpy as np
 #from bluesky.global_state import gs
 from bluesky import plans
 from bluesky.callbacks.core import CallbackBase 
+import epics
 
 
 def tomo_scan(detectors, motor, start, stop, num, *, per_step=None, md={}):
@@ -96,16 +97,43 @@ def tomo_scan(detectors, motor, start, stop, num, *, per_step=None, md={}):
     return (yield from inner_scan())
 
 
-class TomoScanCallback(CallbackBase):
+class EPICSNotifierCallback(CallbackBase):
+    """
+    callback handler: update a couple EPICS string PVs
+    """
+    
+    def __init__(self, msg_pv_a, msg_pv_b, *args, **kws):
+        self.msg_pv_a = msg_pv_a
+        self.msg_pv_b = msg_pv_b
+        self.num_projections = None
+        self.plan_name = None
+        self.short_uid = None
+        self.scan_id = None
+        self.scan_label = None
+        epics.caput(self.msg_pv_a, "")
+        epics.caput(self.msg_pv_b, "")
     
     def start(self, doc):
-        print('Goody! A tomo scan is starting!')
+        self.plan_name = doc["plan_name"]
+        self.short_uid = doc["uid"].split("-")[0]
+        self.scan_id = doc["scan_id"] 
+        self.num_projections = doc["num_projections"]
+        self.scan_label = "%s %d (%s)" % (self.plan_name, self.scan_id, self.short_uid)
+        msg = "start: " + self.scan_label
+        self.plan_name + ': ' + self.short_uid
+        epics.caput(self.msg_pv_a, msg)
+        epics.caput(self.msg_pv_b, "")
     
     def event(self, doc):
-        print('Got another tomo scan event!')
+        msg = "event %d of %d" % (doc["seq_num"], self.num_projections)
+        progress = 100.0 * doc["seq_num"] / self.num_projections
+        msg += " (%.0f%%)" % progress
+        epics.caput(self.msg_pv_b, msg)
     
     def stop(self, doc):
-        print("That's the end of this tomo scan.")
+        msg = "End: " + self.scan_label
+        epics.caput(self.msg_pv_a, msg)
+        epics.caput(self.msg_pv_b, "")
 
 # def interlace_tomo_per_step(detectors, motor, step):
 #     """
