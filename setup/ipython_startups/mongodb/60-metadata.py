@@ -3,6 +3,7 @@
 
 RE.md['beamline_id'] = 'developer'
 RE.md['proposal_id'] = None
+RE.md['pid'] = os.getpid()
 
 # Add a callback that prints scan IDs at the start of each scan.
 
