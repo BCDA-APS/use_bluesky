@@ -38,10 +38,10 @@ export BLUESKY_PROFILE=${1:-$BLUESKY_PROFILE__INTERNAL_DEFAULT}
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 export PATH=$BLUESKY_BIN_DIR:$PATH
+echo "BlueSky executable path: $BLUESKY_BIN_DIR"
 echo "starting ipython with profile: $BLUESKY_PROFILE"
-which python
-python --version
-conda --version
-pip --version
-which ipython
-ipython --profile=$BLUESKY_PROFILE
+$BLUESKY_BIN_DIR/python --version
+$BLUESKY_BIN_DIR/conda --version
+$BLUESKY_BIN_DIR/pip --version
+$BLUESKY_BIN_DIR/ipython --profile=$BLUESKY_PROFILE
+read -p "End of BlueSky console session - press return"
