@@ -1,5 +1,5 @@
 # use_bluesky
-Tools to help APS use [BlueSky](http://nsls-ii.github.io/bluesky) ([git](https://github.com/NSLS-II/bluesky))from [NSLS-II](http://nsls-ii.github.io)
+Tools to help APS use [BlueSky](http://nsls-ii.github.io/bluesky) ([GitHub](https://github.com/NSLS-II/bluesky)) from [NSLS-II](http://nsls-ii.github.io)
 
 * [demos](demos/README.md): short demonstrations of various capabilities
 * [notes](notes/README.md): findings, explorations, background to answer FAQ, ...
