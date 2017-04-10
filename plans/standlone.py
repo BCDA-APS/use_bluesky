@@ -1,14 +1,15 @@
 #!/usr/bin/env python
 
 '''
-demonstrate an interlace tomography scan plan in BlueSky
+setup s standalone global state to run an interlace tomography scan plan in BlueSky
 
 :see: https://github.com/BCDA-APS/use_bluesky/issues/4
 '''
+from plans import interlace_tomo
 
+MONGODB_HOST = 'localhost'
 
 #############################################################################
-# Make ophyd listen to pyepics.
 from ophyd import setup_ophyd
 setup_ophyd()
 
@@ -39,7 +40,7 @@ import numpy as np
 import os
 
 # this *should* come from ~/.config/filestore and ~/.config/metadatastore
-os.environ['MDS_HOST'] = 'localhost'
+os.environ['MDS_HOST'] = MONGODB_HOST
 os.environ['MDS_PORT'] = '27017'
 os.environ['MDS_DATABASE'] = 'metadatastore-production-v1'
 os.environ['MDS_TIMEZONE'] = 'US/Central'
@@ -71,14 +72,11 @@ from bluesky.global_state import gs
 gs.RE.subscribe('all', mds.insert)
 RE = gs.RE  # convenience alias
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-'''
-ensure that PyEpics is available
-
-Do this early in the setup so other setup can benefit.
-'''
-
+# ensure that PyEpics is available
+# Do this early in the setup so other setup can benefit.
 import epics
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# setup the movables
 from ophyd import (PVPositioner, EpicsMotor, EpicsSignal, EpicsSignalRO,
                    PVPositionerPC, Device)
 from ophyd import Component as Cpt
@@ -90,6 +88,7 @@ x = EpicsMotor('xxx:m4', name='x')
 y = EpicsMotor('xxx:m5', name='y')
 z = EpicsMotor('xxx:m6', name='z')
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+# setup the detectors
 from ophyd import (EpicsScaler, EpicsSignal, EpicsSignalRO, DeviceStatus)
 from ophyd import Component as Cpt
 
@@ -101,7 +100,6 @@ noisy = EpicsSignalRO('xxx:userCalc1', name='noisy')
 scaler = EpicsScaler('xxx:scaler1', name='scaler')
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Set up default metadata
-
 RE.md['beamline_id'] = 'developer'
 RE.md['proposal_id'] = None
 RE.md['pid'] = os.getpid()
@@ -139,7 +137,7 @@ def write_nexus_callback(name, stop_doc):
     if name != 'stop':
         return
     header = db[stop_doc['run_start']]
-    print(sorted(list(header.keys())))
+    #print(sorted(list(header.keys())))
     start = header.start
     filename = '{}_{}.h5'.format(start.beamline_id, start.scan_id)
     suitcase.nexus.export(header, filename, mds, use_uid=False)
@@ -152,3 +150,13 @@ RE.subscribe('stop', write_nexus_callback)
 #############################################################################
 
 import interlace_tomo
+
+callbacks = []
+detectors = [scaler,]
+lt = LiveTable([scaler.time, scaler.channels.chan1, scaler.channels.chan2, alpha, beta])
+callbacks.append(lt)
+callbacks.append(interlace_tomo.TomoScanCallback())
+
+plan = interlace_tomo.tomo_scan(detectors, alpha, 1.0, 2.0, 5)
+
+RE(plan, callbacks, md=dict(developer=True))
