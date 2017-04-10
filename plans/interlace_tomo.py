@@ -155,7 +155,8 @@ def interlace_tomo_scan(detectors, motor, start, stop, inner_num, outer_num, *, 
           'plan_pattern_args': dict(start=start, 
                                     stop=stop, 
                                     inner_num=inner_num, 
-                                    outer_num=outer_num),
+                                    outer_num=outer_num, 
+                                    snake=snake),
          }
     _md.update(md)
 
@@ -200,13 +201,54 @@ class EPICSNotifierCallback(CallbackBase):
     def event(self, doc):
         msg = "event %d of %d" % (doc["seq_num"], self.num_projections)
         progress = 100.0 * doc["seq_num"] / self.num_projections
-        msg += " (%.0f%%)" % progress
+        msg += " (%.1f%%)" % progress
         epics.caput(self.msg_pv_b, msg[:39])
     
     def stop(self, doc):
         msg = "End: " + self.scan_label
         epics.caput(self.msg_pv_a, msg[:39])
         epics.caput(self.msg_pv_b, "")
+
+
+class PreTomoScanChecks(CallbackBase):
+    """
+    callback handler: update a couple EPICS string PVs
+    """
+    
+    def __init__(self, motor):
+        self.motor = motor
+    
+    def start(self, doc):
+        self.check_beam()
+        
+        self.check_motor_moving(self.motor)
+        
+        args = doc["plan_args"]
+        for key in "start stop".split():
+            self.check_motor_limits(self.motor, args[key])
+    
+    def check_beam(self):
+        pass        # TODO:
+    
+    def check_motor_moving(self, motor):
+        # TODO: this assume a PyEpics motor object, generalize this check
+        if not motor.motor_done_move:
+            msg = "motor " + motor.name + " is moving, scan canceled"
+            raise ValueError(msg)
+    
+    def check_motor_limits(self, motor, target):
+        # TODO: this assume a PyEpics motor object, generalize this check
+        # ? backlash distance ?
+        if not motor.low_limit <= target <= motor.high_limit:
+            msg = str(target)
+            msg += " is outside of limits ("
+            msg += str(motor.low_limit)
+            msg += ", "
+            msg += str(motor.high_limit)
+            msg += ") for motor " + motor.name
+            msg += ", scan canceled"
+            raise ValueError(msg)
+
 
 # def interlace_tomo_per_step(detectors, motor, step):
 #     """

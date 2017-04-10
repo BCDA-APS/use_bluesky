@@ -5,8 +5,6 @@ setup s standalone global state to run an interlace tomography scan plan in Blue
 
 :see: https://github.com/BCDA-APS/use_bluesky/issues/4
 '''
-from plans import interlace_tomo
-
 MONGODB_HOST = 'localhost'
 
 #############################################################################
@@ -151,18 +149,21 @@ RE.subscribe('stop', write_nexus_callback)
 
 import interlace_tomo
 
-callbacks = []
+tomo_callbacks = []
 detectors = [scaler,]
-lt = LiveTable([scaler.time, scaler.channels.chan1, scaler.channels.chan2, alpha, beta])
-enc = interlace_tomo.EPICSNotifierCallback("xxx:userStringCalc1.AA", "xxx:userStringCalc1.BB")
-callbacks.append(lt)
-callbacks.append(enc)
+prescan_checks = interlace_tomo.PreTomoScanChecks(alpha)
+live_table = LiveTable([alpha, beta, scaler.time, scaler.channels.chan1, scaler.channels.chan2])
+epics_notifier = interlace_tomo.EPICSNotifierCallback("xxx:userStringCalc1.AA", "xxx:userStringCalc1.BB")
+
+tomo_callbacks.append(prescan_checks)
+tomo_callbacks.append(live_table)
+tomo_callbacks.append(epics_notifier)
 
 #plan = interlace_tomo.tomo_scan(detectors, alpha, 1.0, 2.0, 5)
 #RE(plan, callbacks, md=dict(developer=True))
 
-plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 1, 2, 5, 5, snake=True)
-RE(plan, callbacks, md=dict(developer=True))
+tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 1, 2, 5, 5, snake=True)
+RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
 
-plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 0.8, 0.0, 5, 4)
-RE(plan, callbacks, md=dict(developer=True))
+tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 0.8, 0.0, 5, 4)
+RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
