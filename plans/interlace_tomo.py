@@ -37,6 +37,7 @@ NOTES
 
 import inspect
 import numpy as np
+import numpy.ma as ma
 #from bluesky.global_state import gs
 from bluesky import plans
 from bluesky.callbacks.core import CallbackBase 
@@ -68,7 +69,7 @@ def tomo_scan(detectors, motor, start, stop, num, *, per_step=None, md={}):
 
     See Also
     --------
-    :func:`bluesky.plans.relative_scan`
+    :func:`bluesky.plans.scan`
     """
     _md = {'detectors': [det.name for det in detectors],
           'motors': [motor.name],
@@ -87,6 +88,78 @@ def tomo_scan(detectors, motor, start, stop, num, *, per_step=None, md={}):
     per_step = per_step or plans.one_1d_step
 
     projections = np.linspace(**_md['plan_pattern_args'])
+
+    @plans.stage_decorator(list(detectors) + [motor])
+    @plans.run_decorator(md=_md)
+    def inner_scan():
+        for projection in projections:
+            yield from per_step(detectors, motor, projection)
+
+    return (yield from inner_scan())
+
+
+def interlace_tomo_scan(detectors, motor, start, stop, inner_num, outer_num, *, per_step=None, md={}, snake=False):
+    """
+    tomography scan plan (based on `plans.scan()`)
+    
+    :see: https://github.com/dgursoy/mona/blob/master/trunk/32id/tomo_step_scan.py
+    :seealso: http://nsls-ii.github.io/bluesky/bluesky.plans.scan.html#bluesky.plans.scan
+    :seealso: https://github.com/NSLS-II/bluesky/blob/master/bluesky/plans.py#L2032
+
+    Parameters
+    ----------
+    
+    :param [readable] detectors: list of 'readable' objects
+    :param obj motor: instance of `setable` (motor, temp controller, etc.)
+    :param float start: first position of `motor`
+    :param float stop: last position of `motor`
+    :param int inner_num: number of projections in the inner loop
+    :param int outer_num: number of projections in the outer loop
+    :param obj per_step: (optional) a `callable`
+
+        * custom override of standard inner loop handling (at each point of the scan)
+        * Expected signature: ``f(detectors, motor, step)``
+    
+    :param dict md: (optional) metadata dictionary
+    :param bool snake: (optional) move inner loop back and forth or always in given direction (default: False)
+
+    See Also
+    --------
+    :func:`bluesky.plans.scan`
+    """
+    # work out the sequence of projections in advance, normal 1-D scan handling after that
+    inner = np.linspace(start, stop, inner_num)
+    outer = np.linspace(0, inner[1]-inner[0], 1+outer_num)
+    projections = inner
+    for i, offset in enumerate(outer[1:-1]):
+        if snake and i%2 == 0:
+            # http://stackoverflow.com/questions/6771428/most-efficient-way-to-reverse-a-numpy-array#6771620
+            projections = np.append(projections, offset + inner[::-1])
+        else:
+            projections = np.append(projections, offset + inner)
+    # only keep the points within the range: start ...stop
+    projections = ma.compressed(ma.masked_outside(projections, start, stop))
+    
+    num = len(projections)
+
+    _md = {'detectors': [det.name for det in detectors],
+          'motors': [motor.name],
+          'num_projections': num,
+          'plan_args': {'detectors': list(map(repr, detectors)), 'num': num,
+                        'motor': repr(motor),
+                        'start': start, 'stop': stop,
+                        'per_step': repr(per_step)},
+          'plan_name': inspect.currentframe().f_code.co_name,
+          'plan_pattern': 'linspace',
+          'plan_pattern_module': 'numpy',
+          'plan_pattern_args': dict(start=start, 
+                                    stop=stop, 
+                                    inner_num=inner_num, 
+                                    outer_num=outer_num),
+         }
+    _md.update(md)
+
+    per_step = per_step or plans.one_1d_step
 
     @plans.stage_decorator(list(detectors) + [motor])
     @plans.run_decorator(md=_md)
@@ -121,18 +194,18 @@ class EPICSNotifierCallback(CallbackBase):
         self.scan_label = "%s %d (%s)" % (self.plan_name, self.scan_id, self.short_uid)
         msg = "start: " + self.scan_label
         self.plan_name + ': ' + self.short_uid
-        epics.caput(self.msg_pv_a, msg)
+        epics.caput(self.msg_pv_a, msg[:39])
         epics.caput(self.msg_pv_b, "")
     
     def event(self, doc):
         msg = "event %d of %d" % (doc["seq_num"], self.num_projections)
         progress = 100.0 * doc["seq_num"] / self.num_projections
         msg += " (%.0f%%)" % progress
-        epics.caput(self.msg_pv_b, msg)
+        epics.caput(self.msg_pv_b, msg[:39])
     
     def stop(self, doc):
         msg = "End: " + self.scan_label
-        epics.caput(self.msg_pv_a, msg)
+        epics.caput(self.msg_pv_a, msg[:39])
         epics.caput(self.msg_pv_b, "")
 
 # def interlace_tomo_per_step(detectors, motor, step):

@@ -158,6 +158,11 @@ enc = interlace_tomo.EPICSNotifierCallback("xxx:userStringCalc1.AA", "xxx:userSt
 callbacks.append(lt)
 callbacks.append(enc)
 
-plan = interlace_tomo.tomo_scan(detectors, alpha, 1.0, 2.0, 5)
+#plan = interlace_tomo.tomo_scan(detectors, alpha, 1.0, 2.0, 5)
+#RE(plan, callbacks, md=dict(developer=True))
 
+plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 1, 2, 5, 5, snake=True)
+RE(plan, callbacks, md=dict(developer=True))
+
+plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 0.8, 0.0, 5, 4)
 RE(plan, callbacks, md=dict(developer=True))
