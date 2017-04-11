@@ -97,6 +97,12 @@ import time
 noisy = EpicsSignalRO('xxx:userCalc1', name='noisy')
 scaler = EpicsScaler('xxx:scaler1', name='scaler')
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+from ophyd import SingleTrigger, AreaDetector, SimDetector
+
+class MyDetector(SingleTrigger, SimDetector): pass
+
+simdet = MyDetector('13SIM1:cam1:')
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Set up default metadata
 RE.md['beamline_id'] = 'developer'
 RE.md['proposal_id'] = None
@@ -142,7 +148,6 @@ def write_nexus_callback(name, stop_doc):
     print('wrote: ' + os.path.abspath(filename))
 
 RE.subscribe('stop', write_nexus_callback)
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 #############################################################################
