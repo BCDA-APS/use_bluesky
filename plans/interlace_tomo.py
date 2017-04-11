@@ -35,6 +35,7 @@ NOTES
 """
 
 
+import os
 import inspect
 import numpy as np
 import numpy.ma as ma
@@ -43,7 +44,7 @@ from bluesky import plans
 from bluesky.callbacks.core import CallbackBase 
 import epics
 from ophyd.epics_motor import EpicsMotor
-
+from ophyd import AreaDetector
 
 def tomo_scan(detectors, motor, start, stop, num, *, per_step=None, md={}):
     """
@@ -172,6 +173,29 @@ def interlace_tomo_scan(detectors, motor, start, stop, inner_num, outer_num, *, 
     return (yield from inner_scan())
 
 
+class FrameNotifier(CallbackBase):
+
+    def __init__(self, areadet, *args, path=None, **kws):
+        # TODO: assert areadet is a subclass of AreaDetector
+        self.areadet = areadet
+        self.path = path or os.getcwd()
+        if not os.path.exists(self.path):
+            msg = 'path: ' + self.path + ' does not exist'
+            raise ValueError(msg)
+
+    def start(self, doc):
+        hdf5_prefix = self.areadet.name + 'HDF1:'
+        short_uid = doc["uid"].split("-")[0]
+        epics.caput(hdf5_prefix + 'EnableCallbacks', 'Enable')
+        epics.caput(hdf5_prefix + 'ArrayCallbacks', 'Enable')
+        epics.caput(hdf5_prefix + 'FilePath', self.path)
+        epics.caput(hdf5_prefix + 'FileName', 'ts_' + short_uid)
+        epics.caput(hdf5_prefix + 'AutoIncrement', 'Yes')
+        epics.caput(hdf5_prefix + 'FileTemplate', '%s%s_%5.5d.h5')
+        epics.caput(hdf5_prefix + 'AutoSave', 'Yes')
+        epics.caput(hdf5_prefix + 'FileWriteMode', 'Single')
+
+
 class EPICSNotifierCallback(CallbackBase):
     """
     callback handler: update a couple EPICS string PVs
@@ -191,6 +215,10 @@ class EPICSNotifierCallback(CallbackBase):
     def start(self, doc):
         self.plan_name = doc["plan_name"]
         self.short_uid = doc["uid"].split("-")[0]
+        # TODO: setup area detector (if using) HDF5 plugin
+        #   FilePath = ???    # let user decide or os.getcwd()
+        #   FileName = self.short_uid
+        #   FileNumber = 0    # or 1?
         self.scan_id = doc["scan_id"] 
         self.num_projections = doc["num_projections"]
         self.scan_label = "%s %d (%s)" % (self.plan_name, self.scan_id, self.short_uid)
@@ -200,6 +228,7 @@ class EPICSNotifierCallback(CallbackBase):
         epics.caput(self.msg_pv_b, "")
     
     def event(self, doc):
+        # TODO: document frame file name (if using area detector)
         msg = "event %d of %d" % (doc["seq_num"], self.num_projections)
         progress = 100.0 * doc["seq_num"] / self.num_projections
         msg += " (%.1f%%)" % progress

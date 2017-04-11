@@ -124,6 +124,7 @@ epics.caput(hdf5_prefix + 'AutoIncrement', 'Yes')
 epics.caput(hdf5_prefix + 'FileTemplate', '%s%s_%5.5d.h5')
 epics.caput(hdf5_prefix + 'AutoSave', 'Yes')
 epics.caput(hdf5_prefix + 'FileWriteMode', 'Single')
+hdf5_frame_file = EpicsSignalRO(hdf5_prefix + 'FullFileName_RBV', name='hdf5_frame_file')
 #epics.caput(hdf5_prefix + 'XMLFileName', '')    # name of layout template
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Set up default metadata
@@ -235,8 +236,8 @@ if __name__ == '__main__':
     live_table = LiveTable([alpha, beta, scaler.time, scaler.channels.chan1, scaler.channels.chan2])
     epics_notifier = interlace_tomo.EPICSNotifierCallback("xxx:userStringCalc1.AA", "xxx:userStringCalc1.BB")
     
-    detectors = [simdet,]
-    live_table = LiveTable([alpha, beta])
+    detectors = [simdet, hdf5_frame_file]
+    live_table = LiveTable([alpha, beta, hdf5_frame_file])
 
     tomo_callbacks.append(prescan_checks)
     tomo_callbacks.append(live_table)
@@ -250,6 +251,9 @@ if __name__ == '__main__':
     # 
     # tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 0.8, 0.0, 5, 4)
     # RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
+
+    fn = interlace_tomo.FrameNotifier(simdet, path='/home/prjemian/Documents')
+    tomo_callbacks.append(fn)
 
     tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 1, 2, 5, 5, snake=True)
     RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
