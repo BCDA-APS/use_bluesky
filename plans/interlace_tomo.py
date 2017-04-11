@@ -102,7 +102,7 @@ def tomo_scan(detectors, motor, start, stop, num, *, per_step=None, md={}):
 
 def interlace_tomo_scan(detectors, motor, start, stop, inner_num, outer_num, *, per_step=None, md={}, snake=False):
     """
-    tomography scan plan (based on `plans.scan()`)
+    interlace tomography scan plan (based on `plans.scan()`)
     
     :see: https://github.com/dgursoy/mona/blob/master/trunk/32id/tomo_step_scan.py
     :seealso: http://nsls-ii.github.io/bluesky/bluesky.plans.scan.html#bluesky.plans.scan
@@ -190,6 +190,7 @@ class FrameNotifier(CallbackBase):
         epics.caput(hdf5_prefix + 'ArrayCallbacks', 'Enable')
         epics.caput(hdf5_prefix + 'FilePath', self.path)
         epics.caput(hdf5_prefix + 'FileName', 'ts_' + short_uid)
+        epics.caput(hdf5_prefix + 'FileNumber', 0)  # or 1?
         epics.caput(hdf5_prefix + 'AutoIncrement', 'Yes')
         epics.caput(hdf5_prefix + 'FileTemplate', '%s%s_%5.5d.h5')
         epics.caput(hdf5_prefix + 'AutoSave', 'Yes')
