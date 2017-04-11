@@ -101,9 +101,30 @@ from ophyd import SingleTrigger, AreaDetector, SimDetector
 
 class MyDetector(SingleTrigger, SimDetector): pass
 
-simdet = MyDetector('13SIM1:cam1:')
-# # assume sim detector is unconfigured, apply all config here
-# simdet.cam.image_mode.put("Single
+ad_prefix = '13SIM1:'
+simdet = MyDetector(ad_prefix)
+# assume sim detector is unconfigured, apply all config here
+simdet.cam.acquire_time.put(0.5)    # seconds
+simdet.cam.array_callbacks.put("Enable")
+simdet.cam.data_type.put("UInt8")
+simdet.cam.image_mode.put("Single")
+simdet.cam.num_exposures.put(1)
+simdet.cam.num_images.put(1)
+simdet.cam.shutter_mode.put("None")
+simdet.cam.trigger_mode.put("Internal")
+# specific to sim detector
+simdet.cam.sim_mode.put("LinearRamp")
+# how to configure these plugins using ophyd?  use PyEpics for now
+hdf5_prefix = simdet.name + 'HDF1:'
+epics.caput(hdf5_prefix + 'EnableCallbacks', 'Enable')
+epics.caput(hdf5_prefix + 'ArrayCallbacks', 'Enable')
+epics.caput(hdf5_prefix + 'FilePath', os.getcwd())  # TODO: get from EPICS PV
+epics.caput(hdf5_prefix + 'FileName', 'tomoscan')   # TODO: get from EPICS PV
+epics.caput(hdf5_prefix + 'AutoIncrement', 'Yes')
+epics.caput(hdf5_prefix + 'FileTemplate', '%s%s_%5.5d.h5')
+epics.caput(hdf5_prefix + 'AutoSave', 'Yes')
+epics.caput(hdf5_prefix + 'FileWriteMode', 'Single')
+#epics.caput(hdf5_prefix + 'XMLFileName', '')    # name of layout template
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Set up default metadata
 RE.md['beamline_id'] = 'developer'
@@ -149,12 +170,63 @@ def write_nexus_callback(name, stop_doc):
     suitcase.nexus.export(header, filename, mds, use_uid=False)
     print('wrote: ' + os.path.abspath(filename))
 
-RE.subscribe('stop', write_nexus_callback)
+# FIXME: fails with area detector
+#RE.subscribe('stop', write_nexus_callback)
+"""
+Traceback (most recent call last):
+  File "/home/prjemian/Documents/eclipse/use_bluesky/plans/standlone.py", line 205, in <module>
+    RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/run_engine.py", line 599, in __call__
+    raise exc
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/asyncio/tasks.py", line 239, in _step
+    result = coro.send(None)
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/run_engine.py", line 1007, in _run
+    raise err
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/run_engine.py", line 905, in _run
+    msg = self._plan_stack[-1].send(resp)
+  File "/home/prjemian/Documents/eclipse/use_bluesky/plans/interlace_tomo.py", line 172, in interlace_tomo_scan
+    return (yield from inner_scan())
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/plans.py", line 47, in dec_inner
+    return (yield from plan)
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/plans.py", line 1510, in stage_wrapper
+    return (yield from finalize_wrapper(inner(), unstage_devices()))
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/plans.py", line 1025, in finalize_wrapper
+    ret = yield from plan
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/plans.py", line 1508, in inner
+    return (yield from plan)
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/plans.py", line 47, in dec_inner
+    return (yield from plan)
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/plans.py", line 874, in run_wrapper
+    rs_uid = yield from close_run()
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/plans.py", line 967, in close_run
+    return (yield Msg('close_run'))
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/run_engine.py", line 956, in _run
+    response = yield from coro(msg)
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/run_engine.py", line 1211, in _close_run
+    yield from self.emit(DocumentNames.stop, doc)
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/asyncio/coroutines.py", line 206, in coro
+    res = func(*args, **kw)
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/run_engine.py", line 1969, in emit
+    self.dispatcher.process(name, doc)
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/run_engine.py", line 1981, in process
+    exceptions = self.cb_registry.process(name, name.name, doc)
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/utils.py", line 271, in process
+    func(*args, **kwargs)
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/utils.py", line 352, in __call__
+    return mtd(*args, **kwargs)
+  File "/home/prjemian/Documents/eclipse/use_bluesky/plans/standlone.py", line 170, in write_nexus_callback
+    suitcase.nexus.export(header, filename, mds, use_uid=False)
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/suitcase/nexus.py", line 178, in export
+    timestamps = [e['timestamps'][safename] for e in events]
+  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/suitcase/nexus.py", line 178, in <listcomp>
+    timestamps = [e['timestamps'][safename] for e in events]
+KeyError: '_13SIM1__cam_peak_start_peak_start_y'
+"""
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
 #############################################################################
 
-if __name__ == '__main__:
+if __name__ == '__main__':
     import interlace_tomo
     
     tomo_callbacks = []
@@ -163,6 +235,9 @@ if __name__ == '__main__:
     live_table = LiveTable([alpha, beta, scaler.time, scaler.channels.chan1, scaler.channels.chan2])
     epics_notifier = interlace_tomo.EPICSNotifierCallback("xxx:userStringCalc1.AA", "xxx:userStringCalc1.BB")
     
+    detectors = [simdet,]
+    live_table = LiveTable([alpha, beta])
+
     tomo_callbacks.append(prescan_checks)
     tomo_callbacks.append(live_table)
     tomo_callbacks.append(epics_notifier)
@@ -170,8 +245,11 @@ if __name__ == '__main__:
     #plan = interlace_tomo.tomo_scan(detectors, alpha, 1.0, 2.0, 5)
     #RE(plan, callbacks, md=dict(developer=True))
     
+    # tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 1, 2, 5, 5, snake=True)
+    # RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
+    # 
+    # tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 0.8, 0.0, 5, 4)
+    # RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
+
     tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 1, 2, 5, 5, snake=True)
-    RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
-    
-    tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 0.8, 0.0, 5, 4)
     RE(tomo_plan, tomo_callbacks, md=dict(developer=True))

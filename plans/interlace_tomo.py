@@ -42,6 +42,7 @@ import numpy.ma as ma
 from bluesky import plans
 from bluesky.callbacks.core import CallbackBase 
 import epics
+from ophyd.epics_motor import EpicsMotor
 
 
 def tomo_scan(detectors, motor, start, stop, num, *, per_step=None, md={}):
@@ -232,13 +233,16 @@ class PreTomoScanChecks(CallbackBase):
     
     def check_motor_moving(self, motor):
         # TODO: this assume a PyEpics motor object, generalize this check
+        assert(isinstance(motor, EpicsMotor))
         if not motor.motor_done_move:
             msg = "motor " + motor.name + " is moving, scan canceled"
             raise ValueError(msg)
     
     def check_motor_limits(self, motor, target):
+        # TODO: there is an ophyd method for this test
         # TODO: this assume a PyEpics motor object, generalize this check
         # ? backlash distance ?
+        assert(isinstance(motor, EpicsMotor))
         if not motor.low_limit <= target <= motor.high_limit:
             msg = str(target)
             msg += " is outside of limits ("
