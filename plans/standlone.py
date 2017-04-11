@@ -102,6 +102,8 @@ from ophyd import SingleTrigger, AreaDetector, SimDetector
 class MyDetector(SingleTrigger, SimDetector): pass
 
 simdet = MyDetector('13SIM1:cam1:')
+# # assume sim detector is unconfigured, apply all config here
+# simdet.cam.image_mode.put("Single
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Set up default metadata
 RE.md['beamline_id'] = 'developer'
@@ -152,23 +154,24 @@ RE.subscribe('stop', write_nexus_callback)
 
 #############################################################################
 
-import interlace_tomo
-
-tomo_callbacks = []
-detectors = [scaler,]
-prescan_checks = interlace_tomo.PreTomoScanChecks(alpha)
-live_table = LiveTable([alpha, beta, scaler.time, scaler.channels.chan1, scaler.channels.chan2])
-epics_notifier = interlace_tomo.EPICSNotifierCallback("xxx:userStringCalc1.AA", "xxx:userStringCalc1.BB")
-
-tomo_callbacks.append(prescan_checks)
-tomo_callbacks.append(live_table)
-tomo_callbacks.append(epics_notifier)
-
-#plan = interlace_tomo.tomo_scan(detectors, alpha, 1.0, 2.0, 5)
-#RE(plan, callbacks, md=dict(developer=True))
-
-tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 1, 2, 5, 5, snake=True)
-RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
-
-tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 0.8, 0.0, 5, 4)
-RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
+if __name__ == '__main__:
+    import interlace_tomo
+    
+    tomo_callbacks = []
+    detectors = [scaler,]
+    prescan_checks = interlace_tomo.PreTomoScanChecks(alpha)
+    live_table = LiveTable([alpha, beta, scaler.time, scaler.channels.chan1, scaler.channels.chan2])
+    epics_notifier = interlace_tomo.EPICSNotifierCallback("xxx:userStringCalc1.AA", "xxx:userStringCalc1.BB")
+    
+    tomo_callbacks.append(prescan_checks)
+    tomo_callbacks.append(live_table)
+    tomo_callbacks.append(epics_notifier)
+    
+    #plan = interlace_tomo.tomo_scan(detectors, alpha, 1.0, 2.0, 5)
+    #RE(plan, callbacks, md=dict(developer=True))
+    
+    tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 1, 2, 5, 5, snake=True)
+    RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
+    
+    tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 0.8, 0.0, 5, 4)
+    RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
