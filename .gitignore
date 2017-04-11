@@ -17,4 +17,4 @@ lib64
 __pycache__
 
 # developer's HDF5 output files
-developer_*.h5
+*_*.h5
