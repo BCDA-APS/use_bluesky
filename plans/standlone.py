@@ -232,7 +232,7 @@ if __name__ == '__main__':
     
     tomo_callbacks = []
     detectors = [scaler,]
-    prescan_checks = interlace_tomo.PreTomoScanChecks(alpha)
+    prescan_checks = interlace_tomo.PreTomoScanChecks(alpha, source_intensity=None)
     live_table = LiveTable([alpha, beta, scaler.time, scaler.channels.chan1, scaler.channels.chan2])
     epics_notifier = interlace_tomo.EPICSNotifierCallback("xxx:userStringCalc1.AA", "xxx:userStringCalc1.BB")
     
