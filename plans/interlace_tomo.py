@@ -45,6 +45,7 @@ from bluesky.callbacks.core import CallbackBase
 import epics
 from ophyd.epics_motor import EpicsMotor
 from ophyd import AreaDetector
+import time
 
 def tomo_scan(detectors, motor, start, stop, num, *, per_step=None, md={}):
     """
@@ -244,10 +245,30 @@ class EPICSNotifierCallback(CallbackBase):
 class PreTomoScanChecks(CallbackBase):
     """
     callback handler: update a couple EPICS string PVs
+    
+    ATTRIBUTES
+    
+    :param readable source_intensity: signal that describes source intensity now
+
+    ATTRIBUTES
+    
+    :param float source_intensity_threshold:
+        minimum acceptable source intensity
+        (default: 1.0 in units of `source_intensity`)
+    :param int report_interval:
+        when waiting for beam, make UI reports on this interval
+        (default: 60, units: seconds)
+    :param int recheck_interval:
+        when waiting for beam, re-check on this interval
+        (default: 1, units: seconds)
     """
     
-    def __init__(self, motor):
+    def __init__(self, motor, source_intensity=None):
         self.motor = motor
+        self.source_intensity = source_intensity
+        self.source_intensity_threshold = 1.0   # arbitrary default
+        self.report_interval = 60
+        self.recheck_interval = 1
     
     def start(self, doc):
         self.check_beam()
@@ -259,7 +280,24 @@ class PreTomoScanChecks(CallbackBase):
             self.check_motor_limits(self.motor, args[key])
     
     def check_beam(self):
-        pass        # TODO:
+        if self.source_intensity is not None:
+            t_ref = time.time.now()
+            t_update = t_ref + 1    # first report comes early
+            while self.source_intensity < self.source_intensity_threshold:
+                t = time.time.now()
+                if t >= t_update:
+                    t_update += t + self.report_interval
+                    h = int((t - t_ref + 0.5) / 3600)
+                    m = int(((t - t_ref + 0.5) % 3600) / 60)
+                    s = int((t - t_ref + 0.5) % 60)
+                    msg = 'waiting for beam:'
+                    if h > 0:
+                        msg += ' %dh' % h
+                    if h > 0:
+                        msg += ' %dm' % m
+                    msg += ' %ds' % s
+                    print(msg)
+
     
     def check_motor_moving(self, motor):
         # TODO: this assume a PyEpics motor object, generalize this check
@@ -282,17 +320,3 @@ class PreTomoScanChecks(CallbackBase):
             msg += ") for motor " + motor.name
             msg += ", scan canceled"
             raise ValueError(msg)
-
-
-# def interlace_tomo_per_step(detectors, motor, step):
-#     """
-#     per_step: to customize the handling of each projection in a scan
-#     """
-#     # def move():
-#     #     grp = _short_uid('set')
-#     #     yield Msg('checkpoint')
-#     #     yield Msg('set', motor, step, group=grp)
-#     #     yield Msg('wait', None, group=grp)
-#     # 
-#     # yield from move()
-#     # return (yield from trigger_and_read(list(detectors) + [motor]))
