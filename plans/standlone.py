@@ -88,7 +88,6 @@ z = EpicsMotor('xxx:m6', name='z')
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # setup the detectors
 from ophyd import (EpicsScaler, EpicsSignal, EpicsSignalRO, DeviceStatus)
-from ophyd import Component as Cpt
 
 import time
 
@@ -98,8 +97,58 @@ noisy = EpicsSignalRO('xxx:userCalc1', name='noisy')
 scaler = EpicsScaler('xxx:scaler1', name='scaler')
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 from ophyd import SingleTrigger, AreaDetector, SimDetector
+from ophyd import HDF5Plugin, TIFFPlugin
+from ophyd import DynamicDeviceComponent as DDCpt, Signal
 
-class MyDetector(SingleTrigger, SimDetector): pass
+from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
+from ophyd.areadetector.filestore_mixins import FileStoreTIFFIterativeWrite
+from ophyd.areadetector import (ADComponent as ADCpt, EpicsSignalWithRBV,
+                           ImagePlugin, StatsPlugin, DetectorBase,
+                           ROIPlugin, ProcessPlugin, TransformPlugin)
+
+# class HDF5PluginWithFileStore(HDF5Plugin, FileStoreHDF5IterativeWrite):
+# 
+#     def get_frames_per_point(self):
+#         # return self.num_capture.get()
+#         return 1
+
+class myHDF5Plugin(HDF5Plugin):
+ 
+    array_callbacks = Cpt(EpicsSignalWithRBV, 'ArrayCallbacks')
+    enable_callbacks = Cpt(EpicsSignalWithRBV, 'EnableCallbacks')
+    auto_increment = Cpt(EpicsSignalWithRBV, 'AutoIncrement')
+    auto_save = Cpt(EpicsSignalWithRBV, 'AutoSave')
+    file_path = Cpt(EpicsSignalWithRBV, 'FilePath', string=True)
+    file_name = Cpt(EpicsSignalWithRBV, 'FileName', string=True)
+    file_number = Cpt(EpicsSignalWithRBV, 'FileNumber')
+    file_template = Cpt(EpicsSignalWithRBV, 'FileTemplate', string=True)
+    file_write_mode = Cpt(EpicsSignalWithRBV, 'FileWriteMode')
+    full_file_name = Cpt(EpicsSignalRO, 'FullFileName_RBV', string=True)
+    xml_layout_file = Cpt(EpicsSignalWithRBV, 'XMLFileName', string=True)
+
+
+class MyDetector(SingleTrigger, SimDetector):
+
+    image1 = Cpt(ImagePlugin, 'image1:')
+    # stats1 = Cpt(StatsPlugin, 'Stats1:')
+    # stats2 = Cpt(StatsPlugin, 'Stats2:')
+    # stats3 = Cpt(StatsPlugin, 'Stats3:')
+    # stats4 = Cpt(StatsPlugin, 'Stats4:')
+    # stats5 = Cpt(StatsPlugin, 'Stats5:')
+    # trans1 = Cpt(TransformPlugin, 'Trans1:')
+    # roi1 = Cpt(ROIPlugin, 'ROI1:')
+    # roi2 = Cpt(ROIPlugin, 'ROI2:')
+    # roi3 = Cpt(ROIPlugin, 'ROI3:')
+    # roi4 = Cpt(ROIPlugin, 'ROI4:')
+    # proc1 = Cpt(ProcessPlugin, 'Proc1:')
+#     hdf1 = Cpt(myHDF5Plugin, 'HDF1:')
+
+    # # TODO: paramterize the paths, don't use absolutes
+    # # TODO: check and repair trainling slash
+    # hdf5 = Cpt(HDF5PluginWithFileStore,
+    #            suffix='HDF1:',
+    #            write_path_template='/direct/XF21ID1/image_files/',  # trailing slash!
+    #            read_path_template='/direct/XF21ID1/image_files/')
 
 ad_prefix = '13SIM1:'
 simdet = MyDetector(ad_prefix)
@@ -107,25 +156,23 @@ simdet = MyDetector(ad_prefix)
 simdet.cam.acquire_time.put(0.5)    # seconds
 simdet.cam.array_callbacks.put("Enable")
 simdet.cam.data_type.put("UInt8")
-simdet.cam.image_mode.put("Single")
+simdet.cam.image_mode.put(0) # Single
 simdet.cam.num_exposures.put(1)
 simdet.cam.num_images.put(1)
 simdet.cam.shutter_mode.put("None")
 simdet.cam.trigger_mode.put("Internal")
 # specific to sim detector
 simdet.cam.sim_mode.put("LinearRamp")
-# how to configure these plugins using ophyd?  use PyEpics for now
-hdf5_prefix = simdet.name + 'HDF1:'
-epics.caput(hdf5_prefix + 'EnableCallbacks', 'Enable')
-epics.caput(hdf5_prefix + 'ArrayCallbacks', 'Enable')
-epics.caput(hdf5_prefix + 'FilePath', os.getcwd())  # TODO: get from EPICS PV
-epics.caput(hdf5_prefix + 'FileName', 'tomoscan')   # TODO: get from EPICS PV
-epics.caput(hdf5_prefix + 'AutoIncrement', 'Yes')
-epics.caput(hdf5_prefix + 'FileTemplate', '%s%s_%5.5d.h5')
-epics.caput(hdf5_prefix + 'AutoSave', 'Yes')
-epics.caput(hdf5_prefix + 'FileWriteMode', 'Single')
-hdf5_frame_file = EpicsSignalRO(hdf5_prefix + 'FullFileName_RBV', name='hdf5_frame_file')
-#epics.caput(hdf5_prefix + 'XMLFileName', '')    # name of layout template
+
+# simdet.hdf1.array_callbacks.put('Enable')
+# simdet.hdf1.auto_increment.put('Yes')
+# simdet.hdf1.auto_save.put('Yes')
+# simdet.hdf1.enable_callbacks.put('Enable')
+# simdet.hdf1.file_path.put(os.getcwd())  # TODO: get from EPICS PV
+# simdet.hdf1.file_name.put('tomoscan')   # TODO: get from EPICS PV
+# simdet.hdf1.file_template.put('%s%s_%5.5d.h5')
+# simdet.hdf1.file_write_mode.put('Single')
+# #simdet.hdf1.xml_layout_file.put('')
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # Set up default metadata
 RE.md['beamline_id'] = 'developer'
@@ -224,6 +271,15 @@ Traceback (most recent call last):
 KeyError: '_13SIM1__cam_peak_start_peak_start_y'
 """
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+class EpicsNotice(Device):
+ 
+    msg_a = Cpt(EpicsSignal, 'userStringCalc1.AA')
+    msg_b = Cpt(EpicsSignal, 'userStringCalc1.BB')
+
+epics_string_notices = EpicsNotice('xxx:', name='messages')
+
+# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+
 
 #############################################################################
 
@@ -234,7 +290,7 @@ if __name__ == '__main__':
     detectors = [scaler,]
     prescan_checks = interlace_tomo.PreTomoScanChecks(alpha, source_intensity=None)
     live_table = LiveTable([alpha, beta, scaler.time, scaler.channels.chan1, scaler.channels.chan2])
-    epics_notifier = interlace_tomo.EPICSNotifierCallback("xxx:userStringCalc1.AA", "xxx:userStringCalc1.BB")
+    epics_notifier = interlace_tomo.EPICSNotifierCallback(epics_string_notices)
     
     detectors = [simdet]
     live_table = LiveTable([alpha, beta])
@@ -252,7 +308,7 @@ if __name__ == '__main__':
     # tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 0.8, 0.0, 5, 4)
     # RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
 
-    fn = interlace_tomo.FrameNotifier(simdet, path='/home/prjemian/Documents')
+    fn = interlace_tomo.FrameNotifier(path='/home/prjemian/Documents')
     tomo_callbacks.append(fn)
     
     # TODO: How to get frame file name into event document?

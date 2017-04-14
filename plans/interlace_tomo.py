@@ -176,26 +176,33 @@ def interlace_tomo_scan(detectors, motor, start, stop, inner_num, outer_num, *, 
 
 class FrameNotifier(CallbackBase):
 
-    def __init__(self, areadet, *args, path=None, **kws):
-        # TODO: assert areadet is a subclass of AreaDetector
-        self.areadet = areadet
+    def __init__(self, *args, path=None, hdf=None, **kws):
+        self.hdf = hdf
         self.path = path or os.getcwd()
-        if not os.path.exists(self.path):
+        if os.path.exists(self.path):
+            if not self.path.endswith(os.sep):
+                # must end with '/'
+                self.path += os.sep
+        else:
             msg = 'path: ' + self.path + ' does not exist'
             raise ValueError(msg)
 
     def start(self, doc):
-        hdf5_prefix = self.areadet.name + 'HDF1:'
-        short_uid = doc["uid"].split("-")[0]
-        epics.caput(hdf5_prefix + 'EnableCallbacks', 'Enable')
-        epics.caput(hdf5_prefix + 'ArrayCallbacks', 'Enable')
-        epics.caput(hdf5_prefix + 'FilePath', self.path)
-        epics.caput(hdf5_prefix + 'FileName', 'ts_' + short_uid)
-        epics.caput(hdf5_prefix + 'FileNumber', 0)  # or 1?
-        epics.caput(hdf5_prefix + 'AutoIncrement', 'Yes')
-        epics.caput(hdf5_prefix + 'FileTemplate', '%s%s_%5.5d.h5')
-        epics.caput(hdf5_prefix + 'AutoSave', 'Yes')
-        epics.caput(hdf5_prefix + 'FileWriteMode', 'Single')
+        if self.hdf is not None:
+            short_uid = doc["uid"].split("-")[0]
+            self.hdf.enable_callbacks.put('Enable')
+            self.hdf.array_callbacks.put('Enable')
+            self.hdf.file_path.put(self.path)
+            self.hdf.file_name.put('ts_' + short_uid)
+            self.hdf.file_template.put('%s%s_%5.5d.h5')
+            self.hdf.file_number.put(0)
+            self.hdf.file_write_mode.put('Single')
+            self.hdf.auto_increment.put('Yes')
+            self.hdf.auto_save.put('Yes')
+
+    def event(self, doc):
+        if self.hdf is not None:
+            print(self.hdf.full_file_name)
 
 
 class EPICSNotifierCallback(CallbackBase):
@@ -203,43 +210,40 @@ class EPICSNotifierCallback(CallbackBase):
     callback handler: update a couple EPICS string PVs
     """
     
-    def __init__(self, msg_pv_a, msg_pv_b, *args, **kws):
-        self.msg_pv_a = msg_pv_a
-        self.msg_pv_b = msg_pv_b
+    def __init__(self, notices, *args, **kws):
+        self.notices = notices
         self.num_projections = None
         self.plan_name = None
         self.short_uid = None
         self.scan_id = None
         self.scan_label = None
-        epics.caput(self.msg_pv_a, "")
-        epics.caput(self.msg_pv_b, "")
+        self.put_messages("", "")
     
     def start(self, doc):
         self.plan_name = doc["plan_name"]
         self.short_uid = doc["uid"].split("-")[0]
-        # TODO: setup area detector (if using) HDF5 plugin
-        #   FilePath = ???    # let user decide or os.getcwd()
-        #   FileName = self.short_uid
-        #   FileNumber = 0    # or 1?
         self.scan_id = doc["scan_id"] 
         self.num_projections = doc["num_projections"]
         self.scan_label = "%s %d (%s)" % (self.plan_name, self.scan_id, self.short_uid)
         msg = "start: " + self.scan_label
         self.plan_name + ': ' + self.short_uid
-        epics.caput(self.msg_pv_a, msg[:39])
-        epics.caput(self.msg_pv_b, "")
+        self.put_messages(msg, "")
     
     def event(self, doc):
-        # TODO: document frame file name (if using area detector)
         msg = "event %d of %d" % (doc["seq_num"], self.num_projections)
         progress = 100.0 * doc["seq_num"] / self.num_projections
         msg += " (%.1f%%)" % progress
-        epics.caput(self.msg_pv_b, msg[:39])
+        self.put_messages(None, msg)
     
     def stop(self, doc):
         msg = "End: " + self.scan_label
-        epics.caput(self.msg_pv_a, msg[:39])
-        epics.caput(self.msg_pv_b, "")
+        self.put_messages(msg, "")
+    
+    def put_messages(self, a, b):
+        if a is not None:
+            self.notices.msg_a.put(a[:39])
+        if b is not None:
+            self.notices.msg_b.put(b[:39])
 
 
 class PreTomoScanChecks(CallbackBase):
