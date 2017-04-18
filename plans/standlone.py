@@ -80,6 +80,82 @@ import suitcase.nexus
 #############################################################################
 
 
+# class myHDF5Plugin(HDF5Plugin):
+#  
+#     array_callbacks = Cpt(EpicsSignalWithRBV, 'ArrayCallbacks')
+#     enable_callbacks = Cpt(EpicsSignalWithRBV, 'EnableCallbacks')
+#     auto_increment = Cpt(EpicsSignalWithRBV, 'AutoIncrement')
+#     auto_save = Cpt(EpicsSignalWithRBV, 'AutoSave')
+#     file_path = Cpt(EpicsSignalWithRBV, 'FilePath', string=True)
+#     file_name = Cpt(EpicsSignalWithRBV, 'FileName', string=True)
+#     file_number = Cpt(EpicsSignalWithRBV, 'FileNumber')
+#     file_template = Cpt(EpicsSignalWithRBV, 'FileTemplate', string=True)
+#     file_write_mode = Cpt(EpicsSignalWithRBV, 'FileWriteMode')
+#     full_file_name = Cpt(EpicsSignalRO, 'FullFileName_RBV', string=True)
+#     xml_layout_file = Cpt(EpicsSignalWithRBV, 'XMLFileName', string=True)
+
+
+class MyDetector(SingleTrigger, SimDetector):
+
+    no_op = None
+    # image1 = Cpt(ImagePlugin, 'image1:')
+    # hdf1 = Cpt(myHDF5Plugin, 'HDF1:')
+
+
+def setup_sim_detector(det):
+    # assume sim detector is unconfigured, apply all config here
+    cam = det.cam
+
+    cam.acquire_time.put(0.5)    # seconds
+    cam.array_callbacks.put("Enable")
+    cam.data_type.put("UInt8")
+    cam.image_mode.put(0) # Single
+    cam.num_exposures.put(1)
+    cam.num_images.put(1)
+    cam.shutter_mode.put("None")
+    cam.trigger_mode.put("Internal")
+    # specific to sim detector
+    cam.sim_mode.put("LinearRamp")
+    
+    if hasattr(det, 'hdf1'):
+        hdf = det.hdf1
+    
+        hdf.array_callbacks.put('Enable')
+        hdf.auto_increment.put('Yes')
+        hdf.auto_save.put('Yes')
+        hdf.enable_callbacks.put('Enable')
+        hdf.file_path.put(os.getcwd())  # TODO: get from EPICS PV
+        hdf.file_name.put('tomoscan')   # TODO: get from EPICS PV
+        hdf.file_template.put('%s%s_%5.5d.h5')
+        hdf.file_write_mode.put('Single')
+        # hdf.xml_layout_file.put('')    # won't work for empty strings, but why?
+
+
+def print_scan_ids(name, start_doc):
+    """callback that prints scan IDs at the start of each scan"""
+    print("Transient Scan ID: {0}".format(start_doc['scan_id']))
+    print("Persistent Unique Scan ID: '{0}'".format(start_doc['uid']))
+
+
+class EpicsNotice(Device):
+    '''
+    progress messages posted to a couple stringout PVs
+    '''
+ 
+    msg_a = Cpt(EpicsSignal, 'userStringCalc1.AA')
+    msg_b = Cpt(EpicsSignal, 'userStringCalc1.BB')
+    
+    def post(self, a=None, b=None):
+        """write text to each/either PV"""
+        if a is not None:
+            self.msg_a.put(str(a))
+        if b is not None:
+            self.msg_b.put(str(b))
+
+
+#############################################################################
+
+
 os.environ['MDS_HOST'] = MONGODB_HOST
 os.environ['MDS_PORT'] = '27017'
 os.environ['MDS_DATABASE'] = 'metadatastore-production-v1'
@@ -116,67 +192,13 @@ noisy = EpicsSignalRO(SYNAPPS_IOC_PREFIX + 'userCalc1', name='noisy')
 scaler = EpicsScaler(SYNAPPS_IOC_PREFIX + 'scaler1', name='scaler')
 
 
-# class myHDF5Plugin(HDF5Plugin):
-#  
-#     array_callbacks = Cpt(EpicsSignalWithRBV, 'ArrayCallbacks')
-#     enable_callbacks = Cpt(EpicsSignalWithRBV, 'EnableCallbacks')
-#     auto_increment = Cpt(EpicsSignalWithRBV, 'AutoIncrement')
-#     auto_save = Cpt(EpicsSignalWithRBV, 'AutoSave')
-#     file_path = Cpt(EpicsSignalWithRBV, 'FilePath', string=True)
-#     file_name = Cpt(EpicsSignalWithRBV, 'FileName', string=True)
-#     file_number = Cpt(EpicsSignalWithRBV, 'FileNumber')
-#     file_template = Cpt(EpicsSignalWithRBV, 'FileTemplate', string=True)
-#     file_write_mode = Cpt(EpicsSignalWithRBV, 'FileWriteMode')
-#     full_file_name = Cpt(EpicsSignalRO, 'FullFileName_RBV', string=True)
-#     xml_layout_file = Cpt(EpicsSignalWithRBV, 'XMLFileName', string=True)
-
-
-class MyDetector(SingleTrigger, SimDetector):
-
-    no_op = None
-    # image1 = Cpt(ImagePlugin, 'image1:')
-    # hdf1 = Cpt(myHDF5Plugin, 'HDF1:')
-
 simdet = MyDetector(AD_IOC_PREFIX)
-
-def setup_sim_detector(det):
-    # assume sim detector is unconfigured, apply all config here
-    cam = det.cam
-
-    cam.acquire_time.put(0.5)    # seconds
-    cam.array_callbacks.put("Enable")
-    cam.data_type.put("UInt8")
-    cam.image_mode.put(0) # Single
-    cam.num_exposures.put(1)
-    cam.num_images.put(1)
-    cam.shutter_mode.put("None")
-    cam.trigger_mode.put("Internal")
-    # specific to sim detector
-    cam.sim_mode.put("LinearRamp")
-    
-    if hasattr(det, 'hdf1'):
-        hdf = det.hdf1
-    
-        hdf.array_callbacks.put('Enable')
-        hdf.auto_increment.put('Yes')
-        hdf.auto_save.put('Yes')
-        hdf.enable_callbacks.put('Enable')
-        hdf.file_path.put(os.getcwd())  # TODO: get from EPICS PV
-        hdf.file_name.put('tomoscan')   # TODO: get from EPICS PV
-        hdf.file_template.put('%s%s_%5.5d.h5')
-        hdf.file_write_mode.put('Single')
-        # hdf.xml_layout_file.put('')    # won't work for empty strings, but why?
+setup_sim_detector(simdet)
 
 
 RE.md['beamline_id'] = 'developer'
 RE.md['proposal_id'] = None
 RE.md['pid'] = os.getpid()
-
-# Add a callback that prints scan IDs at the start of each scan.
-
-def print_scan_ids(name, start_doc):
-    print("Transient Scan ID: {0}".format(start_doc['scan_id']))
-    print("Persistent Unique Scan ID: '{0}'".format(start_doc['uid']))
 
 
 RE.subscribe('start', print_scan_ids)
@@ -185,22 +207,6 @@ RE.subscribe('start', print_scan_ids)
 HOSTNAME = socket.gethostname() or 'localhost' 
 USERNAME = getpass.getuser() or 'synApps_xxx_user' 
 RE.md['login_id'] = USERNAME + '@' + HOSTNAME
-
-
-class EpicsNotice(Device):
-    '''
-    progress messages posted to a couple stringout PVs
-    '''
- 
-    msg_a = Cpt(EpicsSignal, 'userStringCalc1.AA')
-    msg_b = Cpt(EpicsSignal, 'userStringCalc1.BB')
-    
-    def post(self, a=None, b=None):
-        """write text to each/either PV"""
-        if a is not None:
-            self.msg_a.put(str(a))
-        if b is not None:
-            self.msg_b.put(str(b))
 
 
 epics_string_notices = EpicsNotice(SYNAPPS_IOC_PREFIX, name='messages')
