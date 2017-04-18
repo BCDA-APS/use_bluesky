@@ -34,6 +34,7 @@ install_qt_kicker()
 
 #############################################################################
 
+import logging
 import socket 
 import getpass 
 
@@ -44,62 +45,64 @@ from databroker import Broker
 
 from ophyd import Component as Cpt
 from ophyd import Device
-from ophyd import Signal
-from ophyd import DeviceStatus
-from ophyd import PVPositioner
+#from ophyd import Signal
+#from ophyd import PVPositioner
+#from ophyd import PVPositionerPC
 from ophyd import EpicsMotor
 from ophyd import EpicsSignal
 from ophyd import EpicsSignalRO
-from ophyd import PVPositionerPC
 from ophyd import EpicsScaler
-from ophyd import EpicsSignal
-from ophyd import EpicsSignalRO
 from ophyd import SingleTrigger
 from ophyd import AreaDetector
 from ophyd import SimDetector
 from ophyd import HDF5Plugin
-from ophyd import TIFFPlugin
-from ophyd import DynamicDeviceComponent as DDCpt
+#from ophyd import TIFFPlugin
 
-from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
-from ophyd.areadetector.filestore_mixins import FileStoreTIFFIterativeWrite
-from ophyd.areadetector import ADComponent as ADCpt
+# from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
+# from ophyd.areadetector.filestore_mixins import FileStoreTIFFIterativeWrite
+# from ophyd.areadetector import ADComponent as ADCpt
 from ophyd.areadetector import EpicsSignalWithRBV
-from ophyd.areadetector import ImagePlugin
-from ophyd.areadetector import StatsPlugin
-from ophyd.areadetector import DetectorBase
-from ophyd.areadetector import ROIPlugin
-from ophyd.areadetector import ProcessPlugin
-from ophyd.areadetector import TransformPlugin
+# from ophyd.areadetector import ImagePlugin
+# from ophyd.areadetector import StatsPlugin
+# from ophyd.areadetector import DetectorBase
+# from ophyd.areadetector import ROIPlugin
+# from ophyd.areadetector import ProcessPlugin
+# from ophyd.areadetector import TransformPlugin
 
 from bluesky.global_state import gs
 from bluesky.callbacks import LiveTable
 
-import suitcase.nexus
+# import suitcase.nexus
 
 #############################################################################
 
 
-# class myHDF5Plugin(HDF5Plugin):
-#  
-#     array_callbacks = Cpt(EpicsSignalWithRBV, 'ArrayCallbacks')
-#     enable_callbacks = Cpt(EpicsSignalWithRBV, 'EnableCallbacks')
-#     auto_increment = Cpt(EpicsSignalWithRBV, 'AutoIncrement')
-#     auto_save = Cpt(EpicsSignalWithRBV, 'AutoSave')
-#     file_path = Cpt(EpicsSignalWithRBV, 'FilePath', string=True)
-#     file_name = Cpt(EpicsSignalWithRBV, 'FileName', string=True)
-#     file_number = Cpt(EpicsSignalWithRBV, 'FileNumber')
-#     file_template = Cpt(EpicsSignalWithRBV, 'FileTemplate', string=True)
-#     file_write_mode = Cpt(EpicsSignalWithRBV, 'FileWriteMode')
-#     full_file_name = Cpt(EpicsSignalRO, 'FullFileName_RBV', string=True)
-#     xml_layout_file = Cpt(EpicsSignalWithRBV, 'XMLFileName', string=True)
+class myHDF5Plugin(Device):
+    """custom handling of the HDF5 file writing plugin"""
+    # NOTE: ophyd.areadetector.HDF5Plugin needs testing with AD2.6, use Device for now
+  
+    array_callbacks = Cpt(EpicsSignalWithRBV, 'ArrayCallbacks')
+    enable_callbacks = Cpt(EpicsSignalWithRBV, 'EnableCallbacks')
+    auto_increment = Cpt(EpicsSignalWithRBV, 'AutoIncrement')
+    auto_save = Cpt(EpicsSignalWithRBV, 'AutoSave')
+    file_path = Cpt(EpicsSignalWithRBV, 'FilePath', string=True)
+    file_name = Cpt(EpicsSignalWithRBV, 'FileName', string=True)
+    file_number = Cpt(EpicsSignalWithRBV, 'FileNumber')
+    file_template = Cpt(EpicsSignalWithRBV, 'FileTemplate', string=True)
+    file_write_mode = Cpt(EpicsSignalWithRBV, 'FileWriteMode')
+    full_file_name = Cpt(EpicsSignalRO, 'FullFileName_RBV', string=True)
+    store_attributes = Cpt(EpicsSignalWithRBV, 'StoreAttr', string=True)
+    store_performance_data = Cpt(EpicsSignalWithRBV, 'StorePerform', string=True)
+    xml_layout_file = Cpt(EpicsSignalWithRBV, 'XMLFileName', string=True)
 
 
 class MyDetector(SingleTrigger, SimDetector):
+    """customize the sim detector handling"""
+    #  NOTE: ophyd.areadetector.ImagePlugin needs testing with AD2.6
 
     no_op = None
     # image1 = Cpt(ImagePlugin, 'image1:')
-    # hdf1 = Cpt(myHDF5Plugin, 'HDF1:')
+    hdf1 = Cpt(myHDF5Plugin, 'HDF1:')
 
 
 def setup_sim_detector(det):
@@ -128,6 +131,8 @@ def setup_sim_detector(det):
         hdf.file_name.put('tomoscan')   # TODO: get from EPICS PV
         hdf.file_template.put('%s%s_%5.5d.h5')
         hdf.file_write_mode.put('Single')
+        hdf.store_attributes.put("Yes")
+        hdf.store_performance_data.put("No")
         # hdf.xml_layout_file.put('')    # won't work for empty strings, but why?
 
 
@@ -148,13 +153,16 @@ class EpicsNotice(Device):
     def post(self, a=None, b=None):
         """write text to each/either PV"""
         if a is not None:
-            self.msg_a.put(str(a))
+            self.msg_a.put(str(a)[:39])
         if b is not None:
-            self.msg_b.put(str(b))
+            self.msg_b.put(str(b)[:39])
 
 
 #############################################################################
 
+logging.basicConfig()
+logger = logging.getLogger()
+logger.info('starting: ' + __file__)
 
 os.environ['MDS_HOST'] = MONGODB_HOST
 os.environ['MDS_PORT'] = '27017'
@@ -241,7 +249,10 @@ if __name__ == '__main__':
     # tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 0.8, 0.0, 5, 4)
     # RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
 
-    fn = interlace_tomo.FrameNotifier(path='/home/prjemian/Documents')
+    hdf_xface = None
+    if hasattr(simdet, 'hdf1'):
+        hdf_xface = simdet.hdf1
+    fn = interlace_tomo.FrameNotifier(path='/home/prjemian/Documents', hdf=hdf_xface)
     tomo_callbacks.append(fn)
     
     # TODO: How to get frame file name into event document?
