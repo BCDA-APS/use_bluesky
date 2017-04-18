@@ -234,7 +234,8 @@ if __name__ == '__main__':
     epics_notifier = interlace_tomo.EPICSNotifierCallback(epics_string_notices)
     
     detectors = [simdet]
-    live_table = LiveTable([alpha, beta])
+    live_table_signals = [alpha, beta]
+    live_table = LiveTable(live_table_signals)
 
     tomo_callbacks.append(prescan_checks)
     tomo_callbacks.append(live_table)

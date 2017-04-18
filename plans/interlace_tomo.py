@@ -207,8 +207,9 @@ class FrameNotifier(CallbackBase):
 
     def event(self, doc):
         if self.hdf is not None:
-            logger.info(self.hdf.full_file_name.get())
-            print(self.hdf.full_file_name.get())
+            frame_name = self.hdf.full_file_name.get()
+            logger.info(frame_name)
+            #print(self.hdf.full_file_name.get())
 
 
 class EPICSNotifierCallback(CallbackBase):
