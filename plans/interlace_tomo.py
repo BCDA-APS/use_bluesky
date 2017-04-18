@@ -37,15 +37,20 @@ NOTES
 
 import os
 import inspect
+import logging
+import time
 import numpy as np
 import numpy.ma as ma
-#from bluesky.global_state import gs
-from bluesky import plans
-from bluesky.callbacks.core import CallbackBase 
 import epics
 from ophyd.epics_motor import EpicsMotor
-from ophyd import AreaDetector
-import time
+#from ophyd import AreaDetector
+#from bluesky.global_state import gs
+from bluesky import plans
+from bluesky.callbacks.core import CallbackBase
+
+
+logger = logging.getLogger()
+
 
 def tomo_scan(detectors, motor, start, stop, num, *, per_step=None, md={}):
     """
@@ -202,7 +207,8 @@ class FrameNotifier(CallbackBase):
 
     def event(self, doc):
         if self.hdf is not None:
-            print(self.hdf.full_file_name)
+            logger.info(self.hdf.full_file_name.get())
+            print(self.hdf.full_file_name.get())
 
 
 class EPICSNotifierCallback(CallbackBase):
@@ -217,7 +223,7 @@ class EPICSNotifierCallback(CallbackBase):
         self.short_uid = None
         self.scan_id = None
         self.scan_label = None
-        self.put_messages("", "")
+        self.notices.post("", "")
     
     def start(self, doc):
         self.plan_name = doc["plan_name"]
@@ -227,23 +233,17 @@ class EPICSNotifierCallback(CallbackBase):
         self.scan_label = "%s %d (%s)" % (self.plan_name, self.scan_id, self.short_uid)
         msg = "start: " + self.scan_label
         self.plan_name + ': ' + self.short_uid
-        self.put_messages(msg, "")
+        self.notices.post(msg, "")
     
     def event(self, doc):
         msg = "event %d of %d" % (doc["seq_num"], self.num_projections)
         progress = 100.0 * doc["seq_num"] / self.num_projections
         msg += " (%.1f%%)" % progress
-        self.put_messages(None, msg)
+        self.notices.post(None, msg)
     
     def stop(self, doc):
         msg = "End: " + self.scan_label
-        self.put_messages(msg, "")
-    
-    def put_messages(self, a, b):
-        if a is not None:
-            self.notices.msg_a.put(a[:39])
-        if b is not None:
-            self.notices.msg_b.put(b[:39])
+        self.notices.post(msg, "")
 
 
 class PreTomoScanChecks(CallbackBase):
@@ -300,7 +300,7 @@ class PreTomoScanChecks(CallbackBase):
                     if h > 0:
                         msg += ' %dm' % m
                     msg += ' %ds' % s
-                    print(msg)
+                    logger.info(msg)
 
     
     def check_motor_moving(self, motor):
