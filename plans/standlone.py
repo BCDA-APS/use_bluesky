@@ -129,7 +129,8 @@ class myHDF5Plugin(HDF5Plugin):
 
 class MyDetector(SingleTrigger, SimDetector):
 
-    image1 = Cpt(ImagePlugin, 'image1:')
+    no_op = None
+    # image1 = Cpt(ImagePlugin, 'image1:')
     # stats1 = Cpt(StatsPlugin, 'Stats1:')
     # stats2 = Cpt(StatsPlugin, 'Stats2:')
     # stats3 = Cpt(StatsPlugin, 'Stats3:')
