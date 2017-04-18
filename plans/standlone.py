@@ -1,18 +1,27 @@
 #!/usr/bin/env python
 
 '''
-setup s standalone global state to run an interlace tomography scan plan in BlueSky
+setup a standalone global state to run one interlace tomography scan plan in BlueSky
 
 :see: https://github.com/BCDA-APS/use_bluesky/issues/4
 '''
+
 MONGODB_HOST = 'localhost'
+EPICS_CA_MAX_ARRAY_BYTES=10000000
+AD_IOC_PREFIX = '13SIM1:'
+SYNAPPS_IOC_PREFIX = 'xxx:'
 
 #############################################################################
+
+# these things must import and set first, then other imports
+import os
+os.environ['EPICS_CA_MAX_ARRAY_BYTES'] = str(EPICS_CA_MAX_ARRAY_BYTES)
+
+import epics
+
 from ophyd import setup_ophyd
 setup_ophyd()
 
-# Define some environment variables (for now)
-import os
 
 # Import matplotlib and put it in interactive mode.
 import matplotlib.pyplot as plt
@@ -22,20 +31,53 @@ plt.ion()
 from bluesky.utils import install_qt_kicker
 install_qt_kicker()
 
-# Optional: set any metadata that rarely changes. in 60-metadata.py
+#############################################################################
 
-# convenience imports
-from ophyd.commands import *
-from bluesky.callbacks import *
-from bluesky.spec_api import *
-from bluesky.global_state import gs, abort, stop, resume
-from bluesky.plan_tools import print_summary
-from time import sleep
-import numpy as np
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# set up the data broker (db)
+import socket 
+import getpass 
 
-import os
+
+from metadatastore.mds import MDS       #, MDSRO
+from filestore.fs import FileStore      #, FileStoreRO
+from databroker import Broker
+
+from ophyd import Component as Cpt
+from ophyd import Device
+from ophyd import Signal
+from ophyd import DeviceStatus
+from ophyd import PVPositioner
+from ophyd import EpicsMotor
+from ophyd import EpicsSignal
+from ophyd import EpicsSignalRO
+from ophyd import PVPositionerPC
+from ophyd import EpicsScaler
+from ophyd import EpicsSignal
+from ophyd import EpicsSignalRO
+from ophyd import SingleTrigger
+from ophyd import AreaDetector
+from ophyd import SimDetector
+from ophyd import HDF5Plugin
+from ophyd import TIFFPlugin
+from ophyd import DynamicDeviceComponent as DDCpt
+
+from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
+from ophyd.areadetector.filestore_mixins import FileStoreTIFFIterativeWrite
+from ophyd.areadetector import ADComponent as ADCpt
+from ophyd.areadetector import EpicsSignalWithRBV
+from ophyd.areadetector import ImagePlugin
+from ophyd.areadetector import StatsPlugin
+from ophyd.areadetector import DetectorBase
+from ophyd.areadetector import ROIPlugin
+from ophyd.areadetector import ProcessPlugin
+from ophyd.areadetector import TransformPlugin
+
+from bluesky.global_state import gs
+from bluesky.callbacks import LiveTable
+
+import suitcase.nexus
+
+#############################################################################
+
 
 # this *should* come from ~/.config/filestore and ~/.config/metadatastore
 os.environ['MDS_HOST'] = MONGODB_HOST
@@ -47,9 +89,6 @@ os.environ['FS_PORT'] = os.environ['MDS_PORT']
 os.environ['FS_DATABASE'] = 'filestore-production-v1'
 
 # Connect to metadatastore and filestore.
-from metadatastore.mds import MDS, MDSRO
-from filestore.fs import FileStore, FileStoreRO
-from databroker import Broker
 mds_config = {'host': os.environ['MDS_HOST'],
               'port': int(os.environ['MDS_PORT']),
               'database': os.environ['MDS_DATABASE'],
@@ -66,18 +105,12 @@ db = Broker(mds, fs)
 
 # Subscribe metadatastore to documents.
 # If this is removed, data is not saved to metadatastore.
-from bluesky.global_state import gs
-gs.RE.subscribe('all', mds.insert)
 RE = gs.RE  # convenience alias
+RE.subscribe('all', mds.insert)
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-# ensure that PyEpics is available
-# Do this early in the setup so other setup can benefit.
-import epics
+
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # setup the movables
-from ophyd import (PVPositioner, EpicsMotor, EpicsSignal, EpicsSignalRO,
-                   PVPositionerPC, Device)
-from ophyd import Component as Cpt
 
 alpha = EpicsMotor('xxx:m1', name='alpha')
 beta = EpicsMotor('xxx:m2', name='beta')
@@ -87,24 +120,12 @@ y = EpicsMotor('xxx:m5', name='y')
 z = EpicsMotor('xxx:m6', name='z')
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 # setup the detectors
-from ophyd import (EpicsScaler, EpicsSignal, EpicsSignalRO, DeviceStatus)
-
-import time
 
 ## Beam Monitor Counts
 #bs_bm2 = EpicsSignalRO('BL14B:Det:BM2', name='bs_bm2')
 noisy = EpicsSignalRO('xxx:userCalc1', name='noisy')
 scaler = EpicsScaler('xxx:scaler1', name='scaler')
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-from ophyd import SingleTrigger, AreaDetector, SimDetector
-from ophyd import HDF5Plugin, TIFFPlugin
-from ophyd import DynamicDeviceComponent as DDCpt, Signal
-
-from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
-from ophyd.areadetector.filestore_mixins import FileStoreTIFFIterativeWrite
-from ophyd.areadetector import (ADComponent as ADCpt, EpicsSignalWithRBV,
-                           ImagePlugin, StatsPlugin, DetectorBase,
-                           ROIPlugin, ProcessPlugin, TransformPlugin)
 
 # class HDF5PluginWithFileStore(HDF5Plugin, FileStoreHDF5IterativeWrite):
 # 
@@ -112,19 +133,19 @@ from ophyd.areadetector import (ADComponent as ADCpt, EpicsSignalWithRBV,
 #         # return self.num_capture.get()
 #         return 1
 
-class myHDF5Plugin(HDF5Plugin):
- 
-    array_callbacks = Cpt(EpicsSignalWithRBV, 'ArrayCallbacks')
-    enable_callbacks = Cpt(EpicsSignalWithRBV, 'EnableCallbacks')
-    auto_increment = Cpt(EpicsSignalWithRBV, 'AutoIncrement')
-    auto_save = Cpt(EpicsSignalWithRBV, 'AutoSave')
-    file_path = Cpt(EpicsSignalWithRBV, 'FilePath', string=True)
-    file_name = Cpt(EpicsSignalWithRBV, 'FileName', string=True)
-    file_number = Cpt(EpicsSignalWithRBV, 'FileNumber')
-    file_template = Cpt(EpicsSignalWithRBV, 'FileTemplate', string=True)
-    file_write_mode = Cpt(EpicsSignalWithRBV, 'FileWriteMode')
-    full_file_name = Cpt(EpicsSignalRO, 'FullFileName_RBV', string=True)
-    xml_layout_file = Cpt(EpicsSignalWithRBV, 'XMLFileName', string=True)
+# class myHDF5Plugin(HDF5Plugin):
+#  
+#     array_callbacks = Cpt(EpicsSignalWithRBV, 'ArrayCallbacks')
+#     enable_callbacks = Cpt(EpicsSignalWithRBV, 'EnableCallbacks')
+#     auto_increment = Cpt(EpicsSignalWithRBV, 'AutoIncrement')
+#     auto_save = Cpt(EpicsSignalWithRBV, 'AutoSave')
+#     file_path = Cpt(EpicsSignalWithRBV, 'FilePath', string=True)
+#     file_name = Cpt(EpicsSignalWithRBV, 'FileName', string=True)
+#     file_number = Cpt(EpicsSignalWithRBV, 'FileNumber')
+#     file_template = Cpt(EpicsSignalWithRBV, 'FileTemplate', string=True)
+#     file_write_mode = Cpt(EpicsSignalWithRBV, 'FileWriteMode')
+#     full_file_name = Cpt(EpicsSignalRO, 'FullFileName_RBV', string=True)
+#     xml_layout_file = Cpt(EpicsSignalWithRBV, 'XMLFileName', string=True)
 
 
 class MyDetector(SingleTrigger, SimDetector):
@@ -186,98 +207,31 @@ def print_scan_ids(name, start_doc):
     print("Transient Scan ID: {0}".format(start_doc['scan_id']))
     print("Persistent Unique Scan ID: '{0}'".format(start_doc['uid']))
 
-gs.RE.subscribe('start', print_scan_ids)
+RE.subscribe('start', print_scan_ids)
 
-import socket 
-import getpass 
 HOSTNAME = socket.gethostname() or 'localhost' 
 USERNAME = getpass.getuser() or 'synApps_xxx_user' 
-gs.RE.md['login_id'] = USERNAME + '@' + HOSTNAME
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
-'''
-write every scan to a NeXus file
-
-file: 95_write_NeXus_when_stop.py
-
-When a `stop` document is received, write the most recent scan 
-to a NeXus HDF5 file.
-'''
-
-import suitcase.nexus
-import os
+RE.md['login_id'] = USERNAME + '@' + HOSTNAME
 
 
-def write_nexus_callback(name, stop_doc):
-    # name == 'stop'
-    # stop_doc is db[-1]['stop']
-    if name != 'stop':
-        return
-    header = db[stop_doc['run_start']]
-    #print(sorted(list(header.keys())))
-    start = header.start
-    filename = '{}_{}.h5'.format(start.beamline_id, start.scan_id)
-    suitcase.nexus.export(header, filename, mds, use_uid=False)
-    print('wrote: ' + os.path.abspath(filename))
-
-# FIXME: fails with area detector
-#RE.subscribe('stop', write_nexus_callback)
-"""
-Traceback (most recent call last):
-  File "/home/prjemian/Documents/eclipse/use_bluesky/plans/standlone.py", line 205, in <module>
-    RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/run_engine.py", line 599, in __call__
-    raise exc
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/asyncio/tasks.py", line 239, in _step
-    result = coro.send(None)
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/run_engine.py", line 1007, in _run
-    raise err
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/run_engine.py", line 905, in _run
-    msg = self._plan_stack[-1].send(resp)
-  File "/home/prjemian/Documents/eclipse/use_bluesky/plans/interlace_tomo.py", line 172, in interlace_tomo_scan
-    return (yield from inner_scan())
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/plans.py", line 47, in dec_inner
-    return (yield from plan)
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/plans.py", line 1510, in stage_wrapper
-    return (yield from finalize_wrapper(inner(), unstage_devices()))
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/plans.py", line 1025, in finalize_wrapper
-    ret = yield from plan
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/plans.py", line 1508, in inner
-    return (yield from plan)
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/plans.py", line 47, in dec_inner
-    return (yield from plan)
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/plans.py", line 874, in run_wrapper
-    rs_uid = yield from close_run()
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/plans.py", line 967, in close_run
-    return (yield Msg('close_run'))
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/run_engine.py", line 956, in _run
-    response = yield from coro(msg)
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/run_engine.py", line 1211, in _close_run
-    yield from self.emit(DocumentNames.stop, doc)
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/asyncio/coroutines.py", line 206, in coro
-    res = func(*args, **kw)
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/run_engine.py", line 1969, in emit
-    self.dispatcher.process(name, doc)
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/run_engine.py", line 1981, in process
-    exceptions = self.cb_registry.process(name, name.name, doc)
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/utils.py", line 271, in process
-    func(*args, **kwargs)
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/bluesky/utils.py", line 352, in __call__
-    return mtd(*args, **kwargs)
-  File "/home/prjemian/Documents/eclipse/use_bluesky/plans/standlone.py", line 170, in write_nexus_callback
-    suitcase.nexus.export(header, filename, mds, use_uid=False)
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/suitcase/nexus.py", line 178, in export
-    timestamps = [e['timestamps'][safename] for e in events]
-  File "/home/prjemian/Apps/BlueSky/lib/python3.5/site-packages/suitcase/nexus.py", line 178, in <listcomp>
-    timestamps = [e['timestamps'][safename] for e in events]
-KeyError: '_13SIM1__cam_peak_start_peak_start_y'
-"""
-# - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 class EpicsNotice(Device):
+    '''
+    progress messages posted to a couple stringout PVs
+    '''
  
     msg_a = Cpt(EpicsSignal, 'userStringCalc1.AA')
     msg_b = Cpt(EpicsSignal, 'userStringCalc1.BB')
+    
+    def post(self, a=None, b=None):
+        """write text to each/either PV"""
+        if a is not None:
+            self.msg_a.put(str(a))
+        if b is not None:
+            self.msg_b.put(str(b))
+
 
 epics_string_notices = EpicsNotice('xxx:', name='messages')
+epics_string_notices.post()
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
