@@ -241,23 +241,13 @@ if __name__ == '__main__':
     tomo_callbacks.append(live_table)
     tomo_callbacks.append(epics_notifier)
     
-    #plan = interlace_tomo.tomo_scan(detectors, alpha, 1.0, 2.0, 5)
-    #RE(plan, callbacks, md=dict(developer=True))
-    
-    # tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 1, 2, 5, 5, snake=True)
-    # RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
-    # 
-    # tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 0.8, 0.0, 5, 4)
-    # RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
-
     hdf_xface = None
     if hasattr(simdet, 'hdf1'):
         hdf_xface = simdet.hdf1
     fn = interlace_tomo.FrameNotifier(path='/home/prjemian/Documents', hdf=hdf_xface)
     tomo_callbacks.append(fn)
     
-    # TODO: How to get frame file name into event document?
     # TODO: How to get frame file names into LiveTable?
 
-    tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 1, 2, 5, 5, snake=True)
+    tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 1.0, 1.8, 5, 8, snake=True, bisection=True)
     RE(tomo_plan, tomo_callbacks, md=dict(developer=True))
