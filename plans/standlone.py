@@ -40,7 +40,7 @@ import metadatastore.mds
 import databroker
 
 import ophyd
-import bluesky, bluesky.global_state, bluesky.callbacks
+import bluesky.global_state, bluesky.callbacks
 import suitcase
 
 import my_devices
@@ -116,6 +116,7 @@ if __name__ == '__main__':
     prescan_checks = interlace_tomo.PreTomoScanChecks(alpha, source_intensity=None)
     live_table = bluesky.callbacks.LiveTable([alpha, beta, scaler.time, scaler.channels.chan1, scaler.channels.chan2])
     epics_notifier = interlace_tomo.EPICSNotifierCallback(epics_string_notices)
+    live_plot = bluesky.callbacks.LivePlot('alpha_user_setpoint', None, marker='x', color='red', linestyle='None')
     
     detectors = [simdet]
     live_table_signals = [alpha, beta]
@@ -124,6 +125,7 @@ if __name__ == '__main__':
     tomo_callbacks.append(prescan_checks)
     tomo_callbacks.append(live_table)
     tomo_callbacks.append(epics_notifier)
+    tomo_callbacks.append(live_plot)
     
     hdf_xface = None
     if hasattr(simdet, 'hdf1'):
@@ -132,7 +134,18 @@ if __name__ == '__main__':
     tomo_callbacks.append(fn)
     
     # TODO: How to get frame file names into LiveTable?
+    start_angle = 0
+    end_angle = 10
+    num_projections_inner = 10
+    num_divisions_outer = 16
 
     simdet.cam.acquire_time.put(0.01)    # seconds
-    tomo_plan = interlace_tomo.interlace_tomo_scan(detectors, alpha, 0, 1.8, 7, 2, snake=True, bisection=True)
+    tomo_plan = interlace_tomo.interlace_tomo_scan(
+        detectors, alpha, 
+        start_angle, 
+        end_angle, 
+        num_projections_inner, 
+        num_divisions_outer, 
+        snake=True, 
+        bisection=True)
     RE(tomo_plan, tomo_callbacks, md=dict(developer=True))

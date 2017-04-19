@@ -130,15 +130,20 @@ def interlace_tomo_scan(detectors, motor, start, stop, inner_num, outer_num, *,
     outer = np.linspace(0, inner[1]-inner[0], 1+outer_num)
     if bisection:
         outer = np.array(bisection_shuffle(outer))
-    projections = np.array([])
-    for i, offset in enumerate(outer[1:-1]):
-        if snake and i%2 == 1:
+    projections = inner
+    for i, offset in enumerate(outer[1:]):
+        if snake and i%2 == 0:
             # http://stackoverflow.com/questions/6771428/most-efficient-way-to-reverse-a-numpy-array#6771620
             projections = np.append(projections, offset + inner[::-1])
         else:
             projections = np.append(projections, offset + inner)
-    # only keep the points within the range: start ...stop
-    projections = ma.compressed(ma.masked_outside(projections, start, stop))
+    # only keep the unique points within the range: start ...stop
+    unique = []
+    for position in ma.compressed(ma.masked_outside(projections, start, stop)):
+        if position not in unique:
+            unique.append(position)
+    # projections = ma.compressed(ma.masked_outside(projections, start, stop))
+    projections = unique
     
     num = len(projections)
 
@@ -192,7 +197,8 @@ class FrameNotifier(bluesky.callbacks.core.CallbackBase):
             self.hdf.file_path.put(self.path)
             self.hdf.file_name.put('ts_' + short_uid)
             self.hdf.file_template.put('%s%s_%5.5d.h5')
-            self.hdf.file_number.put(0)
+            # # coordinate with BlueSky sequence numbers, which start at 1
+            self.hdf.file_number.put(1)
             self.hdf.file_write_mode.put('Single')
             self.hdf.auto_increment.put('Yes')
             self.hdf.auto_save.put('Yes')

@@ -12,19 +12,19 @@ class myHDF5Plugin(ophyd.Device):
     """custom handling of the HDF5 file writing plugin"""
     # NOTE: ophyd.areadetector.HDF5Plugin needs testing with AD2.6, use Device for now
   
-    array_callbacks = ophyd.Component(ophyd.EpicsSignalWithRBV, 'ArrayCallbacks')
-    enable_callbacks = ophyd.Component(ophyd.EpicsSignalWithRBV, 'EnableCallbacks')
-    auto_increment = ophyd.Component(ophyd.EpicsSignalWithRBV, 'AutoIncrement')
-    auto_save = ophyd.Component(ophyd.EpicsSignalWithRBV, 'AutoSave')
-    file_path = ophyd.Component(ophyd.EpicsSignalWithRBV, 'FilePath', string=True)
-    file_name = ophyd.Component(ophyd.EpicsSignalWithRBV, 'FileName', string=True)
-    file_number = ophyd.Component(ophyd.EpicsSignalWithRBV, 'FileNumber')
-    file_template = ophyd.Component(ophyd.EpicsSignalWithRBV, 'FileTemplate', string=True)
-    file_write_mode = ophyd.Component(ophyd.EpicsSignalWithRBV, 'FileWriteMode')
-    full_file_name = ophyd.Component(ophyd.EpicsSignalRO, 'FullFileName_RBV', string=True)
-    store_attributes = ophyd.Component(ophyd.EpicsSignalWithRBV, 'StoreAttr', string=True)
+    array_callbacks        = ophyd.Component(ophyd.EpicsSignalWithRBV, 'ArrayCallbacks')
+    enable_callbacks       = ophyd.Component(ophyd.EpicsSignalWithRBV, 'EnableCallbacks')
+    auto_increment         = ophyd.Component(ophyd.EpicsSignalWithRBV, 'AutoIncrement')
+    auto_save              = ophyd.Component(ophyd.EpicsSignalWithRBV, 'AutoSave')
+    file_path              = ophyd.Component(ophyd.EpicsSignalWithRBV, 'FilePath', string=True)
+    file_name              = ophyd.Component(ophyd.EpicsSignalWithRBV, 'FileName', string=True)
+    file_number            = ophyd.Component(ophyd.EpicsSignalWithRBV, 'FileNumber')
+    file_template          = ophyd.Component(ophyd.EpicsSignalWithRBV, 'FileTemplate', string=True)
+    file_write_mode        = ophyd.Component(ophyd.EpicsSignalWithRBV, 'FileWriteMode')
+    full_file_name         = ophyd.Component(ophyd.EpicsSignalRO, 'FullFileName_RBV', string=True)
+    store_attributes       = ophyd.Component(ophyd.EpicsSignalWithRBV, 'StoreAttr', string=True)
     store_performance_data = ophyd.Component(ophyd.EpicsSignalWithRBV, 'StorePerform', string=True)
-    xml_layout_file = ophyd.Component(ophyd.EpicsSignalWithRBV, 'XMLFileName', string=True)
+    xml_layout_file        = ophyd.Component(ophyd.EpicsSignalWithRBV, 'XMLFileName', string=True)
 
 
 class MyDetector(ophyd.SingleTrigger, ophyd.SimDetector):
@@ -58,8 +58,8 @@ def setup_sim_detector(det):
         hdf.auto_increment.put('Yes')
         hdf.auto_save.put('Yes')
         hdf.enable_callbacks.put('Enable')
-        hdf.file_path.put(os.getcwd())  # TODO: get from EPICS PV
-        hdf.file_name.put('tomoscan')   # TODO: get from EPICS PV
+        hdf.file_path.put(os.getcwd())          # TODO: get from EPICS PV
+        hdf.file_name.put('tomoscan')           # TODO: get from EPICS PV
         hdf.file_template.put('%s%s_%5.5d.h5')
         hdf.file_write_mode.put('Single')
         hdf.store_attributes.put("Yes")
