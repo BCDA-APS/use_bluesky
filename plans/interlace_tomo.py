@@ -38,75 +38,64 @@ NOTES
 import os
 import inspect
 import logging
-import time
+from math import log
 import numpy as np
 import numpy.ma as ma
-import epics
-from ophyd.epics_motor import EpicsMotor
-#from ophyd import AreaDetector
-#from bluesky.global_state import gs
-from bluesky import plans
-from bluesky.callbacks.core import CallbackBase
+import time
+
+import ophyd
+import bluesky
+import bluesky.callbacks.core
 
 
 logger = logging.getLogger()
 
 
-def tomo_scan(detectors, motor, start, stop, num, *, per_step=None, md={}):
+def log2(n):
+    """base 2 logarithm of n"""
+    return log(n)/log(2)
+
+
+def recombine_bisection(offsets):
     """
-    tomography scan plan (based on `plans.scan()`)
+    combine a list of offset duos by all permutations
     
-    :see: https://github.com/dgursoy/mona/blob/master/trunk/32id/tomo_step_scan.py
-    :seealso: http://nsls-ii.github.io/bluesky/bluesky.plans.scan.html#bluesky.plans.scan
-    :seealso: https://github.com/NSLS-II/bluesky/blob/master/bluesky/plans.py#L2032
-
-    Parameters
-    ----------
-    
-    :param [readable] detectors: list of 'readable' objects
-    :param obj motor: instance of `setable` (motor, temp controller, etc.)
-    :param float start: first position of `motor`
-    :param float stop: last position of `motor`
-    :param int num: number of projections
-    :param obj per_step: (optional) a `callable`
-
-        * custom override of standard inner loop handling (at each point of the scan)
-        * Expected signature: ``f(detectors, motor, step)``
-    
-    :param dict md: (optional) metadata dictionary
-
-    See Also
-    --------
-    :func:`bluesky.plans.scan`
+    returns a 1-D list of numbers
     """
-    _md = {'detectors': [det.name for det in detectors],
-          'motors': [motor.name],
-          'num_projections': num,
-          'plan_args': {'detectors': list(map(repr, detectors)), 'num': num,
-                        'motor': repr(motor),
-                        'start': start, 'stop': stop,
-                        'per_step': repr(per_step)},
-          'plan_name': inspect.currentframe().f_code.co_name,
-          'plan_pattern': 'linspace',
-          'plan_pattern_module': 'numpy',
-          'plan_pattern_args': dict(start=start, stop=stop, num=num),
-         }
-    _md.update(md)
+    if len(offsets) == 1:
+        return offsets[0]
+    return [i+j for j in recombine_bisection(offsets[1:]) for i in offsets[0]]
+    
 
-    per_step = per_step or plans.one_1d_step
+def bisection_shuffle(sequence):
+    """
+    return a bisection permutation of the sequence
+    
+    example 1::
+    
+        sequence = [0 1 2 3 4 5 6 7 8 9 10 11 12 13]
+        returns [0, 8, 4, 12, 2, 10, 6, 1, 9, 5, 13, 3, 11, 7]
+    
+    example 2::
+    
+        sequence = [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0]
+        returns [1.1, 1.9, 1.5, 1.3, 1.7, 1.2, 2.0, 1.6, 1.4, 1.8]
+    
+    """
+    offsets = []        # list of offset duos:  [(i1, i2), (i1, i2), (i1, i2)]
+    mid = 1 << int(log2(len(sequence)))        # 2^log2(numPts)
+    while mid > 0:
+        offsets.append((0, mid))
+        mid = int(mid/2)
+    
+    r = recombine_bisection(offsets)
+    remap = [i for i in r if i < len(sequence)]
+    return [sequence[i] for i in remap]
 
-    projections = np.linspace(**_md['plan_pattern_args'])
-
-    @plans.stage_decorator(list(detectors) + [motor])
-    @plans.run_decorator(md=_md)
-    def inner_scan():
-        for projection in projections:
-            yield from per_step(detectors, motor, projection)
-
-    return (yield from inner_scan())
 
 
-def interlace_tomo_scan(detectors, motor, start, stop, inner_num, outer_num, *, per_step=None, md={}, snake=False):
+def interlace_tomo_scan(detectors, motor, start, stop, inner_num, outer_num, *, 
+                        per_step=None, md={}, snake=False, bisection=False):
     """
     interlace tomography scan plan (based on `plans.scan()`)
     
@@ -130,6 +119,7 @@ def interlace_tomo_scan(detectors, motor, start, stop, inner_num, outer_num, *, 
     
     :param dict md: (optional) metadata dictionary
     :param bool snake: (optional) move inner loop back and forth or always in given direction (default: False)
+    :param bool bisection: (optional) adjust outer loop to step by bisecting its range (default: False)
 
     See Also
     --------
@@ -138,9 +128,11 @@ def interlace_tomo_scan(detectors, motor, start, stop, inner_num, outer_num, *, 
     # work out the sequence of projections in advance, normal 1-D scan handling after that
     inner = np.linspace(start, stop, inner_num)
     outer = np.linspace(0, inner[1]-inner[0], 1+outer_num)
-    projections = inner
+    if bisection:
+        outer = np.array(bisection_shuffle(outer))
+    projections = np.array([])
     for i, offset in enumerate(outer[1:-1]):
-        if snake and i%2 == 0:
+        if snake and i%2 == 1:
             # http://stackoverflow.com/questions/6771428/most-efficient-way-to-reverse-a-numpy-array#6771620
             projections = np.append(projections, offset + inner[::-1])
         else:
@@ -168,10 +160,10 @@ def interlace_tomo_scan(detectors, motor, start, stop, inner_num, outer_num, *, 
          }
     _md.update(md)
 
-    per_step = per_step or plans.one_1d_step
+    per_step = per_step or bluesky.plans.one_1d_step
 
-    @plans.stage_decorator(list(detectors) + [motor])
-    @plans.run_decorator(md=_md)
+    @bluesky.plans.stage_decorator(list(detectors) + [motor])
+    @bluesky.plans.run_decorator(md=_md)
     def inner_scan():
         for projection in projections:
             yield from per_step(detectors, motor, projection)
@@ -179,7 +171,7 @@ def interlace_tomo_scan(detectors, motor, start, stop, inner_num, outer_num, *, 
     return (yield from inner_scan())
 
 
-class FrameNotifier(CallbackBase):
+class FrameNotifier(bluesky.callbacks.core.CallbackBase):
 
     def __init__(self, *args, path=None, hdf=None, **kws):
         self.hdf = hdf
@@ -212,7 +204,7 @@ class FrameNotifier(CallbackBase):
             #print(self.hdf.full_file_name.get())
 
 
-class EPICSNotifierCallback(CallbackBase):
+class EPICSNotifierCallback(bluesky.callbacks.core.CallbackBase):
     """
     callback handler: update a couple EPICS string PVs
     """
@@ -247,7 +239,7 @@ class EPICSNotifierCallback(CallbackBase):
         self.notices.post(msg, "")
 
 
-class PreTomoScanChecks(CallbackBase):
+class PreTomoScanChecks(bluesky.callbacks.core.CallbackBase):
     """
     callback handler: update a couple EPICS string PVs
     
@@ -306,7 +298,7 @@ class PreTomoScanChecks(CallbackBase):
     
     def check_motor_moving(self, motor):
         # TODO: this assume a PyEpics motor object, generalize this check
-        assert(isinstance(motor, EpicsMotor))
+        assert(isinstance(motor, ophyd.epics_motor.EpicsMotor))
         if not motor.motor_done_move:
             msg = "motor " + motor.name + " is moving, scan canceled"
             raise ValueError(msg)
@@ -315,7 +307,7 @@ class PreTomoScanChecks(CallbackBase):
         # TODO: there is an ophyd method for this test
         # TODO: this assume a PyEpics motor object, generalize this check
         # ? backlash distance ?
-        assert(isinstance(motor, EpicsMotor))
+        assert(isinstance(motor, ophyd.epics_motor.EpicsMotor))
         if not motor.low_limit <= target <= motor.high_limit:
             msg = str(target)
             msg += " is outside of limits ("
