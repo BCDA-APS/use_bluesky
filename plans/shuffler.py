@@ -11,12 +11,12 @@ def bisection_shuffle(sequence):
     Example 1::
     
         given:   ['a', 'b', 'c', 'd']
-        returns: ['a', 'c', 'b', 'd']
+        returns: ['a', 'c', 'd', 'b']
     
     Example 2::
     
         given:   ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i']
-        returns: ['a', 'e', 'c', 'b', 'd', 'g', 'f', 'h', 'i']
+        returns: ['a', 'e', 'g', 'c', 'h', 'i', 'f', 'd', 'b']
 
     """
     indices = []
@@ -25,17 +25,27 @@ def bisection_shuffle(sequence):
         indices0 = list(range(len(sequence)))
         # ALWAYS use the first point first
         indices.append(indices0.pop(0))
-        _traverse_(indices0, indices)
+        trail = _traverse_(indices0)
+
+        if trail is not None:
+            for trace in sorted(trail, reverse=True):
+                length, mid_pt, lo, hi = trace
+                indices.append(mid_pt)
+
     return [sequence[i] for i in indices]
 
 
-def _traverse_(sequence, indices):
-    if len(sequence) > 0:
-        mid_pt, lo, hi = _bisector_(sequence)
-        if mid_pt >= 0:
-            indices.append(mid_pt)
-            _traverse_(lo, indices)
-            _traverse_(hi, indices)
+def _traverse_(sequence):
+    if sequence is None or len(sequence) == 0:
+        return None
+    mid_pt, lo, hi = _bisector_(sequence)
+    trail = []
+    trail.append( ((len(lo) + len(hi))/2, mid_pt, lo, hi) )
+    for part in (lo, hi):
+        trace = _traverse_(part)
+        if trace is not None:
+            trail += trace
+    return trail
 
 
 def _bisector_(sequence):
@@ -54,6 +64,6 @@ def _bisector_(sequence):
 
 if __name__ == '__main__':
     base = 'a b c d e f g h i j k l m n o p q r s t u v w x y z'.split()
-    for n in range(15):
+    for n in range(len(base)):
         arr = base[:n]
         print(n, bisection_shuffle(arr))
