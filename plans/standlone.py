@@ -93,6 +93,7 @@ if __name__ == '__main__':
     
     simdet = my_devices.MyDetector(AD_IOC_PREFIX)
     my_devices.setup_sim_detector(simdet)
+    simdet.read_attrs = ['hdf1.full_file_name']
     
     
     RE.md['beamline_id'] = 'developer'

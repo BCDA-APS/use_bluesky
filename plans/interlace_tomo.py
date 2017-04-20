@@ -165,7 +165,7 @@ class FrameNotifier(bluesky.callbacks.core.CallbackBase):
         if self.hdf is not None:
             frame_name = self.hdf.full_file_name.get()
             logger.info(frame_name)
-            #print(self.hdf.full_file_name.get())
+            # print(doc['data'][self.hdf.name + '_full_file_name'])
 
 
 class EPICSNotifierCallback(bluesky.callbacks.core.CallbackBase):
