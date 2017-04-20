@@ -38,7 +38,6 @@ NOTES
 import os
 import inspect
 import logging
-from math import log
 import numpy as np
 import numpy.ma as ma
 import time
@@ -51,49 +50,6 @@ import shuffler
 
 
 logger = logging.getLogger()
-
-
-def log2(n):
-    """base 2 logarithm of n"""
-    return log(n)/log(2)
-
-
-def recombine_bisection(offsets):
-    """
-    combine a list of offset duos by all permutations
-    
-    returns a 1-D list of numbers
-    """
-    if len(offsets) == 1:
-        return offsets[0]
-    return [i+j for j in recombine_bisection(offsets[1:]) for i in offsets[0]]
-    
-
-def bisection_shuffle(sequence):
-    """
-    return a bisection permutation of the sequence
-    
-    example 1::
-    
-        sequence = [0 1 2 3 4 5 6 7 8 9 10 11 12 13]
-        returns [0, 8, 4, 12, 2, 10, 6, 1, 9, 5, 13, 3, 11, 7]
-    
-    example 2::
-    
-        sequence = [1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2.0]
-        returns [1.1, 1.9, 1.5, 1.3, 1.7, 1.2, 2.0, 1.6, 1.4, 1.8]
-    
-    """
-    offsets = []        # list of offset duos:  [(i1, i2), (i1, i2), (i1, i2)]
-    mid = 1 << int(log2(len(sequence)))        # 2^log2(numPts)
-    while mid > 0:
-        offsets.append((0, mid))
-        mid = int(mid/2)
-    
-    r = recombine_bisection(offsets)
-    remap = [i for i in r if i < len(sequence)]
-    return [sequence[i] for i in remap]
-
 
 
 def interlace_tomo_scan(detectors, motor, start, stop, inner_num, outer_num, *, 
