@@ -47,6 +47,8 @@ import ophyd
 import bluesky
 import bluesky.callbacks.core
 
+import shuffler
+
 
 logger = logging.getLogger()
 
@@ -129,7 +131,7 @@ def interlace_tomo_scan(detectors, motor, start, stop, inner_num, outer_num, *,
     inner = np.linspace(start, stop, inner_num)
     outer = np.linspace(0, inner[1]-inner[0], 1+outer_num)
     if bisection:
-        outer = np.array(bisection_shuffle(outer))
+        outer = np.array(shuffler.bisection_shuffle(outer))
     projections = inner
     for i, offset in enumerate(outer[1:]):
         if snake and i%2 == 0:

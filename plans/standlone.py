@@ -116,9 +116,9 @@ if __name__ == '__main__':
     prescan_checks = interlace_tomo.PreTomoScanChecks(alpha, source_intensity=None)
     live_table = bluesky.callbacks.LiveTable([alpha, beta, scaler.time, scaler.channels.chan1, scaler.channels.chan2])
     epics_notifier = interlace_tomo.EPICSNotifierCallback(epics_string_notices)
-    live_plot = bluesky.callbacks.LivePlot('alpha_user_setpoint', None, marker='x', color='red', linestyle='None')
+    live_plot = bluesky.callbacks.LivePlot('noisy', 'alpha_user_setpoint', marker='x', color='red', linestyle='None')
     
-    detectors = [simdet]
+    detectors = [simdet, noisy]
     live_table_signals = [alpha, beta]
     live_table = bluesky.callbacks.LiveTable(live_table_signals)
 

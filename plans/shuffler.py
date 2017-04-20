@@ -29,7 +29,7 @@ def bisection_shuffle(sequence):
 
         if trail is not None:
             for trace in sorted(trail, reverse=True):
-                length, mid_pt, lo, hi = trace
+                length, mid_pt = trace
                 indices.append(mid_pt)
 
     return [sequence[i] for i in indices]
@@ -40,7 +40,7 @@ def _traverse_(sequence):
         return None
     mid_pt, lo, hi = _bisector_(sequence)
     trail = []
-    trail.append( ((len(lo) + len(hi))/2, mid_pt, lo, hi) )
+    trail.append( ((len(lo) + len(hi))/2, mid_pt) )
     for part in (lo, hi):
         trace = _traverse_(part)
         if trace is not None:
