@@ -41,10 +41,10 @@ import databroker
 
 import ophyd
 import bluesky.global_state, bluesky.callbacks
-import suitcase
 
 import my_devices
 import interlace_tomo
+import nexus_callback
 
 
 #############################################################################
@@ -78,7 +78,6 @@ if __name__ == '__main__':
     
     RE = bluesky.global_state.gs.RE  # convenience alias
     RE.subscribe('all', mds.insert)
-    
     
     alpha = ophyd.EpicsMotor(SYNAPPS_IOC_PREFIX + 'm1', name='alpha')
     beta = ophyd.EpicsMotor(SYNAPPS_IOC_PREFIX + 'm2', name='beta')
