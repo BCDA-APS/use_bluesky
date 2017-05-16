@@ -4,6 +4,8 @@
 
 PROFILE=bluesky
 
+# note: if this profile has not yet been created, will create
+
 #----------------------------------------------------
 # ipython startup configuration
 #ipython profile create default
@@ -20,9 +22,10 @@ FILE_LIST+=" 20-detectors.py"
 FILE_LIST+=" 60-metadata.py"
 FILE_LIST+=" 95_write_NeXus_when_stop.py"
 FILE_LIST+=" 99-describe_item.py"
+FILE_LIST+=" README.md"
 
 WWW_REPO=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/setup/ipython_startups/mongodb
 TARGET=${HOME}/.ipython/profile_$PROFILE
 for filename in ${FILE_LIST}; do
-	wget ${WWW_REPO}/ipython-startup/${filename} -O ${TARGET}/startup/${filename}
+	wget ${WWW_REPO}/${filename} -O ${TARGET}/startup/${filename}
 done
