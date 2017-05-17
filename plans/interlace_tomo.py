@@ -268,16 +268,16 @@ class PreTomoScanChecks(bluesky.callbacks.core.CallbackBase):
             raise ValueError(msg)
     
     def check_motor_limits(self, motor, target):
-        # TODO: there is an ophyd method for this test
-        # TODO: this assume a PyEpics motor object, generalize this check
         # ? backlash distance ?
-        assert(isinstance(motor, ophyd.epics_motor.EpicsMotor))
-        if not motor.low_limit <= target <= motor.high_limit:
+        assert(isinstance(motor, ophyd.pv_positioner.PVPositioner))
+        try:
+            motor.check_value(target)
+        except ValueError:
             msg = str(target)
             msg += " is outside of limits ("
-            msg += str(motor.low_limit)
+            msg += str(motor.limits[0])
             msg += ", "
-            msg += str(motor.high_limit)
+            msg += str(motor.limits[1])
             msg += ") for motor " + motor.name
             msg += ", scan canceled"
             raise ValueError(msg)
