@@ -1,3 +1,4 @@
+print(__file__)
 
 # Set up default metadata
 

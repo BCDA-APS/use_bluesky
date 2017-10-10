@@ -1,3 +1,4 @@
+print(__file__)
 from ophyd import (EpicsScaler, EpicsSignal, EpicsSignalRO,
                    Device, DeviceStatus)
 from ophyd import Component as Cpt

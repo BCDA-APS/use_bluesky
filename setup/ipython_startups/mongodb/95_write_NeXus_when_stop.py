@@ -1,3 +1,5 @@
+print(__file__)
+
 '''
 write every scan to a NeXus file
 

@@ -1,3 +1,4 @@
+print(__file__)
 # Make ophyd listen to pyepics.
 from ophyd import setup_ophyd
 setup_ophyd()

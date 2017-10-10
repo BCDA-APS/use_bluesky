@@ -1,3 +1,4 @@
+print(__file__)
 # set up the data broker (db)
 
 import os

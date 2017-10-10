@@ -1,3 +1,4 @@
+print(__file__)
 '''
 ensure that PyEpics is available
 

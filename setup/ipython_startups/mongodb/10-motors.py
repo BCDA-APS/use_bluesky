@@ -1,3 +1,4 @@
+print(__file__)
 from ophyd import (PVPositioner, EpicsMotor, EpicsSignal, EpicsSignalRO,
                    PVPositionerPC, Device)
 from ophyd import Component as Cpt

@@ -1,3 +1,4 @@
+print(__file__)
 # ensure Python 3.5+
 import sys
 req_version = (3,5)
