@@ -30,10 +30,12 @@ mds = MDS(mds_config)
 fs = FileStore(fs_config)
 db = Broker(mds, fs)
 
-# Subscribe metadatastore to documents.
-# If this is removed, data is not saved to metadatastore.
-from bluesky.global_state import gs
-gs.RE.subscribe('all', mds.insert)
-RE = gs.RE  # convenience alias
+### old version of BlueSky
+## Subscribe metadatastore to documents.
+## If this is removed, data is not saved to metadatastore.
+#from bluesky.global_state import gs
+#gs.RE.subscribe('all', mds.insert)
+#RE = gs.RE  # convenience alias
 
-
+RE = bluesky.RunEngine()
+RE.subscribe(mds.insert, 'all')

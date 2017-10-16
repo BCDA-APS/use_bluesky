@@ -17,11 +17,12 @@ install_qt_kicker()
 # Optional: set any metadata that rarely changes. in 60-metadata.py
 
 # convenience imports
-from ophyd.commands import *
+#from ophyd.commands import *		# old-style
 from bluesky.callbacks import *
-from bluesky.spec_api import *
-from bluesky.global_state import gs, abort, stop, resume
+#from bluesky.spec_api import *		# old-style
+#from bluesky.global_state import gs, abort, stop, resume   # old-style
 from bluesky.plan_tools import print_summary
+import bluesky.plans as bp
 from time import sleep
 import numpy as np
 
