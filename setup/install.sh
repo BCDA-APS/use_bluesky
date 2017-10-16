@@ -32,6 +32,7 @@ CONDA_PKGS=
 
 CONDA_PKGS+=" cython"
 CONDA_PKGS+=" cytoolz"
+CONDA_PKGS+=" epics-base"
 CONDA_PKGS+=" git"
 CONDA_PKGS+=" h5py"
 CONDA_PKGS+=" ipython"
@@ -71,14 +72,3 @@ PIP_PKGS+=" git+https://github.com/NSLS-II/suitcase#egg=suitcase"
 
 conda install -y $CONDA_CHANNELS   $CONDA_PKGS
 pip install  $PIP_PKGS
-
-#----------------------------------------------------
-# PyEpics uses libCom which was built with libreadline
-#  this conflicts with the one in miniconda
-# Delete the libreadline from miniconda
-# Some other packages depend on the conda install of the readline package.
-# It won't uninstall cleanly.  Just remove it from the command line
-# and hope the other packages can live with the libreadline installed in the OS.
-#------
-#use the Python "readline" package from conda and skip this delete
-#/bin/rm -f ${BLUESKY_ROOT}/lib/libreadline*
