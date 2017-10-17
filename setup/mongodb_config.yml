@@ -1,0 +1,16 @@
+description: 'heavyweight shared database'
+metadatastore:
+    module: 'databroker.headersource.mongo'
+    class: 'MDS'
+    config:
+        host: 'localhost'
+        port: 27017
+        database: 'metadatastore-production-v1'
+        timezone: 'US/Central'
+assets:
+    module: 'databroker.assets.mongo'
+    class: 'Registry'
+    config:
+        host: 'localhost'
+        port: 27017
+        database: 'filestore-production-v1'
