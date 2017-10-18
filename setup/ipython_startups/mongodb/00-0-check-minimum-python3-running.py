@@ -1,6 +1,10 @@
 print(__file__)
-# ensure Python 3.6+
+
 import sys
+import os
+
+# ensure Python 3.6+
+
 req_version = (3,6)
 cur_version = sys.version_info
 if cur_version < req_version:

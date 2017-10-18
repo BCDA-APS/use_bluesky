@@ -1,5 +1,4 @@
 print(__file__)
-import sys
 
 # ensure BlueSky is available
 try:

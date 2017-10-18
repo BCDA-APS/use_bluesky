@@ -3,6 +3,15 @@ from ophyd import (PVPositioner, EpicsMotor, EpicsSignal, EpicsSignalRO,
                    PVPositionerPC, Device)
 from ophyd import Component as Cpt
 
+class MotorDialValues(Device):
+	value = Cpt(EpicsSignalRO, ".DRBV")
+	setpoint = Cpt(EpicsSignal, ".DVAL")
+
+class MyEpicsMotorWithDial(EpicsMotor):
+	dial = Cpt(MotorDialValues, "")
+
+# m1 = MyEpicsMotorWithDial('xxx:m1', name='m1')
+
 m1 = EpicsMotor('xxx:m1', name='m1')
 m2 = EpicsMotor('xxx:m2', name='m2')
 m3 = EpicsMotor('xxx:m3', name='m3')
