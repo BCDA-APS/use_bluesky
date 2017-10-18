@@ -1,4 +1,0 @@
-host: localhost
-port: 27017
-database: metadatastore-production-v1
-timezone: US/Central
