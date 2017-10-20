@@ -87,9 +87,9 @@ else
 	echo "Kernel directory already exists."
 fi
 
-KERNEL_FILE = $KERNEL_DIR/kernel.json
+KERNEL_FILE=$KERNEL_DIR/kernel.json
 
-if [ ! -d "$KERNEL_FILE" ]
+if [ ! -f "$KERNEL_FILE" ]
 then
 	echo "Creating kernel file"
 else
@@ -102,11 +102,11 @@ fi
   "${BLUESKY_ROOT}/bin/python",
   "-m",
   "ipykernel_launcher",
-  "--profile=BS_jupyter
+  "--profile=BS_jupyter",
   "-f",
   "{connection_file}"
  ],
- "display_name": "Python 3- BlueSky",
+ "display_name": "Python 3 - BlueSky",
  "language": "python"
 }
 EOM
