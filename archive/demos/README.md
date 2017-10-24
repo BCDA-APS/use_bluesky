@@ -1,3 +1,5 @@
+#use_bluesky Demos
+
 Various findings and code samples and thoughts while exploring
 the [NSLS-II](http://nsls-ii.github.io) software called 
 [BlueSky](http://nsls-ii.github.io/bluesky/).
