@@ -1,41 +1,40 @@
 print(__file__)
+
 # set up the data broker (db)
 
 import os
+callback_db = {}
 
-# this *should* come from ~/.config/filestore and ~/.config/metadatastore
-os.environ['MDS_HOST'] = 'localhost'
-os.environ['MDS_PORT'] = '27017'
-os.environ['MDS_DATABASE'] = 'metadatastore-production-v1'
-os.environ['MDS_TIMEZONE'] = 'US/Central'
-os.environ['FS_HOST'] = os.environ['MDS_HOST']
-os.environ['FS_PORT'] = os.environ['MDS_PORT']
-os.environ['FS_DATABASE'] = 'filestore-production-v1'
-
-# Connect to metadatastore and filestore.
-from metadatastore.mds import MDS, MDSRO
-from filestore.fs import FileStore, FileStoreRO
+# load config from ~/.config/databroker/mongodb_config.yml
 from databroker import Broker
-mds_config = {'host': os.environ['MDS_HOST'],
-              'port': int(os.environ['MDS_PORT']),
-              'database': os.environ['MDS_DATABASE'],
-              'timezone': os.environ['MDS_TIMEZONE']}
-fs_config = {'host': os.environ['FS_HOST'],
-             'port': int(os.environ['FS_PORT']),
-             'database': os.environ['FS_DATABASE']}
-mds = MDS(mds_config)
-# For code that only reads the databases, use the readonly version
-#mds_readonly = MDSRO(mds_config)
-#fs_readonly = FileStoreRO(fs_config)
-fs = FileStore(fs_config)
-db = Broker(mds, fs)
+db = Broker.named("mongodb_config")
 
-### old version of BlueSky
-## Subscribe metadatastore to documents.
-## If this is removed, data is not saved to metadatastore.
-#from bluesky.global_state import gs
-#gs.RE.subscribe('all', mds.insert)
-#RE = gs.RE  # convenience alias
 
-RE = bluesky.RunEngine()
-RE.subscribe(mds.insert, 'all')
+# Subscribe metadatastore to documents.
+# If this is removed, data is not saved to metadatastore.
+callback_db['Broker'] = RE.subscribe(db.insert)
+
+# Set up SupplementalData.
+from bluesky import SupplementalData
+sd = SupplementalData()
+RE.preprocessors.append(sd)
+
+# Add a progress bar.
+from bluesky.utils import ProgressBarManager
+pbar_manager = ProgressBarManager()
+RE.waiting_hook = pbar_manager
+
+# Register bluesky IPython magics.
+from bluesky.magics import BlueskyMagics
+get_ipython().register_magics(BlueskyMagics)
+
+# Set up the BestEffortCallback.
+from bluesky.callbacks.best_effort import BestEffortCallback
+bec = BestEffortCallback()
+callback_db['BestEffortCallback'] = RE.subscribe(bec)
+peaks = bec.peaks  # just as alias for less typing
+
+# At the end of every run, verify that files were saved and
+# print a confirmation message.
+from bluesky.callbacks.broker import verify_files_saved
+# callback_db['verify_files_saved'] = RE.subscribe(post_run(verify_files_saved), 'stop')

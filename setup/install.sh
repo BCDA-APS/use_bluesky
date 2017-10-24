@@ -29,10 +29,10 @@ CONDA_CHANNELS+=" -c soft-matter"
 CONDA_CHANNELS+=" -c lightsource2-tag"
 
 CONDA_PKGS=
-CONDA_PKGS+=" metadatastore"
 
 CONDA_PKGS+=" cython"
 CONDA_PKGS+=" cytoolz"
+CONDA_PKGS+=" epics-base"
 CONDA_PKGS+=" git"
 CONDA_PKGS+=" h5py"
 CONDA_PKGS+=" ipython"
@@ -67,24 +67,8 @@ PIP_PKGS+=" git+https://github.com/NSLS-II/bluesky#egg=bluesky"
 PIP_PKGS+=" git+https://github.com/NSLS-II/databroker#egg=databroker"
 PIP_PKGS+=" git+https://github.com/NSLS-II/doct#egg=doct"
 PIP_PKGS+=" git+https://github.com/NSLS-II/event-model#egg=event_model"
-PIP_PKGS+=" git+https://github.com/NSLS-II/filestore#egg=filestore"
-PIP_PKGS+=" git+https://github.com/NSLS-II/filestore#egg=filestore"
-#PIP_PKGS+=" git+https://github.com/NSLS-II/metadatastore#egg=metadatastore"
 PIP_PKGS+=" git+https://github.com/NSLS-II/ophyd#egg=ophyd"
-PIP_PKGS+=" git+https://github.com/NSLS-II/portable-fs#egg=portable_fs"
-PIP_PKGS+=" git+https://github.com/NSLS-II/portable-mds#egg=portable_mds"
 PIP_PKGS+=" git+https://github.com/NSLS-II/suitcase#egg=suitcase"
 
 conda install -y $CONDA_CHANNELS   $CONDA_PKGS
 pip install  $PIP_PKGS
-
-#----------------------------------------------------
-# PyEpics uses libCom which was built with libreadline
-#  this conflicts with the one in miniconda
-# Delete the libreadline from miniconda
-# Some other packages depend on the conda install of the readline package.
-# It won't uninstall cleanly.  Just remove it from the command line
-# and hope the other packages can live with the libreadline installed in the OS.
-#------
-#use the Python "readline" package from conda and skip this delete
-#/bin/rm -f ${BLUESKY_ROOT}/lib/libreadline*
