@@ -60,10 +60,10 @@ case "$1" in
 		read -p "End of BlueSky console session - press return"
 	;;
 	*)
-		echo "Incorrect arguments. Try either:"
+		echo "Incorrect arguments. Either:"
 		echo "$ use_bluesky.sh "
 		echo "OR"
-		echo "$ use_bluesky.sh -jupyter"
+		echo "$ uee_bluesky.sh -jupyter"
 	;;
 esac
 
