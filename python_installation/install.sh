@@ -61,14 +61,27 @@ PIP_PKGS+=" pims"
 PIP_PKGS+=" pyepics"
 PIP_PKGS+=" pyRestTable"
 PIP_PKGS+=" tzlocal"
-PIP_PKGS+=" git+https://github.com/Nikea/historydict#egg=historydict"
-PIP_PKGS+=" git+https://github.com/NSLS-II/amostra#egg=amostra"
-PIP_PKGS+=" git+https://github.com/NSLS-II/bluesky#egg=bluesky"
-PIP_PKGS+=" git+https://github.com/NSLS-II/databroker#egg=databroker"
-PIP_PKGS+=" git+https://github.com/NSLS-II/doct#egg=doct"
-PIP_PKGS+=" git+https://github.com/NSLS-II/event-model#egg=event_model"
-PIP_PKGS+=" git+https://github.com/NSLS-II/ophyd#egg=ophyd"
-PIP_PKGS+=" git+https://github.com/NSLS-II/suitcase#egg=suitcase"
+
+# NSLS-II DAMA packages
+#  install from GitHub repositories, master branch
+# PIP_PKGS+=" git+https://github.com/Nikea/historydict#egg=historydict"
+# PIP_PKGS+=" git+https://github.com/NSLS-II/amostra#egg=amostra"
+# PIP_PKGS+=" git+https://github.com/NSLS-II/bluesky#egg=bluesky"
+# PIP_PKGS+=" git+https://github.com/NSLS-II/databroker#egg=databroker"
+# PIP_PKGS+=" git+https://github.com/NSLS-II/doct#egg=doct"
+# PIP_PKGS+=" git+https://github.com/NSLS-II/event-model#egg=event_model"
+# PIP_PKGS+=" git+https://github.com/NSLS-II/ophyd#egg=ophyd"
+# PIP_PKGS+=" git+https://github.com/NSLS-II/suitcase#egg=suitcase"
+
+#  install from anaconda.org conda channel
+CONDA_PKGS+=" historydict"
+CONDA_PKGS+=" amostra"
+CONDA_PKGS+=" bluesky"
+CONDA_PKGS+=" databroker"
+CONDA_PKGS+=" doct"
+CONDA_PKGS+=" event-model"
+CONDA_PKGS+=" ophyd"
+CONDA_PKGS+=" suitcase"
 
 conda install -y $CONDA_CHANNELS   $CONDA_PKGS
 pip install  $PIP_PKGS
