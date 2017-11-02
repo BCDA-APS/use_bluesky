@@ -73,6 +73,7 @@ PIP_PKGS+=" tzlocal"
 # PIP_PKGS+=" git+https://github.com/NSLS-II/event-model#egg=event_model"
 # PIP_PKGS+=" git+https://github.com/NSLS-II/ophyd#egg=ophyd"
 # PIP_PKGS+=" git+https://github.com/NSLS-II/suitcase#egg=suitcase"
+# PIP_PKGS+=" git+https://github.com/NSLS-II/hklpy#egg=hklpy"
 
 #  install from anaconda.org conda channel
 CONDA_PKGS+=" historydict"
@@ -83,6 +84,7 @@ CONDA_PKGS+=" doct"
 CONDA_PKGS+=" event-model"
 CONDA_PKGS+=" ophyd"
 CONDA_PKGS+=" suitcase"
+CONDA_PKGS+=" hklpy"
 
 conda install -y $CONDA_CHANNELS   $CONDA_PKGS
 pip install  $PIP_PKGS
