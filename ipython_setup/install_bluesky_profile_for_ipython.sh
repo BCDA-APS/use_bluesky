@@ -26,9 +26,8 @@ FILE_LIST+=" 99-describe_item.py"
 FILE_LIST+=" mongodb_config.yml"
 FILE_LIST+=" README.md"
 
-#Prior to merging with master, use jupyter branch
-#WWW_REPO=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/ipython_setup/startup
-WWW_REPO=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/jupyter/ipython_setup/startup
+WWW_REPO=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/ipython_setup/startup
+
 TARGET=${HOME}/.ipython/profile_$PROFILE1
 for filename in ${FILE_LIST}; do
 	wget ${WWW_REPO}/${filename} -O ${TARGET}/startup/${filename}
