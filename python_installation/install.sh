@@ -85,6 +85,9 @@ CONDA_PKGS+=" event-model"
 CONDA_PKGS+=" ophyd"
 CONDA_PKGS+=" suitcase"
 CONDA_PKGS+=" hklpy"
+CONDA_PKGS+=" pygobject3"
+# no pip install for this one
+
 
 conda install -y $CONDA_CHANNELS   $CONDA_PKGS
 pip install  $PIP_PKGS
