@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/starters/use_bluesky.sh
+# wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/bin/use_bluesky.sh
 
 # start an interactive ipython session running BlueSky (from NSLS-II)
 #
