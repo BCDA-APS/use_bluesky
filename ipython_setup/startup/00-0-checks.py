@@ -8,7 +8,8 @@ import os
 req_version = (3,6)
 cur_version = sys.version_info
 if cur_version < req_version:
-    msg = 'Requires Python %s+' % '.'.join(req_version)
+    ver_str = '.'.join((map(str,req_version)))
+    msg = 'Requires Python %s+' % ver_str
     msg += ' with BlueSky packages\n'
     msg += 'found: ' + sys.version
     msg += '\nfrom directory: ' + sys.prefix
