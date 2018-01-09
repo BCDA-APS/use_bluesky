@@ -3,7 +3,6 @@
 # install the Components for BlueSky, Ophyd, and related NSLS-II DAQ
 
 BLUESKY_ROOT=$HOME/Apps/BlueSky
-BLUESKY_ROOT=/local/test/Apps/BlueSky
 SCRATCH_DIR=/tmp
 
 #----------------------------------------------------
