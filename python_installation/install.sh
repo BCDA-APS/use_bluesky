@@ -3,6 +3,7 @@
 # install the Components for BlueSky, Ophyd, and related NSLS-II DAQ
 
 BLUESKY_ROOT=$HOME/Apps/BlueSky
+BLUESKY_ROOT=/local/test/Apps/BlueSky
 SCRATCH_DIR=/tmp
 
 #----------------------------------------------------
@@ -10,7 +11,7 @@ SCRATCH_DIR=/tmp
 MINICONDA=$SCRATCH_DIR/miniconda.sh
 wget http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O $MINICONDA
 chmod +x $MINICONDA
-mkdir -p $HOME/Apps
+mkdir -p `dirname ${BLUESKY_ROOT}`
 bash $MINICONDA -b -p ${BLUESKY_ROOT}
 export PATH=${BLUESKY_ROOT}/bin:$PATH
 conda update -y conda pip
@@ -23,10 +24,10 @@ pip --version
 # ref: https://raw.githubusercontent.com/NSLS-II/tutorial/master/environment.yml
 
 CONDA_CHANNELS=
+CONDA_CHANNELS+=" -c lightsource2-tag"
 CONDA_CHANNELS+=" -c conda-forge"
 CONDA_CHANNELS+=" -c defaults"
 CONDA_CHANNELS+=" -c soft-matter"
-CONDA_CHANNELS+=" -c lightsource2-tag"
 
 CONDA_PKGS=
 
