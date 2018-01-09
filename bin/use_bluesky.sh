@@ -2,13 +2,6 @@
 
 # https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/starters/use_bluesky.sh
 
-general_startup () {
-	echo "BlueSky executable path: $BLUESKY_BIN_DIR"
-	$BLUESKY_BIN_DIR/python --version
-	$BLUESKY_BIN_DIR/conda --version
-	$BLUESKY_BIN_DIR/pip --version
-}
-
 # start an interactive ipython session running BlueSky (from NSLS-II)
 #
 # usage:  use_bluesky.sh [profile_name]
@@ -41,6 +34,15 @@ export BLUESKY_PROFILE__INTERNAL_DEFAULT=bluesky
 # pick values to use, either from environment variables or defaults
 export BLUESKY_BIN_DIR=${BLUESKY_BIN_DIR:-$BLUESKY_BIN_DIR__INTERNAL_DEFAULT}
 export BLUESKY_PROFILE=${1:-$BLUESKY_PROFILE__INTERNAL_DEFAULT}
+
+
+general_startup () {
+	echo "BlueSky executable path: $BLUESKY_BIN_DIR"
+	$BLUESKY_BIN_DIR/python --version
+	$BLUESKY_BIN_DIR/conda --version
+	$BLUESKY_BIN_DIR/pip --version
+}
+
 
 # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
