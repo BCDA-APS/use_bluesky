@@ -1,6 +1,7 @@
 # use_bluesky
 Tools to help APS use [BlueSky](http://nsls-ii.github.io/bluesky) ([GitHub](https://github.com/NSLS-II/bluesky)) from [NSLS-II](http://nsls-ii.github.io)
 
+* [wiki](https://github.com/BCDA-APS/use_bluesky/wiki): Wiki, starts with list of installations
 * archive
   * [demo](archive/demos/README.md): short demonstrations of various capabilities
   * [notes](archive/notes/README.md): findings, explorations, background to answer FAQ, ...
