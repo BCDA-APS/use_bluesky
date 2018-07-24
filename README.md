@@ -10,6 +10,7 @@ Tools to help APS use [BlueSky](http://nsls-ii.github.io/bluesky) ([GitHub](http
 ------------
 
 * [wiki](https://github.com/BCDA-APS/use_bluesky/wiki): Wiki, starts with list of installations
+* [notebooks](notebooks/README.md): lessons, tutorials, examples, other - all in Jupyter notebooks
 * archive
   * [demo](archive/demos/README.md): short demonstrations of various capabilities
   * [notes](archive/notes/README.md): findings, explorations, background to answer FAQ, ...
