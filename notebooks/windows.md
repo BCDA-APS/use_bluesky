@@ -9,7 +9,7 @@
   * https://github.com/NSLS-II/event-model
   * https://github.com/NSLS-II/ophyd
 * in top-level directory each of those projects: `pip install .`
-  * note: databroker has requirements not covered above
+  * note: databroker has [requirements](https://github.com/NSLS-II/databroker/blob/master/requirements.txt) not covered above
   * ... need to describe installation of these ...
 
 For the databroker, you might want to have a mongodb server running on your LAN.  Install details not provided here.
