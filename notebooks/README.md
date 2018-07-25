@@ -6,6 +6,10 @@ This directory contains lessons, tutorials, examples, other - all in Jupyter not
 
 * [lesson1](lesson1.ipynb) - the EPICS scaler - ophyd, Bluesky
 
+## Tips
+
+* [Windows](windows.md) - Installing ophyd, Bluesky, *et al.* on Windows 10
+
 ## Starting a Jupyter notebook session at APS
 
 This session was started from the linux command line:
