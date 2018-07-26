@@ -5,7 +5,7 @@ This directory contains lessons, tutorials, examples, other - all in Jupyter not
 ## Lessons
 
 * [lesson1](lesson1.ipynb) - the EPICS scaler - ophyd, Bluesky count
-* [lesson2](lesson1.ipynb) - the EPICS motor - ophyd, Bluesky scan
+* [lesson2](lesson2.ipynb) - the EPICS motor - ophyd, Bluesky scan
 * [lesson-tba-](working_with_area_detector_image_data.ipynb) - working with area detector image data
 
 ## Tips
