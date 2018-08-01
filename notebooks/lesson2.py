@@ -1,6 +1,6 @@
 #!/APSshare/anaconda3/BlueSky/bin/python
 
-"lesson 2: motor"
+"lesson 2: motor and scan"
 
 from ophyd import EpicsMotor
 from ophyd.scaler import ScalerCH

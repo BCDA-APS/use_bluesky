@@ -1,6 +1,6 @@
 #!/APSshare/anaconda3/BlueSky/bin/python
 
-"lesson 1: scaler"
+"lesson 1: scaler and count"
 
 from ophyd.scaler import ScalerCH
 from bluesky import RunEngine
