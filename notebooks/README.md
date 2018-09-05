@@ -12,6 +12,7 @@ This directory contains lessons, tutorials, examples, other - all in Jupyter not
 ## Tips
 
 * [Windows](windows.md) - Installing ophyd, Bluesky, *et al.* on Windows 10
+* *Known* [supported browsers](https://github.com/jupyterlab/jupyterlab#prerequisites-and-supported-browsers) - [Firefox, Chrome, Safari](https://jupyterlab.readthedocs.io/en/latest/getting_started/installation.html#supported-browsers), KDE's Konqueror did not work
 
 ## Starting a Jupyter notebook session at APS
 
