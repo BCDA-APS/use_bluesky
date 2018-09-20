@@ -1,6 +1,6 @@
 #!/APSshare/anaconda3/BlueSky/bin/python
 
-"lesson 1: EpicsScaler"
+"lesson 1: scaler and count"
 
 from ophyd.scaler import ScalerCH
 from bluesky import RunEngine
@@ -17,7 +17,7 @@ def myCallback(key, doc):
 
 RE = RunEngine({})
 
-scaler = ScalerCH("gov:scaler1", name="scaler")
+scaler = ScalerCH("prj:scaler1", name="scaler")
 scaler.preset_time.put(1.5)
 print(scaler.preset_time.value)
 

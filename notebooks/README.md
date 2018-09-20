@@ -4,13 +4,15 @@ This directory contains lessons, tutorials, examples, other - all in Jupyter not
 
 ## Lessons
 
-* [lesson1](lesson1.ipynb) - the EPICS scaler - ophyd, Bluesky count
-* [lesson2](lesson1.ipynb) - the EPICS motor - ophyd, Bluesky scan
+* [lesson1](lesson1.ipynb) - scaler and count
+* [lesson2](lesson2.ipynb) - motor and scan
+* [lesson3](lesson3.ipynb) - show data as it is acquired
 * [lesson-tba-](working_with_area_detector_image_data.ipynb) - working with area detector image data
 
 ## Tips
 
 * [Windows](windows.md) - Installing ophyd, Bluesky, *et al.* on Windows 10
+* *Known* [supported browsers](https://github.com/jupyterlab/jupyterlab#prerequisites-and-supported-browsers) - [Firefox, Chrome, Safari](https://jupyterlab.readthedocs.io/en/latest/getting_started/installation.html#supported-browsers), KDE's Konqueror did not work
 
 ## Starting a Jupyter notebook session at APS
 
