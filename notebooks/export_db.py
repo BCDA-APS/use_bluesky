@@ -91,7 +91,13 @@ def main():
         print(tag)
         if tag == "descriptor":
             print(sorted(doc.data_keys.keys()))
+        elif tag == "event":
+            print(doc.seq_num)
         test_db.insert(tag, doc)
+        if tag == "descriptor":
+            print(sorted(doc.data_keys.keys()))
+        elif tag == "event":
+            print(sorted(doc.data_keys.keys()))
 
 
 import re
@@ -100,11 +106,12 @@ ACCEPTABLE_PATTERN = r"[A-Za-z_][\w_]*"
 
 def make_safe(keys):
     def safe(text):
-        keep_indices = []
-        for m in re.finditer(ACCEPTABLE_PATTERN, text):
-            keep_indices += range(m.start(), m.end())
+        matching_positions = [
+            p 
+            for m in re.finditer(ACCEPTABLE_PATTERN, text) 
+            for p in range(m.start(), m.end())]
         def rewrite(p):
-            return {True: text[p], False: "_"}[p in keep_indices]
+            return {True: text[p], False: "_"}[p in matching_positions]
         return "".join(map(rewrite, range(len(text))))
     safe_keys = list(map(safe, sorted(keys)))
     return safe_keys
@@ -121,12 +128,12 @@ def tester():
     'neat_stage_x', 'neat_stage_x_user_setpoint', 'neat_stage_y',
     'neat_stage_y_user_setpoint', 'scaler_time']
     safe_keys = make_safe(keys)
-    for i, new_key in enumerate(safe_keys):
-        old_key = keys[i]
+    keymap = {k:v for k, v in zip(keys, safe_keys)}
+    for old_key, new_key in zip(keys, safe_keys):
         tbl.addRow((old_key, new_key))
     print(tbl)
 
 
 if __name__ == "__main__":
-    # main()
-    tester()
+    main()
+    # tester()
