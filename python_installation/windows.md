@@ -12,8 +12,8 @@ caution: These are my installation notes, not yet a complete set of instructions
 Assume Anaconda python distribution is already installed.
 We'll add a conda virtual environment for bluesky.
 
-#. start the powershell
-#. switch to `cmd.exe`
+1. start the powershell
+1. switch to `cmd.exe`
 
 note: test this with a Windows bash shell or work it up as a Windows batch file
 
