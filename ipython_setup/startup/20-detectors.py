@@ -1,5 +1,7 @@
 print(__file__)
 
+"""detectors (area detectors handled separately)"""
+
 scaler = ScalerCH('xxx:scaler1', name='scaler')
 # work around a bug in ScalerCH: just show the channels named in EPICS
 APS_devices.use_EPICS_scaler_channels(scaler)

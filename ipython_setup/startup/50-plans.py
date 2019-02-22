@@ -2,32 +2,37 @@ print(__file__)
 
 """local, custom Bluesky plans (scans)"""
 
+
 # example using an Excel file to provide a list of samples to scan
 
 def run_Excel_file(xl_file):
     """
     example of reading a list of samples from Excel spreadsheet
     
-    TEXT view of spreadsheet (Excel file line numbers shown)::
+    USAGE::
     
-        [1] List of sample scans to be run              
-        [2]                 
-        [3]                 
-        [4] scan    sx  sy  thickness   sample name
-        [5] FlyScan 0   0   0   blank
-        [6] FlyScan 5   2   0   blank
+        summarize_plan(run_Excel_file("sample_example.xlsx"))
+        RE(run_Excel_file("sample_example.xlsx"))
     """
     assert os.path.exists(xl_file)
     xl = APS_utils.ExcelDatabaseFileGeneric(os.path.abspath(xl_file))
     yield from beforePlan()
     for row in xl.db.values():
-        scan_command = row["scan"].lower()
+        scan_command = row["Scan Type"].lower()
         if scan_command == "step_scan":
-            yield from step_scan(row["sx"], row["sy"], row["thickness"], row["sample name"]) 
+            yield from step_scan(
+                row["sx"],  # label must match cell string EXACTLY
+                row["sy"], 
+                row["Thickness"], 
+                row["Sample Name"],
+                # add all input as scan metadata, ensure the keys are clean
+                #md={APS_utils.cleanupText(k): v for k, v in row.items()},
+                md={cleanupText(k): v for k, v in row.items()},
+                ) 
     yield from afterPlan()
 
 
-def step_scan(pos_X, pos_Y, thickness, scan_title):
+def step_scan(pos_X, pos_Y, thickness, scan_title, md={}):
     """
     collect SAXS data
     """
@@ -35,23 +40,22 @@ def step_scan(pos_X, pos_Y, thickness, scan_title):
         m2, pos_X,
         m3, pos_Y,
     )
-    scan_metadata = dict(
-        sx = pos_X,
-        sy = pos_Y,
-        thickness = thickness,
-        title = scan_title,
-    )
-    yield from bp.scan([scaler], m1, -5, 5, 25, md=scan_metadata)
+    print(f"scan: {scan_title}")
+    yield from bp.scan([scaler], m1, -5, 5, 8, md=md)
+
 
 def beforePlan():
     """things to be done before every data collection plan"""
     yield from bps.mv(
-        shutter, "open",  # for example
+        shutter, "open",    # for example
     )
 
     
 def afterPlan():
     """things to be done after every data collection plan"""
     yield from bps.mv(
-        shutter, "close",  # for example
+        shutter, "close",   # for example
+        m1, 0,              # park the motors
+        m2, 0,
+        m3, 0,
     )

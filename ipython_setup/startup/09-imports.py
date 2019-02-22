@@ -21,6 +21,7 @@ from ophyd.sim import SynSignal
 # area detector support (ADSimDetector)
 from ophyd import SingleTrigger, SimDetector
 from ophyd import HDF5Plugin, ImagePlugin
+from ophyd.areadetector.filestore_mixins import FileStoreHDF5IterativeWrite
 
 import apstools.callbacks as APS_callbacks
 import apstools.devices as APS_devices

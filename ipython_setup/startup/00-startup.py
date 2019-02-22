@@ -1,5 +1,7 @@
 print(__file__)
 
+"""connect with Bluesky"""
+
 from bluesky import RunEngine
 from bluesky.utils import get_history
 RE = RunEngine(get_history())
@@ -18,6 +20,8 @@ install_qt_kicker()
 from bluesky.callbacks import *
 from bluesky.plan_tools import print_summary
 import bluesky.plans as bp
+import bluesky.plan_stubs as bps
+import bluesky.plan_patterns as bpp
 from time import sleep
 import numpy as np
 import bluesky.magics

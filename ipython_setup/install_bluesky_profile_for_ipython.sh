@@ -23,6 +23,7 @@ COMMON_FILE_LIST+=" 60-metadata.py"
 COMMON_FILE_LIST+=" 80-callbacks.py"
 COMMON_FILE_LIST+=" mongodb_config.yml"
 COMMON_FILE_LIST+=" README.md"
+COMMON_FILE_LIST+=" sample_example.xlsx"
 
 #----------------------------------------------------
 # ipython startup configuration
