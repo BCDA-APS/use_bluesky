@@ -17,7 +17,7 @@ def run_Excel_file(xl_file):
     assert os.path.exists(xl_file)
     xl = APS_utils.ExcelDatabaseFileGeneric(os.path.abspath(xl_file))
     yield from beforePlan()
-    for row in xl.db.values():
+    for i, row in enumerate(xl.db.values()):
         scan_command = row["Scan Type"].lower()
         if scan_command == "step_scan":
             yield from step_scan(
@@ -26,9 +26,10 @@ def run_Excel_file(xl_file):
                 row["Thickness"], 
                 row["Sample Name"],
                 # add all input as scan metadata, ensure the keys are clean
-                #md={APS_utils.cleanupText(k): v for k, v in row.items()},
-                md={cleanupText(k): v for k, v in row.items()},
-                ) 
+                md={APS_utils.cleanupText(k): v for k, v in row.items()},
+                )
+        else:
+            print(f"no handling for table row {i+1}: {row}")
     yield from afterPlan()
 
 
@@ -36,11 +37,15 @@ def step_scan(pos_X, pos_Y, thickness, scan_title, md={}):
     """
     collect SAXS data
     """
+    for k, v in md.items():
+        print(f"{k}: {v}")
     yield from bps.mv(
         m2, pos_X,
         m3, pos_Y,
     )
-    print(f"scan: {scan_title}")
+    md[m2.name] = m2.position
+    md[m3.name] = m3.position
+    md["shutter"] = shutter.state
     yield from bp.scan([scaler], m1, -5, 5, 8, md=md)
 
 
