@@ -1,3 +1,3 @@
 print(__file__)
 
-# Bluesky plans (scans)
+"""local, custom Bluesky plans (scans)"""
