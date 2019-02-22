@@ -18,6 +18,10 @@ from ophyd import EpicsSignal, EpicsSignalRO, EpicsSignalWithRBV
 from ophyd.scaler import ScalerCH, ScalerChannel
 from ophyd.sim import SynSignal
 
+# area detector support (ADSimDetector)
+from ophyd import SingleTrigger, SimDetector
+from ophyd import HDF5Plugin, ImagePlugin
+
 import apstools.callbacks as APS_callbacks
 import apstools.devices as APS_devices
 import apstools.filewriters as APS_filewriters
