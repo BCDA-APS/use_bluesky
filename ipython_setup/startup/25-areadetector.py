@@ -16,5 +16,9 @@ class MySingleTriggerHdf5SimDetector(SingleTrigger, SimDetector):
 	write_path_template="/tmp/simdet/%Y/%m/%d/",    # for EPICS AD
     )
 
-adsimdet = MySingleTriggerHdf5SimDetector("xxxSIM1:", name='adsimdet')
-adsimdet.read_attrs.append("hdf1")
+_ad_prefix = "xxxSIM1:"		# IOC prefix
+try:
+    adsimdet = MySingleTriggerHdf5SimDetector(_ad_prefix, name='adsimdet')
+    adsimdet.read_attrs.append("hdf1")
+except TimeoutError:
+    print(f"Could not connect {_ad_prefix} sim detector")
