@@ -14,3 +14,25 @@ print(f"""
   file will be created when bluesky ends its next scan
   to change SPEC file, use command:   newSpecFile('title')
 """)
+
+
+def newSpecFile(title, scan_id=1):
+    """
+    user choice of the SPEC file name
+    
+    cleans up title, prepends month and day and appends file extension
+    """
+    mmdd = str(datetime.now()).split()[0][5:].replace("-", "_")
+    clean = APS_utils.cleanupText(title)
+    fname = "%s_%s.dat" % (mmdd, clean)
+    if os.path.exists(fname):
+        print(f">>> file already exists: {fname} <<<")
+        specwriter.newfile(fname)
+        which = "appended"
+        
+    else:
+        specwriter.newfile(fname, scan_id=scan_id)
+        which = "created"
+
+    print(f"SPEC file name : {specwriter.spec_filename}")
+    print(f"File will be {which} at end of next bluesky scan.")
