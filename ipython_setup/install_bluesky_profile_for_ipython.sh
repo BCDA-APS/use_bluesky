@@ -12,6 +12,7 @@ COMMON_FILE_LIST=
 COMMON_FILE_LIST+=" 00-0-checks.py"
 COMMON_FILE_LIST+=" 01-databroker.py"
 COMMON_FILE_LIST+=" 02-pyepics.py"
+COMMON_FILE_LIST+=" 09-imports.py"
 COMMON_FILE_LIST+=" 10-motors.py"
 COMMON_FILE_LIST+=" 20-detectors.py"
 COMMON_FILE_LIST+=" 40-devices.py"
