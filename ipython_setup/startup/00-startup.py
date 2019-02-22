@@ -1,9 +1,5 @@
 print(__file__)
 
-# Make ophyd listen to pyepics.
-from ophyd import setup_ophyd
-setup_ophyd()
-
 from bluesky import RunEngine
 from bluesky.utils import get_history
 RE = RunEngine(get_history())
@@ -24,9 +20,17 @@ from bluesky.plan_tools import print_summary
 import bluesky.plans as bp
 from time import sleep
 import numpy as np
+import bluesky.magics
+
 
 # Uncomment the following lines to turn on 
 # verbose messages for debugging.
-# import logging
+import logging
 # ophyd.logger.setLevel(logging.DEBUG)
 # logging.basicConfig(level=logging.DEBUG)
+
+
+# diagnostics
+from bluesky.utils import ts_msg_hook
+#RE.msg_hook = ts_msg_hook
+from bluesky.simulators import summarize_plan
