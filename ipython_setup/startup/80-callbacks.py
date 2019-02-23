@@ -16,23 +16,29 @@ print(f"""
 """)
 
 
+def spec_comment(comment, doc=None):
+    # supply our specwriter to the standard routine
+    APS_filewriters.spec_comment(comment, doc, specwriter)
+
+
 def newSpecFile(title, scan_id=1):
     """
     user choice of the SPEC file name
     
     cleans up title, prepends month and day and appends file extension
     """
+    global specwriter
     mmdd = str(datetime.now()).split()[0][5:].replace("-", "_")
     clean = APS_utils.cleanupText(title)
     fname = "%s_%s.dat" % (mmdd, clean)
     if os.path.exists(fname):
         print(f">>> file already exists: {fname} <<<")
-        specwriter.newfile(fname)
-        which = "appended"
+        specwriter.newfile(fname, RE=RE)
+        handled = "appended"
         
     else:
-        specwriter.newfile(fname, scan_id=scan_id)
-        which = "created"
+        specwriter.newfile(fname, scan_id=scan_id, RE=RE)
+        handled = "created"
 
     print(f"SPEC file name : {specwriter.spec_filename}")
-    print(f"File will be {which} at end of next bluesky scan.")
+    print(f"File will be {handled} at end of next bluesky scan.")
