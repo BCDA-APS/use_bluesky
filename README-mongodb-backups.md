@@ -1,23 +1,24 @@
 
 # How to backup (and move/merge bluesky's mongodb data)
 
-:ref:
-    https://stackoverflow.com/a/7232492/1046449
-
 ## Goal
 
-* Periodically, backup the mongodb data for any installation 
-  with the goal of using that backup as loss prevention in case
-  of corruption of the mongodb datastore.
+* Mitigate risk of data loss (hardware failure, data corruption, ...) 
+  by conducting periodic backups of the mongodb datastore.
 
 * Secondary goal is to prepare the data for transfer to a new 
   mongodb server or, even possibly, to merge with a different,
   existing mongodb server.
 
+The [recommended](https://stackoverflow.com/a/7232492/1046449) 
+tools to use are `mongodump` and `mongorestore`.  On Ubuntu
+(such as Linux Mint), these are provided in the `mongo-tools`
+package which is not installed by default.
+
 ## Background
 
-There are some tools in databroker for this.
-When testing them in 
+There are some tools in databroker for moving scans between 
+mongodb servers.  When testing them in 
 [fall 2018](https://github.com/APS-3ID-IXN/ipython-s3blue/issues/2), 
 the existing tools
 raised exceptions with some of the data labels that had 
