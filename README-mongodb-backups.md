@@ -51,9 +51,9 @@ For any databroker installation, there are two databases to backup:
 
 Backup mongodb with these steps::
 
-   cd $DIRECTORY_WITH_MONGODB_DUMP_SUBDIRECTORIES
-   mongodump --gzip  --db metadatastore-production-v1 
-   mongodump --gzip  --db filestore-production-v1     
+    cd $DIRECTORY_WITH_MONGODB_DUMP_SUBDIRECTORIES
+    mongodump --gzip  --db metadatastore-production-v1 
+    mongodump --gzip  --db filestore-production-v1     
 
 This will create directories `dump/metadatastore-production-v1/` and
 `dump/filestore-production-v1/` and fill each with the backups.  Note
@@ -71,7 +71,6 @@ mongorestore since v3.2.
 Restore (and merge any non-duplicate documents, duplicates will be 
 ignored) with these steps::
 
-   cd $DIRECTORY_WITH_MONGODB_DUMP_SUBDIRECTORIES
-   mongorestore --db metadatastore-production-v1 dump/metadatastore-production-v1/
-   mongorestore --db filestore-production-v1     dump/filestore-production-v1/
-
+	cd $DIRECTORY_WITH_MONGODB_DUMP_SUBDIRECTORIES
+	mongorestore --db metadatastore-production-v1 dump/metadatastore-production-v1/
+	mongorestore --db filestore-production-v1     dump/filestore-production-v1/
