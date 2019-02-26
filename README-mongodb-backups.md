@@ -62,9 +62,6 @@ mongorestore since v3.2.
 
 ## Restore (using `mongorestore`)
 
-:ref:
-    https://stackoverflow.com/a/7232492/1046449
-
 :docs:
 	https://docs.mongodb.com/manual/reference/program/mongorestore/
 
