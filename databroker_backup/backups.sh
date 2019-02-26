@@ -5,7 +5,7 @@
 # example:  ./backups.sh 2>&1 | tee log_20190226-1406.txt
 
 # server list: https://github.com/BCDA-APS/use_bluesky/wiki
-# instructions: https://github.com/BCDA-APS/use_bluesky/blob/master/README-mongodb-backups.md
+# instructions: https://github.com/BCDA-APS/use_bluesky/blob/master/databroker_backup
 
 export DUMPS_ROOT=/local/mongo-dumps
 
