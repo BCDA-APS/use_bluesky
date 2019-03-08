@@ -9,7 +9,7 @@ import bluesky.plans as bp
 from bluesky.callbacks import LiveTable
 from bluesky.callbacks import LivePlot
 from bluesky.callbacks.best_effort import BestEffortCallback
-from APS_BlueSky_tools.devices import use_EPICS_scaler_channels
+from apstools.devices import use_EPICS_scaler_channels
 
 
 %matplotlib notebook
@@ -18,11 +18,12 @@ install_qt_kicker()
 
 
 RE = RunEngine({})
-m1 = EpicsMotor("prj:m1", name="m1")
-scaler = ScalerCH("prj:scaler1", name="scaler")
+
+P = "vm7:"
+m1 = EpicsMotor(f"{P}m1", name="m1")
+scaler = ScalerCH(f"{P}scaler1", name="scaler")
 scaler.preset_time.put(0.4)
-scaler.match_names()
-use_EPICS_scaler_channels(scaler)
+scaler.select_channels(None)
 print(scaler.read())
 
 RE(bp.count([scaler], num=5), LiveTable([scaler]))
