@@ -7,6 +7,8 @@ This directory contains lessons, tutorials, examples, other - all in Jupyter not
 * [lesson1](lesson1.ipynb) - scaler and count
 * [lesson2](lesson2.ipynb) - motor and scan
 * [lesson3](lesson3.ipynb) - show data as it is acquired
+* [lesson3: final](lesson3-final.ipynb) - final project from lesson3
+* [basic scan with plot](basic-scan-with-plot.ipynb) - starting point for a general notebook (after lesson3)
 * [lesson-tba-](working_with_area_detector_image_data.ipynb) - working with area detector image data
 
 ## Tips
