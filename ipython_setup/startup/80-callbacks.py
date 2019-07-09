@@ -25,7 +25,11 @@ def newSpecFile(title, scan_id=1):
     """
     user choice of the SPEC file name
     
-    cleans up title, prepends month and day and appends file extension
+    Wraps ``apstools.filewriters.SpecWriterCallback().newfile()``
+    
+    1. cleans up title from user, 
+    2. prepends month and day
+    3. appends file extension
     """
     global specwriter
     mmdd = str(datetime.now()).split()[0][5:].replace("-", "_")
