@@ -11,12 +11,35 @@ RE.md['pid'] = os.getpid()
 HOSTNAME = socket.gethostname() or 'localhost' 
 USERNAME = getpass.getuser() or 'synApps_xxx_user' 
 RE.md['login_id'] = USERNAME + '@' + HOSTNAME
-RE.md['BLUESKY_VERSION'] = bluesky.__version__
-RE.md['OPHYD_VERSION'] = ophyd.__version__
+
+# useful diagnostic to record with all data
+RE.md['versions'] = {}
+RE.md['versions']['bluesky'] = bluesky.__version__
+RE.md['versions']['ophyd'] = ophyd.__version__
+
+from databroker import __version__ as db_version
+RE.md['versions']['databroker'] = db_version
+del db_version
+
 from apstools import __version__ as apstools_version
-RE.md['APSTOOLS_VERSION'] = apstools_version
+RE.md['versions']['apstools'] = apstools_version
 del apstools_version
 
-print("Metadata dictionary:")
-for k, v in sorted(RE.md.items()):
-    print("RE.md['%s']" % k, "=", v)
+RE.md['versions']['epics'] = epics.__version__
+RE.md['versions']['numpy'] = np.__version__
+
+from matplotlib import __version__ as mpl_version
+RE.md['versions']['matplotlib'] = mpl_version
+del mpl_version
+
+from matplotlib import __version__numpy__ as mpl_np_version
+RE.md['versions']['matplotlib_numpy'] = mpl_np_version
+del mpl_np_version
+
+from spec2nexus import __version__ as s2n_version
+RE.md['versions']['spec2nexus'] = s2n_version
+del s2n_version
+
+RE.md['versions']['pyRestTable'] = pyRestTable.__version__
+
+APS_utils.print_RE_md()
