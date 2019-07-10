@@ -18,7 +18,7 @@ snow% conda env list
 # conda environments:
 #
 base                  *  /APSshare/anaconda/x86_64
-                         /home/beams10/8IDIUSER/xicam2_py_VE
+                         /home/USERNAME/xicam2_py_VE
 ```
 
 Good, we can proceed with commands to install a new custom conda environment named `bluesky`.
@@ -98,8 +98,8 @@ snow% conda env list
 # conda environments:
 #
 base                  *  /APSshare/anaconda/x86_64
-bluesky                  /home/beams/S8IDIUSER/.conda/envs/bluesky
-                         /home/beams10/8IDIUSER/xicam2_py_VE
+bluesky                  /home/USERNAME/.conda/envs/bluesky
+                         /home/USERNAME/xicam2_py_VE
 ```
 
 The `*` indicates which environment is currently activated (and will be used when
@@ -137,22 +137,22 @@ We imposed that at the installation but we want to keep it from being updated la
 We'll add a `pinned` file to our conda environment to maintain that rule for 
 us during updates.
 
-First, we must learn where to place the file.  The list of available conda environments
-provides the directory path for each.
+First, we must learn where to place the file.  
+The list of available conda environmentsprovides the directory path for each.
 
 ```
 snow% conda env list
 # conda environments:
 #
 base                  *  /APSshare/anaconda/x86_64
-bluesky                  /home/beams/S8IDIUSER/.conda/envs/bluesky
-                         /home/beams10/8IDIUSER/xicam2_py_VE
+bluesky                  /home/USERNAME/.conda/envs/bluesky
+                         /home/USERNAME/xicam2_py_VE
 ```
 
 The file must go in our environment's directory, at `./conda-meta/pinned`
 
 ```
-touch /home/beams/S8IDIUSER/.conda/envs/bluesky/conda-meta/pinned
+touch /home/USERNAME/.conda/envs/bluesky/conda-meta/pinned
 # edit that file adding just this next line
 tornado<5
 ```
