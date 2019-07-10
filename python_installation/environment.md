@@ -341,9 +341,11 @@ cd /tmp
 wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/python_installation/requirements.txt
 wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/python_installation/pinned
 wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/python_installation/.condarc
+
 # create & install (-y means accept and proceed without asking)
 CHANNELS=-c defaults -c conda-forge -c lightsource2-tag -c aps-anl-tag
 conda create -n bluesky -y $CHANNELS --file=requirements.txt
+
 # install additional configurations
 cp pinned /home/USERNAME/.conda/envs/bluesky/conda-meta/
 cp .condarc /home/USERNAME/.conda/envs/bluesky/
