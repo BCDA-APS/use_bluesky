@@ -6,6 +6,18 @@ then you can create a custom conda environment for Bluesky.
 **NOTE:** You will need to use the `bash` shell for the commands
 in this procedure.  If you get strange errors from the various
 commands, check that you are using the `bash` shell first.
+Here's some [help](https://stackoverflow.com/questions/3327013/how-to-determine-the-current-shell-im-working-on)
+with that.
+
+**Contents**
+
+* [Does the bluesky environment exist already?](#does-the-bluesky-environment-exist-already)
+* [What packages to install? -- The `requirements.txt` file](#what-packages-to-install--the-requirementstxt-file)
+* [Where to get the packages? -- conda *channels*](#where-to-get-the-packages----conda-channels)
+* [Create the custom environment for Bluesky](#create-the-custom-environment-for-bluesky)
+* [Activate the `bluesky` environment](#activate-the-bluesky-environment)
+* [Install version restrictions](#install-version-restrictions)
+* [Test the installation](#test-the-installation)
 
 ## Does the `bluesky` environment exist already?
 
@@ -23,7 +35,7 @@ base                  *  /APSshare/anaconda/x86_64
 
 Good, we can proceed with commands to install a new custom conda environment named `bluesky`.
 
-## What packages to install? == The `requirements.txt` file
+## What packages to install? -- The `requirements.txt` file
 
 We need to tell the 
 [`conda create`](https://conda.io/projects/conda/en/latest/commands/create.html) 
