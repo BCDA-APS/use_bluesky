@@ -224,6 +224,10 @@ We need to wait for those PVs to connect.  Check that `aps.connected` returns `T
 
 The complete structure is: `aps.summary()`
 
+<details>
+<summary>... response ...</summary>
+<p>
+	
 ```
 In [3]: aps.summary()                                                                                      
 data keys (* hints)
@@ -281,7 +285,14 @@ Unused attrs
 
 ```
 
+</p>
+</details>
+
 Current values are: `aps.read()`
+
+<details>
+<summary>... response ...</summary>
+<p>
 
 ```
 In [8]: aps.read()                                                                                         
@@ -328,6 +339,42 @@ OrderedDict([('aps_current',
 
 ```
 
+</p>
+</details>
+
+You can still test that *ophyd* is working without a set of EPICS PVs by using the
+simulators provided in *ophyd*.
+
+    import ophyd.sim
+    sim = ophyd.sim.hw()
+
+Now test some of the simulators as above:
+
+<details>
+<summary>... session ...</summary>
+<p>
+
+```
+In [10]: sim.motor.position                                                                                                                                          
+Out[10]: 0
+
+In [11]: sim.motor.read()                                                                                                                                            
+Out[11]: 
+OrderedDict([('motor', {'value': 0, 'timestamp': 1562779985.5141134}),
+             ('motor_setpoint',
+              {'value': 0, 'timestamp': 1562779985.5141122})])
+
+In [12]: sim.noisy_det.read()                                                                                                                                        
+Out[12]: {'noisy_det': {'value': 0.9765596019916091, 'timestamp': 1562779985.5194004}}
+
+In [13]: sim.noisy_det.value                                                                                                                                         
+Out[13]: 0.9765596019916091
+
+```
+
+</p>
+</details>
+
 ## Summary
 
 The condensed summary of commands (your installation directories might look a little different).
@@ -363,10 +410,20 @@ conda activate bluesky
 # now test in an ipython session
 ipython
 # ipython command prompt now...
+
+# if you have APS PVs available
 import apstools.devices as APS_devices
 aps = APS_devices.ApsMachineParametersDevice(name="aps")
 # print the APS real-time information
 aps.current.value
 aps.summary()
 aps.read()
+
+# test with ophyd simulators
+import ophyd.sim
+sim = ophyd.sim.hw()
+sim.motor.position
+sim.motor.read()
+sim.noisy_det.read()
+sim.noisy_det.value
 ```
