@@ -8,3 +8,4 @@ ophyd
 databroker
 event-model
 apstools
+pymongo
