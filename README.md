@@ -1,7 +1,7 @@
 # use_bluesky
 Tools to help APS use [Bluesky](http://nsls-ii.github.io/bluesky) ([GitHub](https://github.com/NSLS-II/bluesky)) from [NSLS-II](http://nsls-ii.github.io)
 
-1. [Install python (from miniconda)](python_installation): script to setup python environment for Bluesky
+1. [Install python (from miniconda)](python_installation): script to setup python environment for Bluesky or [install Bluesky in a custom conda environment](python_installation/environment.md).
 2. [ipython_setup](ipython_setup/README.md): script to setup ipython profiles and startup scripts
 2a. [startup](ipython_setup/startup/README.md): python scripts used in ipython startup and mongoDB configuration file
 3. [bin](bin/README.md): home of use_bluesky.sh
