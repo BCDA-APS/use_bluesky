@@ -3,12 +3,6 @@
 If you have an existing python installation with conda installed,
 then you can create a custom conda environment for Bluesky.
 
-**NOTE:** You will need to use the `bash` shell for the commands
-in this procedure.  If you get strange errors from the various
-commands, check that you are using the `bash` shell first.
-Here's some [help](https://stackoverflow.com/questions/3327013/how-to-determine-the-current-shell-im-working-on)
-with that.
-
 **Contents**
 
 * [Does the bluesky environment exist already?](#does-the-bluesky-environment-exist-already)
@@ -18,6 +12,12 @@ with that.
 * [Activate the `bluesky` environment](#activate-the-bluesky-environment)
 * [Install version restrictions](#install-version-restrictions)
 * [Test the installation](#test-the-installation)
+
+**NOTE:** You will need to use the `bash` shell for the commands
+in this procedure.  If you get strange errors from the various
+commands, check that you are using the `bash` shell first.
+Here's some [help](https://stackoverflow.com/questions/3327013/how-to-determine-the-current-shell-im-working-on)
+with that.
 
 ## Does the `bluesky` environment exist already?
 
