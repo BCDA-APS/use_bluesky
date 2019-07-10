@@ -142,7 +142,7 @@ This is a good time to add some conda channels (web sites with software)
 for our upcoming downloads and maintenance.
 
 First, we must learn where to place the file.  
-The list of available conda environmentsprovides the directory path for each.
+The list of available conda environments provides the directory path for each.
 
 ```
 snow% conda env list
@@ -183,7 +183,7 @@ We'll add a `pinned` file to our conda environment to maintain that rule for
 us during updates.
 
 First, we must learn where to place the file.  
-The list of available conda environmentsprovides the directory path for each.
+The list of available conda environments provides the directory path for each.
 
 ```
 snow% conda env list
