@@ -10,6 +10,7 @@ then you can create a custom conda environment for Bluesky.
 * [Where to get the packages? -- conda *channels*](#where-to-get-the-packages----conda-channels)
 * [Create the custom environment for Bluesky](#create-the-custom-environment-for-bluesky)
 * [Activate the `bluesky` environment](#activate-the-bluesky-environment)
+* [Install default channels](#install-default-channels)
 * [Install version restrictions](#install-version-restrictions)
 * [Test the installation](#test-the-installation)
 
@@ -95,6 +96,9 @@ and their requirements.  It will present you with a list of the packages to be d
 and installed.  Unless you have other reasons, press `y` to accept the list and to
 proceed with the installation.
 
+We can customize our use of `conda` so these channels
+will always be used.  See the section [*Install default channels*](#install-default-channels).
+
 ## Activate the `bluesky` environment
 
 **TIP:** For more help about `activate`, see Step 2 
@@ -132,7 +136,36 @@ Could be faster if we already used bash and had *some* conda environment already
 
     conda activate bluesky
 
-    
+## Install default channels
+
+This is a good time to add some conda channels (web sites with software) 
+for our upcoming downloads and maintenance.
+
+First, we must learn where to place the file.  
+The list of available conda environmentsprovides the directory path for each.
+
+```
+snow% conda env list
+# conda environments:
+#
+base                  *  /APSshare/anaconda/x86_64
+bluesky                  /home/USERNAME/.conda/envs/bluesky
+                         /home/USERNAME/xicam2_py_VE
+```
+
+The file must go in our environment's directory, at 
+[`./.condarc`](https://docs.conda.io/projects/conda/en/latest/user-guide/configuration/sample-condarc.html?highlight=condarc)
+
+```
+touch /home/USERNAME/.conda/envs/bluesky/.condarc
+# edit that file adding these lines
+channels:
+  - defaults
+  - conda-forge
+  - lightsource2-tag
+  - aps-anl-tag
+```
+
 
 ## Install version restrictions
 
