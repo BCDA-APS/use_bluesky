@@ -25,7 +25,9 @@ Good, we can proceed with commands to install a new custom conda environment nam
 
 ## What packages to install? == The `requirements.txt` file
 
-We need to tell the `conda create` command which packages to install.
+We need to tell the 
+[`conda create`](https://conda.io/projects/conda/en/latest/commands/create.html) 
+command which packages to install.
 In some cases, we must restrict which versions to be considered.
 Download the [`requirements.txt`](requirements.txt) file to a
 local, temporary location.  We'll need this only once to install the
@@ -33,7 +35,8 @@ custom conda environment.
 
 ## Where to get the packages? -- conda *channels*
 
-The `conda create` command consults a list of web sites (known as *channels*)
+The `conda create` command consults a list of web sites (known as 
+[*channels*](https://conda.io/projects/conda/en/latest/commands/create.html#Channel%20Customization))
 for available packages.  The web site contains information about each package 
 available.  The packages describe what other packages (and versions) must be
 installed for that package to work.  So, while we may request only a small number
@@ -59,7 +62,8 @@ APS is on the `aps-anl-tag` channel.
 ## Create the custom environment for Bluesky
 
 We'll create a new custom conda environment and give it the name *bluesky* 
-(the `-n bluesky` part in the command).  Also, we'll specify each of the
+(the [`-n bluesky`](https://conda.io/projects/conda/en/latest/commands/create.html#Target%20Environment%20Specification) 
+part in the command).  Also, we'll specify each of the
 *channels* from which to find packages to install.  The channels are searched
 in the order they are specified.  The final part of the command gives the 
 `requirements.txt` which specifies the list of packages and versions to be installed.
@@ -80,6 +84,9 @@ and installed.  Unless you have other reasons, press `y` to accept the list and 
 proceed with the installation.
 
 ## Activate the `bluesky` environment
+
+**TIP:** For more help about `activate`, see Step 2 
+[here](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html?highlight=activate#managing-environments).
 
 Unless we specify otherwise, we are using the `base` environment
 (the python from the directory where we first installed the Anaconda 
@@ -118,8 +125,10 @@ Could be faster if we already used bash and had *some* conda environment already
 ## Install version restrictions
 
 Some packages require that other packages are restricted to certain versions.
-We can record this information so that we do not inadvertently `conda update`
-to an unacceptable version.  The process is known as **pinning*.
+We can record this information so that we do not inadvertently 
+[`conda update`](https://conda.io/projects/conda/en/latest/commands/update.html)
+to an unacceptable version.  The process is known as 
+[**pinning**](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-pkgs.html?highlight=pinned#preventing-packages-from-updating-pinning).
 
 Note in our requirements that the tornado package must be kept at the latest 
 version *before* major version 5 (for example, see 
@@ -154,7 +163,7 @@ Beam lines of the Advanced Photon Source have access to EPICS PVs that tell the 
 ring current and other real-time information from the facility.  These have been
 gathered into a special device from the `apstools` package.  (If you are not
 at the APS, then you will need to test with different `ophyd.EpicsSignal` objects
-than shown here.)
+than shown here.  You'll also need access to one or more EPICS PVs.)
 
 Now we can test if we have installed enough software to be useful.  Might still need more...
 
