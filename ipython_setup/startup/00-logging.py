@@ -42,9 +42,9 @@ logger.addHandler(file_log_handler)
 file_log_format = "%(asctime)s"
 file_log_format += ",%(levelname)s"
 file_log_format += ",%(name)s"
-file_log_format += ",%(threadName)s"
 file_log_format += ",%(module)s"
 file_log_format += ",%(lineno)d"
+file_log_format += ",%(threadName)s"
 file_log_format += " - "
 file_log_format += "%(message)s"
 file_log_handler.setFormatter(logging.Formatter(file_log_format))
