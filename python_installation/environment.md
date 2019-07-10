@@ -13,6 +13,7 @@ then you can create a custom conda environment for Bluesky.
 * [Install default channels](#install-default-channels)
 * [Install version restrictions](#install-version-restrictions)
 * [Test the installation](#test-the-installation)
+* [Summary](#summary)
 
 **NOTE:** You will need to use the `bash` shell for the commands
 in this procedure.  If you get strange errors from the various
@@ -327,3 +328,43 @@ OrderedDict([('aps_current',
 
 ```
 
+## Summary
+
+The condensed summary of commands (your installation directories might look a little different).
+
+These are the installation/configuration steps (only need them once).
+
+```
+bash
+cd /tmp
+# download the files we'll need
+wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/python_installation/requirements.txt
+wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/python_installation/pinned
+wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/python_installation/.condarc
+# create & install (-y means accept and proceed without asking)
+CHANNELS=-c defaults -c conda-forge -c lightsource2-tag -c aps-anl-tag
+conda create -n bluesky -y $CHANNELS --file=requirements.txt
+# install additional configurations
+cp pinned /home/USERNAME/.conda/envs/bluesky/conda-meta/
+cp .condarc /home/USERNAME/.conda/envs/bluesky/
+```
+
+These are things you do with every new terminal session to use Bluesky:
+
+```
+# choose your working directory
+cd ~/
+
+# use the bluesky environment
+conda activate bluesky
+
+# now test in an ipython session
+ipython
+# ipython command prompt now...
+import apstools.devices as APS_devices
+aps = APS_devices.ApsMachineParametersDevice(name="aps")
+# print the APS real-time information
+aps.current.value
+aps.summary()
+aps.read()
+```
