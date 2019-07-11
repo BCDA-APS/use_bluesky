@@ -44,5 +44,5 @@ def newSpecFile(title, scan_id=1):
         specwriter.newfile(fname, scan_id=scan_id, RE=RE)
         handled = "created"
 
-    print(f"SPEC file name : {specwriter.spec_filename}")
-    print(f"File will be {handled} at end of next bluesky scan.")
+    logger.info(f"SPEC file name : {specwriter.spec_filename}")
+    logger.info(f"File will be {handled} at end of next bluesky scan.")
