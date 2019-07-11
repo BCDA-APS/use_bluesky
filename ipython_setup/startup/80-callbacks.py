@@ -1,4 +1,4 @@
-print(__file__)
+logger.info(__file__)
 
 # custom callbacks
 
@@ -8,7 +8,7 @@ specwriter = APS_filewriters.SpecWriterCallback()
 _path = os.getcwd() # make the SPEC file in current working directory (assumes is writable)
 specwriter.newfile(os.path.join(_path, specwriter.spec_filename))
 callback_db['specwriter'] = RE.subscribe(specwriter.receiver)
-print(f"""
+logger.info(f"""
   writing to SPEC file: {specwriter.spec_filename}
   >>>>   Using default SPEC file name   <<<<
   file will be created when bluesky ends its next scan

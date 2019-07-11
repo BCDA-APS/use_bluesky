@@ -1,4 +1,4 @@
-print(__file__)
+logger.info(__file__)
 
 """detectors (area detectors handled separately)"""
 
