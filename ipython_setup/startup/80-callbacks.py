@@ -36,7 +36,7 @@ def newSpecFile(title, scan_id=1):
     clean = APS_utils.cleanupText(title)
     fname = "%s_%s.dat" % (mmdd, clean)
     if os.path.exists(fname):
-        print(f">>> file already exists: {fname} <<<")
+        logger.warning(f">>> file already exists: {fname} <<<")
         specwriter.newfile(fname, RE=RE)
         handled = "appended"
         
