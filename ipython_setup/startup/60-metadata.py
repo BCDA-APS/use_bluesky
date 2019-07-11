@@ -39,4 +39,4 @@ del s2n_version
 import pyRestTable
 RE.md['versions']['pyRestTable'] = pyRestTable.__version__
 
-APS_utils.print_RE_md()
+APS_utils.print_RE_md(RE.md)
