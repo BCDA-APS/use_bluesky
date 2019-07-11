@@ -36,6 +36,7 @@ from spec2nexus import __version__ as s2n_version
 RE.md['versions']['spec2nexus'] = s2n_version
 del s2n_version
 
+import pyRestTable
 RE.md['versions']['pyRestTable'] = pyRestTable.__version__
 
 APS_utils.print_RE_md()
