@@ -1,0 +1,11 @@
+python>=3
+ipython
+jupyter
+tornado<5
+pyepics
+bluesky
+ophyd
+databroker
+event-model
+apstools
+pymongo

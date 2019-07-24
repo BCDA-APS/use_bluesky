@@ -1,4 +1,4 @@
-print(__file__)
+logger.info(__file__)
 
 """connect with Bluesky"""
 
@@ -18,20 +18,12 @@ install_qt_kicker()
 
 # convenience imports
 from bluesky.callbacks import *
-from bluesky.plan_tools import print_summary
 import bluesky.plans as bp
 import bluesky.plan_stubs as bps
-import bluesky.plan_patterns as bpp
+import bluesky.preprocessors as bpp
 from time import sleep
 import numpy as np
 import bluesky.magics
-
-
-# Uncomment the following lines to turn on 
-# verbose messages for debugging.
-import logging
-# ophyd.logger.setLevel(logging.DEBUG)
-# logging.basicConfig(level=logging.DEBUG)
 
 
 # diagnostics

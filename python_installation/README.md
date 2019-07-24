@@ -1,5 +1,11 @@
 # Install NSLS-II BlueSky into Linux x86_64
 
+## Custom conda environment
+
+See [`environment.md`](environment.md) for how to install a custom conda
+environment given an existing python installation with the `conda` package 
+already installed.
+
 ## Alternative
 
 See these instructions instead. 

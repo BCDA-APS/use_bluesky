@@ -1,4 +1,4 @@
-print(__file__)
+logger.info(__file__)
 
 """area detectors: ADSimDetector"""
 
@@ -29,4 +29,4 @@ try:
         # probably not set, so let's set it now to some default
         adsimdet.hdf1.create_directory_depth.put(-5)
 except TimeoutError:
-    print(f"Could not connect {_ad_prefix} sim detector")
+    logger.warning(f"Could not connect {_ad_prefix} sim detector")
