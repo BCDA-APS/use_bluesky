@@ -4,7 +4,6 @@
 
 export APS_CHANNEL=aps-anl-tag
 OPTS=""
-OPTS="${OPTS} -c ${APS_CHANNEL}"
 OPTS="${OPTS} ipython"
 OPTS="${OPTS} jupyter"
 OPTS="${OPTS} matplotlib"
@@ -26,6 +25,7 @@ OPTS="${OPTS} coverage"
 OPTS="${OPTS} coveralls"
 OPTS="${OPTS} conda-build"
 OPTS="${OPTS} anaconda"
+OPTS="${OPTS} -c ${APS_CHANNEL}"
 export OPTS
 
 conda create -n py27 -y python=2.7 ${OPTS}
