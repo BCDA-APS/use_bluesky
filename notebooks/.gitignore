@@ -1,1 +1,5 @@
+# jupyter notebook internals
 .ipynb_checkpoints/
+
+# apstools SpecFileWriter data files
+20*-*.dat
