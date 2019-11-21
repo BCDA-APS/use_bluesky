@@ -26,7 +26,7 @@ wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/python_instal
 wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/python_installation/.condarc
 
 # create & install (-y means accept and proceed without asking)
-CHANNELS="-c defaults -c conda-forge -c lightsource2-tag -c aps-anl-tag -c pydm-tag"
+CHANNELS="-c defaults -c conda-forge -c nsls2forge -c aps-anl-tag -c pydm-tag"
 conda create -n bluesky -y $CHANNELS --file=requirements.txt
 
 # learn where the bluesky environment is stored
