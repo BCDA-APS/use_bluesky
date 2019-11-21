@@ -1,5 +1,5 @@
 channels:
   - defaults
   - conda-forge
-  - lightsource2-tag
+  - nsls2forge
   - aps-anl-tag
