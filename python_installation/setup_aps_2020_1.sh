@@ -32,9 +32,7 @@ conda install -y \
     apstools pyRestTable pvview spec2nexus stdlogpj \
     pydm \
     imagecodecs-lite
-# FIXME: conda install hklpy -y -c lightsource2-tag
-# Diffractometer support configuration needs attention,
-# not working now.
+conda install hklpy -y -c lightsource2-tag
 python -c "import ophyd; pv= ophyd.EpicsSignal(${TEST_PV}, name='pv'); print(pv.value)"
 
 
@@ -44,7 +42,7 @@ python -c "import ophyd; pv= ophyd.EpicsSignal(${TEST_PV}, name='pv'); print(pv.
 
 # bluesky 1.6.0rc4 because ___________________ (?)
 pip install bluesky==1.6.0rc4
-# TODO: python -c "import gi; gi.require_version('Hkl', '5.0'); from hkl.diffract import E6C"
+python -c "import gi; gi.require_version('Hkl', '5.0'); from hkl.diffract import E6C"
 
 # incompatibilities installing apstools >1.1.16 from conda or pip
 # install most recent release on PyPI, ignoring dependencies
