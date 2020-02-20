@@ -16,7 +16,7 @@ export TEST_PV="'S:SRcurrentAI'"
 
 # note: problems when using python 3.8, drop to 3.7 for now
 conda create -n ${CONDA_ENVIRONMENT} -y \
-    python=3.7 ipython jupyter pymongo psutil
+    python=3.7 ipython jupyter pylint pymongo psutil
 
 conda activate ${CONDA_ENVIRONMENT}
 
@@ -32,7 +32,9 @@ conda install -y \
     apstools pyRestTable pvview spec2nexus stdlogpj \
     pydm \
     imagecodecs-lite
-conda install hklpy -y -c lightsource2-tag
+# FIXME: conda install hklpy -y -c lightsource2-tag
+# Diffractometer support configuration needs attention,
+# not working now.
 python -c "import ophyd; pv= ophyd.EpicsSignal(${TEST_PV}, name='pv'); print(pv.value)"
 
 
@@ -42,7 +44,7 @@ python -c "import ophyd; pv= ophyd.EpicsSignal(${TEST_PV}, name='pv'); print(pv.
 
 # bluesky 1.6.0rc4 because ___________________ (?)
 pip install bluesky==1.6.0rc4
-python -c "import gi; gi.require_version('Hkl', '5.0'); from hkl.diffract import E6C"
+# TODO: python -c "import gi; gi.require_version('Hkl', '5.0'); from hkl.diffract import E6C"
 
 # incompatibilities installing apstools >1.1.16 from conda or pip
 # install most recent release on PyPI, ignoring dependencies
