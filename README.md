@@ -1,22 +1,52 @@
 # use_bluesky
-Tools to help APS use [Bluesky](http://nsls-ii.github.io/bluesky) ([GitHub](https://github.com/NSLS-II/bluesky)) from [NSLS-II](http://nsls-ii.github.io)
 
-1. [Install python (from miniconda)](python_installation): script to setup python environment for Bluesky or [install Bluesky in a custom conda environment](python_installation/environment.md).
-2. [ipython_setup](ipython_setup/README.md): script to setup ipython profiles and startup scripts
-2a. [startup](ipython_setup/startup/README.md): python scripts used in ipython startup and mongoDB configuration file
-3. [bin](bin/README.md): home of [`use_bluesky.sh`](bin/use_bluesky.sh)
-4. [jupyter_setup](jupyter_setup/README.md): script to setup jupyter kernel to harness ipython profile and startup scripts
+Tools to help APS use [Bluesky](http://nsls-ii.github.io/bluesky) 
+([GitHub](https://github.com/NSLS-II/bluesky)) 
+from [NSLS-II](http://nsls-ii.github.io)
 
-------------
+- [use_bluesky](#usebluesky)
+  - [Installation](#installation)
+  - [Resources](#resources)
+    - [In this repository](#in-this-repository)
+    - [Other resources](#other-resources)
+  - [Notes](#notes)
 
-* [wiki](https://github.com/BCDA-APS/use_bluesky/wiki): Wiki, starts with list of installations
-* [notebooks](notebooks/README.md): lessons, tutorials, examples, other - all in Jupyter notebooks
-* archive
-  * [demo](archive/demos/README.md): short demonstrations of various capabilities
-  * [notes](archive/notes/README.md): findings, explorations, background to answer FAQ, ...
-  * [plans](archive/plans/README.md): scripts to carry out various experimental plans 
+## Installation
 
-GitHub is used to support version control for beam line configurations.
-See the [wiki](https://github.com/BCDA-APS/use_bluesky/wiki) for details.
+1. setup mongodb server - TODO
+1. install Miniconda - TODO
+1. create conda environment for bluesky - TODO
+1. setup ipython profile for bluesky - TODO
+1. setup instrument profile - TODO
+1. setup starter scripts - TODO
 
-note: this is a work-in-progress, suggestions are welcome
+## Resources
+
+### In this repository
+
+* [wiki](https://github.com/BCDA-APS/use_bluesky/wiki): 
+  Wiki, starts with list of installations
+* [lessons](lessons/README.md): lessons, tutorials, examples, 
+  other - all in Jupyter notebooks
+
+### Other resources
+
+resource | link(s)
+---- | ----
+APStools | [documentation](https://apstools.readthedocs.io),   [GitHub](https://github.com/BCDA-APS/apstools),   [PyPI](https://pypi.org/project/apstools/),   [conda](https://anaconda.org/aps-anl-tag/apstools),
+Bluesky framework | [documentation](https://blueskyproject.io),  [GitHub](https://github.com/bluesky),   [conda](https://anaconda.org/nsls2forge)
+MongoDB | [home](https://www.mongodb.com/)
+PyDM | [documentation](https://slaclab.github.io/pydm/),  [GitHub](https://github.com/slaclab/pydm),  [PyPI](https://pypi.org/project/pydm/),  [conda](https://anaconda.org/conda-forge/pydm)
+ PyEPICS | [documentation](https://pyepics.github.io/pyepics/),  [PyPI](https://pypi.org/project/pyepics/),  [GitHub](https://github.com/pyepics/pyepics)
+
+<!-- databroker-->
+<!-- jupyter pydm-->
+<!-- matplotlib pydm-->
+<!-- ophyd-->
+<!-- XiCAM pydm-->
+
+## Notes
+
+* GitHub is used to support version control for beam line configurations.
+  See the [wiki](https://github.com/BCDA-APS/use_bluesky/wiki) for details.
+* This is a work-in-progress.  Suggestions are welcome.
