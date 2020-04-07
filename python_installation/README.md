@@ -5,23 +5,24 @@ then you can create a custom conda environment for Bluesky.
 
 **Quick Summary**
 
+1. [Install Anaconda or Miniconda](miniconda.md)
 1. use `bash` shell
-1. Install Anaconda or Miniconda
 1. activate *any* conda environment (usually `base`)
 1. create a `bluesky` environment: `bash ./create_bluesky_env.sh`
 1. create python 2 & 3 environments: `bash ./create_py27_py37_env.sh`
 
 **Contents**
 
-* [Does the bluesky environment exist already?](#does-the-bluesky-environment-exist-already)
-* [What packages to install? -- The `requirements.txt` file](#what-packages-to-install--the-requirementstxt-file)
-* [Where to get the packages? -- conda *channels*](#where-to-get-the-packages----conda-channels)
-* [Create the custom environment for Bluesky](#create-the-custom-environment-for-bluesky)
-* [Activate the `bluesky` environment](#activate-the-bluesky-environment)
-* [Install default channels](#install-default-channels)
-* [Install version restrictions](#install-version-restrictions)
-* [Test the installation](#test-the-installation)
-* [Summary](#summary)
+- [Install a new conda environment](#install-a-new-conda-environment)
+  - [Does the `bluesky` environment exist already?](#does-the-bluesky-environment-exist-already)
+  - [What packages to install? -- The `requirements.txt` file](#what-packages-to-install----the-requirementstxt-file)
+  - [Where to get the packages? -- conda *channels*](#where-to-get-the-packages----conda-channels)
+  - [Create the custom environment for Bluesky](#create-the-custom-environment-for-bluesky)
+  - [Activate the `bluesky` environment](#activate-the-bluesky-environment)
+  - [Install default channels](#install-default-channels)
+  - [Install version restrictions](#install-version-restrictions)
+  - [Test the installation](#test-the-installation)
+  - [Summary](#summary)
 
 **NOTE:** You will need to use the `bash` shell for the commands
 in this procedure.  If you get strange errors from the various
