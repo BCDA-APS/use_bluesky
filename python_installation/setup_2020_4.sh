@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# TODO: recognize if at APS or not
+# TODO: update to 2020-4 toolset
+# TODO: check if intended environment already exists, if so then inform how to resolve
+
 # setup conda env for bluesky at an APS beam line
 
 # derived from: https://github.com/BCDA-APS/use_bluesky/wiki/Install-Bluesky-packages

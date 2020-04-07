@@ -3,26 +3,23 @@
 If you have an existing python installation with conda installed,
 then you can create a custom conda environment for Bluesky.
 
-**Quick Summary**
+**Contents**
+
+- [Install a new conda environment](#install-a-new-conda-environment)
+  - [Quick Summary](#quick-summary)
+    - [Use bash shell](#use-bash-shell)
+  - [Activate conda environment](#activate-conda-environment)
+  - [Create the custom environment for Bluesky](#create-the-custom-environment-for-bluesky)
+  - [Test the installation](#test-the-installation)
+
+## Quick Summary
 
 1. [Install Anaconda or Miniconda](miniconda.md)
 1. use `bash` shell
 1. activate *any* conda environment (usually `base`)
-1. create a `bluesky` environment: `bash ./create_bluesky_env.sh`
-1. create python 2 & 3 environments: `bash ./create_py27_py37_env.sh`
+2. create environment for `bluesky`: `bash ./setup_2020_4.sh`
 
-**Contents**
-
-- [Install a new conda environment](#install-a-new-conda-environment)
-  - [Does the `bluesky` environment exist already?](#does-the-bluesky-environment-exist-already)
-  - [What packages to install? -- The `requirements.txt` file](#what-packages-to-install----the-requirementstxt-file)
-  - [Where to get the packages? -- conda *channels*](#where-to-get-the-packages----conda-channels)
-  - [Create the custom environment for Bluesky](#create-the-custom-environment-for-bluesky)
-  - [Activate the `bluesky` environment](#activate-the-bluesky-environment)
-  - [Install default channels](#install-default-channels)
-  - [Install version restrictions](#install-version-restrictions)
-  - [Test the installation](#test-the-installation)
-  - [Summary](#summary)
+### Use bash shell
 
 **NOTE:** You will need to use the `bash` shell for the commands
 in this procedure.  If you get strange errors from the various
@@ -30,73 +27,20 @@ commands, check that you are using the `bash` shell first.
 Here's some [help](https://stackoverflow.com/questions/3327013/how-to-determine-the-current-shell-im-working-on)
 with that.
 
-## Does the `bluesky` environment exist already?
+## Activate conda environment
 
-first, check that there is not a conda environment already named `bluesky` with command:  `conda env list`
-
-```
-snow% which conda
-/APSshare/anaconda/x86_64/bin/conda
-snow% conda env list
-# conda environments:
-#
-base                  *  /APSshare/anaconda/x86_64
-                         /home/USERNAME/xicam2_py_VE
-```
-
-Good, we can proceed with commands to install a new custom conda environment named `bluesky`.
-
-## What packages to install? -- The `requirements.txt` file
-
-We need to tell the 
-[`conda create`](https://conda.io/projects/conda/en/latest/commands/create.html) 
-command which packages to install.
-In some cases, we must restrict which versions to be considered.
-Download the [`requirements.txt`](requirements.txt) file to a
-local, temporary location.  We'll need this only once to install the
-custom conda environment.
-
-## Where to get the packages? -- conda *channels*
-
-The `conda create` command consults a list of web sites (known as 
-[*channels*](https://conda.io/projects/conda/en/latest/commands/create.html#Channel%20Customization))
-for available packages.  The web site contains information about each package 
-available.  The packages describe what other packages (and versions) must be
-installed for that package to work.  So, while we may request only a small number
-of packages to be installed, there may be many more packages installed due
-to dependencies amongst the stated requirements.  
-
-The initial set of channels includes `defaults` which is the channel 
-of common packages assembled by Anaconda.  The `python` package is one of these.
-You can find many of the other channels at https://anaconda.org.
-
-We will need more channels to support Bluesky.  Here is the (currently) recommended list:
-
-	channels:
-	  - defaults
-	  - conda-forge
-	  - lightsource2-tag
-	  - aps-anl-tag
-
-The version of EPICS support that we want is available on the `conda-forge` channel.
-The main Bluesky packages are on `lightsource2-tag` while additional support for the
-APS is on the `aps-anl-tag` channel.
+TODO: this should be done by the installer?
 
 ## Create the custom environment for Bluesky
 
-We'll create a new custom conda environment and give it the name *bluesky* 
-(the [`-n bluesky`](https://conda.io/projects/conda/en/latest/commands/create.html#Target%20Environment%20Specification) 
-part in the command).  Also, we'll specify each of the
-*channels* from which to find packages to install.  The channels are searched
-in the order they are specified.  The final part of the command gives the 
-`requirements.txt` which specifies the list of packages and versions to be installed.
+Run: `bash ./setup_2020_4.sh`
 
-    conda create -n bluesky \
-        -c defaults \
-        -c conda-forge \
-        -c lightsource2-tag \
-        -c aps-anl-tag \
-        --file=requirements.txt
+Since the toolset for running bluesky is under continuous development,
+the best recommendations change as new software is released.
+
+The installer will create a new custom conda environment 
+and give it a calendar-based name, such as *bluesky_2020_4* .
+This will preserve previously installed bluesky environments as fallbacks.
 
 **NOTE:** You might first get a warning that conda needs to be updated on the server.
 That's ok for now.
@@ -106,113 +50,10 @@ and their requirements.  It will present you with a list of the packages to be d
 and installed.  Unless you have other reasons, press `y` to accept the list and to
 proceed with the installation.
 
-We can customize our use of `conda` so these channels
-will always be used.  See the section [*Install default channels*](#install-default-channels).
-
-## Activate the `bluesky` environment
-
-**TIP:** For more help about `activate`, see Step 2 
-[here](https://docs.conda.io/projects/conda/en/latest/user-guide/getting-started.html?highlight=activate#managing-environments).
-
-Unless we specify otherwise, we are using the `base` environment
-(the python from the directory where we first installed the Anaconda 
-distribution).  Since we just created the `bluesky` environment, let's check that
-it is installed.
-
-```
-snow% conda env list
-# conda environments:
-#
-base                  *  /APSshare/anaconda/x86_64
-bluesky                  /home/USERNAME/.conda/envs/bluesky
-                         /home/USERNAME/xicam2_py_VE
-```
-
-The `*` indicates which environment is currently activated (and will be used when
-we type `python` on the command line).
-
-To activate the `bluesky` environment (be sure to use a **bash** shell):
-
-```
-snow% source /APSshare/anaconda/x86_64/bin/activate 
-_CONDA_ROOT=/APSshare/anaconda/x86_64: Command not found.
-_CONDA_ROOT: Undefined variable.
-snow% bash
-bash-4.2$ source /APSshare/anaconda/x86_64/bin/activate bluesky
-(bluesky) bash-4.2$ 
-```
-
-Could be faster if we already used bash and had *some* conda environment already activated:
-
-    conda activate bluesky
-
-## Install default channels
-
-This is a good time to add some conda channels (web sites with software) 
-for our upcoming downloads and maintenance.
-
-First, we must learn where to place the file.  
-The list of available conda environments provides the directory path for each.
-
-```
-snow% conda env list
-# conda environments:
-#
-base                  *  /APSshare/anaconda/x86_64
-bluesky                  /home/USERNAME/.conda/envs/bluesky
-                         /home/USERNAME/xicam2_py_VE
-```
-
-The file must go in our environment's directory, at 
-[`./.condarc`](https://docs.conda.io/projects/conda/en/latest/user-guide/configuration/sample-condarc.html?highlight=condarc)
-
-```
-touch /home/USERNAME/.conda/envs/bluesky/.condarc
-# edit that file adding these lines
-channels:
-  - defaults
-  - conda-forge
-  - lightsource2-tag
-  - aps-anl-tag
-```
-
-
-## Install version restrictions
-
-Some packages require that other packages are restricted to certain versions.
-We can record this information so that we do not inadvertently 
-[`conda update`](https://conda.io/projects/conda/en/latest/commands/update.html)
-to an unacceptable version.  The process is known as 
-[**pinning**](https://docs.conda.io/projects/conda/en/latest/user-guide/tasks/manage-pkgs.html?highlight=pinned#preventing-packages-from-updating-pinning).
-
-Note in our requirements that the tornado package must be kept at the latest 
-version *before* major version 5 (for example, see 
-https://github.com/ContinuumIO/anaconda-issues/issues/8789).  
-We imposed that at the installation but we want to keep it from being updated later.  
-We'll add a `pinned` file to our conda environment to maintain that rule for 
-us during updates.
-
-First, we must learn where to place the file.  
-The list of available conda environments provides the directory path for each.
-
-```
-snow% conda env list
-# conda environments:
-#
-base                  *  /APSshare/anaconda/x86_64
-bluesky                  /home/USERNAME/.conda/envs/bluesky
-                         /home/USERNAME/xicam2_py_VE
-```
-
-The file must go in our environment's directory, at `./conda-meta/pinned`
-
-```
-touch /home/USERNAME/.conda/envs/bluesky/conda-meta/pinned
-# edit that file adding just this next line
-tornado<5
-```
 
 ## Test the installation
+
+TODO: keep?
 
 Beam lines of the Advanced Photon Source have access to EPICS PVs that tell the storage
 ring current and other real-time information from the facility.  These have been
@@ -234,8 +75,6 @@ We need to wait for those PVs to connect.  Check that `aps.connected` returns `T
 The complete structure is: `aps.summary()`
 
 <details>
-<summary>... response ...</summary>
-<p>
 	
 ```
 In [3]: aps.summary()                                                                                      
@@ -294,14 +133,11 @@ Unused attrs
 
 ```
 
-</p>
 </details>
 
 Current values are: `aps.read()`
 
 <details>
-<summary>... response ...</summary>
-<p>
 
 ```
 In [8]: aps.read()                                                                                         
@@ -348,7 +184,6 @@ OrderedDict([('aps_current',
 
 ```
 
-</p>
 </details>
 
 You can still test that *ophyd* is working without a set of EPICS PVs by using the
@@ -360,8 +195,6 @@ simulators provided in *ophyd*.
 Now test some of the simulators as above:
 
 <details>
-<summary>... session ...</summary>
-<p>
 
 ```
 In [10]: sim.motor.position                                                                                                                                          
@@ -381,58 +214,4 @@ Out[13]: 0.9765596019916091
 
 ```
 
-</p>
 </details>
-
-## Summary
-
-The condensed summary of commands (your installation directories might look a little different).
-
-These are the installation/configuration steps (only need them once).
-
-```
-bash
-cd /tmp
-# download the files we'll need
-wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/python_installation/requirements.txt
-wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/python_installation/pinned
-wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/python_installation/.condarc
-
-# create & install (-y means accept and proceed without asking)
-CHANNELS="-c defaults -c conda-forge -c lightsource2-tag -c aps-anl-tag"
-conda create -n bluesky -y $CHANNELS --file=requirements.txt
-
-# install additional configurations
-cp pinned /home/USERNAME/.conda/envs/bluesky/conda-meta/
-cp .condarc /home/USERNAME/.conda/envs/bluesky/
-```
-
-These are things you do with every new terminal session to use Bluesky:
-
-```
-# choose your working directory
-cd ~/
-
-# use the bluesky environment
-conda activate bluesky
-
-# now test in an ipython session
-ipython
-# ipython command prompt now...
-
-# if you have APS PVs available
-import apstools.devices as APS_devices
-aps = APS_devices.ApsMachineParametersDevice(name="aps")
-# print the APS real-time information
-aps.current.value
-aps.summary()
-aps.read()
-
-# test with ophyd simulators
-import ophyd.sim
-sim = ophyd.sim.hw()
-sim.motor.position
-sim.motor.read()
-sim.noisy_det.read()
-sim.noisy_det.value
-```
