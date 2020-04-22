@@ -1,4 +1,4 @@
-#!/APSshare/anaconda3/BlueSky/bin/python
+#!/usr/bin/env python
 
 "lesson 3: Show the data as it is acquired"
 
@@ -19,9 +19,11 @@ install_qt_kicker()
 
 RE = RunEngine({})
 
-P = "vm7:"
+P = "sky:"
 m1 = EpicsMotor(f"{P}m1", name="m1")
 scaler = ScalerCH(f"{P}scaler1", name="scaler")
+m1.wait_for_connection()
+scaler.wait_for_connection()
 scaler.preset_time.put(0.4)
 scaler.select_channels(None)
 print(scaler.read())

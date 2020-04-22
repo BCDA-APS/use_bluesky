@@ -1,11 +1,11 @@
-#!/APSshare/anaconda3/BlueSky/bin/python
+#!/usr/bin/env python
 
 "lesson 1: scaler and count"
 
 from ophyd.scaler import ScalerCH
 from bluesky import RunEngine
 import bluesky.plans as bp
-from APS_BlueSky_tools.devices import use_EPICS_scaler_channels
+from apstools.devices import use_EPICS_scaler_channels
 
 
 def myCallback(key, doc):
@@ -17,7 +17,8 @@ def myCallback(key, doc):
 
 RE = RunEngine({})
 
-scaler = ScalerCH("prj:scaler1", name="scaler")
+scaler = ScalerCH("sky:scaler1", name="scaler")
+scaler.wait_for_connection()
 scaler.preset_time.put(1.5)
 print(scaler.preset_time.value)
 
