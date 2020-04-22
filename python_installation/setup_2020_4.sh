@@ -6,25 +6,28 @@ export CONDA_ENVIRONMENT=bluesky_2020_4
 
 # derived from: https://github.com/BCDA-APS/use_bluesky/wiki/Install-Bluesky-packages
 
-# need a valid EPICS PV to test
-export TEST_PV=""
-
 
 # must activate a conda environment first
-
-if [ -f "/APSshare/miniconda/x86_64/bin/activate" ]; then
-    # Must be at APS
-    # miniconda is faster than anaconda
-    # it has fewer packages in base environment
-    source /APSshare/miniconda/x86_64/bin/activate
-    # APS Storage Ring Current
-    export TEST_PV="'S:SRcurrentAI'"
-elif [ -f "${HOME}/Apps/miniconda/bin/activate" ]; then
-    source ${HOME}/Apps/miniconda/bin/activate
-elif [ -f "${HOME}/Apps/anaconda/bin/activate" ]; then
-    source ${HOME}/Apps/anaconda/bin/activate
-else
-    echo "Where is Anaconda activate?"
+ACTIVATORS+=" /APSshare/miniconda/x86_64/bin/activate"
+ACTIVATORS+=" ${HOME}/Apps/miniconda3/bin/activate"
+ACTIVATORS+=" ${HOME}/Apps/Miniconda3/bin/activate"
+ACTIVATORS+=" ${HOME}/Apps/miniconda/bin/activate"
+ACTIVATORS+=" ${HOME}/Apps/Miniconda/bin/activate"
+ACTIVATORS+=" ${HOME}/Apps/anaconda3/bin/activate"
+ACTIVATORS+=" ${HOME}/Apps/Anaconda3/bin/activate"
+ACTIVATORS+=" ${HOME}/Apps/anaconda/bin/activate"
+ACTIVATORS+=" ${HOME}/Apps/Anaconda/bin/activate"
+for d in ${ACTIVATORS}; do
+    if [ -f "${d}" ]; then
+        echo "${d} was found"
+        source ${d}
+        ACTIVATED=${d}
+        break
+    fi
+done
+if [ "" == "${ACTIVATED}" ]; then
+    echo "Could not activate a conda base environment."
+    echo "Where is Miniconda or Anaconda installed?"
     exit 1
 fi
 
@@ -37,6 +40,7 @@ if [ "" != "${existing}" ]; then
 fi
 
 
+echo "#"
 echo "# environment ------------------------------"
 # still conflicts for python 3.8, drop to 3.7
 conda create -n ${CONDA_ENVIRONMENT} -y \
@@ -45,37 +49,33 @@ conda create -n ${CONDA_ENVIRONMENT} -y \
 conda activate ${CONDA_ENVIRONMENT}
 
 
+echo "#"
 echo "# EPICS ------------------------------"
 # epicscorelibs is EPICS 7.0.3 and it works.  Period.
 conda install -y -c conda-forge epicscorelibs pyEpics
-if [ "" != "${TEST_PV}" ]; then
-    python -c "import epics; print(epics.caget(${TEST_PV}))"
-fi
 
 
+echo "#"
 echo "# Bluesky framework ------------------------------"
 conda install -y \
     -c defaults -c conda-forge -c nsls2forge -c aps-anl-tag -c pydm-tag \
-    bluesky databroker event-model ophyd pygobject \
+    "bluesky>=1.6" "databroker>=1" event-model "ophyd>=1.4" pygobject \
     apstools pyRestTable pvview spec2nexus stdlogpj \
     pydm imagecodecs-lite
-if [ "" != "${TEST_PV}" ]; then
-    python -c "import ophyd; pv= ophyd.EpicsSignal(${TEST_PV}, name='pv'); print(pv.value)"
-fi
 
+
+echo "#"
 echo "# hklpy ------------------------------"
-conda install hklpy -y -c lightsource2-tag
-# if [ "" != "${TEST_PV}" ]; then
-#     python -c "import ophyd; pv= ophyd.EpicsSignal(${TEST_PV}, name='pv'); print(pv.value)"
-# fi
+conda install -y hklpy -c lightsource2-tag
 
 
+echo "#"
 echo "# punx ------------------------------"
 # punx: Python Utilities for NeXus
 conda install -n ${CONDA_ENVIRONMENT} \
     -y PyGithub idna urllib3 requests deprecated pyjwt
 pip install punx
 
-echo ""
-echo "conda env ${CONDA_ENVIRONMENT}'' created"
-echo "activate with:  conda activate ${CONDA_ENVIRONMENT}"
+echo "#"
+echo "# conda env '${CONDA_ENVIRONMENT}' created"
+echo "# activate with:    conda activate ${CONDA_ENVIRONMENT}"
