@@ -13,12 +13,12 @@ from [NSLS-II](http://nsls-ii.github.io)
 
 ## Installation
 
-1. setup mongodb server - TODO
-1. install Miniconda - TODO
-1. create conda environment for bluesky - TODO
-1. setup ipython profile for bluesky - TODO
-1. setup instrument profile - TODO
-1. setup starter scripts - TODO
+1. [setup mongodb server](admin/README.md)
+1. [install Miniconda](python_installation/miniconda.md)
+1. [create conda environment for bluesky](python_installation/README.md#quick-summary)
+1. [setup ipython profile for bluesky](admin/README.md)
+1. [setup instrument profile](admin/README.md)
+1. [setup starter scripts](admin/README.md)
 
 ## Resources
 
@@ -39,11 +39,12 @@ MongoDB | [home](https://www.mongodb.com/)
 PyDM | [documentation](https://slaclab.github.io/pydm/),  [GitHub](https://github.com/slaclab/pydm),  [PyPI](https://pypi.org/project/pydm/),  [conda](https://anaconda.org/conda-forge/pydm)
  PyEPICS | [documentation](https://pyepics.github.io/pyepics/),  [PyPI](https://pypi.org/project/pyepics/),  [GitHub](https://github.com/pyepics/pyepics)
 
-<!-- databroker-->
-<!-- jupyter pydm-->
-<!-- matplotlib pydm-->
-<!-- ophyd-->
-<!-- XiCAM pydm-->
+<!-- databroker -->
+<!-- jupyter -->
+<!-- matplotlib -->
+<!-- ophyd -->
+<!-- pydm -->
+<!-- XiCAM -->
 
 ## Notes
 
