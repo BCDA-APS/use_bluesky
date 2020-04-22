@@ -1,11 +1,14 @@
 #!/bin/bash
 
 # setup conda env for bluesky at an APS beam line or development host
+#
+# note:
+#   this script can be run on linux and Windows using bash:
+#   bash ./setup_2020_4.sh
 
 export CONDA_ENVIRONMENT=bluesky_2020_4
 
 # derived from: https://github.com/BCDA-APS/use_bluesky/wiki/Install-Bluesky-packages
-
 
 # must activate a conda environment first
 ACTIVATORS+=" /APSshare/miniconda/x86_64/bin/activate"
@@ -17,6 +20,7 @@ ACTIVATORS+=" ${HOME}/Apps/anaconda3/bin/activate"
 ACTIVATORS+=" ${HOME}/Apps/Anaconda3/bin/activate"
 ACTIVATORS+=" ${HOME}/Apps/anaconda/bin/activate"
 ACTIVATORS+=" ${HOME}/Apps/Anaconda/bin/activate"
+ACTIVATORS+=" ${HOME}/Apps/Anaconda3/Scripts/activate"
 for d in ${ACTIVATORS}; do
     if [ -f "${d}" ]; then
         echo "${d} was found"
