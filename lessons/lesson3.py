@@ -12,7 +12,7 @@ from bluesky.callbacks.best_effort import BestEffortCallback
 from apstools.devices import use_EPICS_scaler_channels
 
 
-%matplotlib notebook
+#%matplotlib notebook
 from bluesky.utils import install_qt_kicker
 install_qt_kicker()
 
