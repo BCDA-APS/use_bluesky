@@ -1,4 +1,4 @@
-#!/APSshare/anaconda3/BlueSky/bin/python
+#!/usr/bin/env python
 
 "lesson 2: motor and scan"
 
@@ -6,7 +6,7 @@ from ophyd import EpicsMotor
 from ophyd.scaler import ScalerCH
 from bluesky import RunEngine
 import bluesky.plans as bp
-from APS_BlueSky_tools.devices import use_EPICS_scaler_channels
+from apstools.devices import use_EPICS_scaler_channels
 
 
 def myCallback(key, doc):
@@ -16,10 +16,13 @@ def myCallback(key, doc):
     print("~~~~~~~~~~~~~~~~~")
 
 
-m1 = EpicsMotor("prj:m1", name="m1")
+m1 = EpicsMotor("sky:m1", name="m1")
+m1.wait_for_connection()
+
 print(m1.position)
 
-scaler = ScalerCH("prj:scaler1", name="scaler")
+scaler = ScalerCH("sky:scaler1", name="scaler")
+scaler.wait_for_connection()
 scaler.preset_time.put(0.5)
 
 
