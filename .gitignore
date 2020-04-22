@@ -23,3 +23,6 @@ __pycache__
 
 # developer's HDF5 output files
 *_*.h5
+
+# Microsoft VisualStudio Code editor
+.vscode/
