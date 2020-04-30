@@ -62,8 +62,8 @@ conda install -y -c conda-forge epicscorelibs pyEpics
 echo "#"
 echo "# Bluesky framework ------------------------------"
 conda install -y \
-    -c defaults -c conda-forge -c nsls2forge -c aps-anl-tag -c pydm-tag \
-    "bluesky>=1.6" "databroker>=1" event-model "ophyd>=1.4" pygobject \
+    -c defaults -c conda-forge -c nsls2forge -c aps-anl-tag -c pydm-tag -c pcds-tag \
+    "bluesky>=1.6" "databroker>=1" event-model "ophyd>=1.4" pygobject happi \
     apstools pyRestTable pvview spec2nexus stdlogpj \
     pydm imagecodecs-lite
 
