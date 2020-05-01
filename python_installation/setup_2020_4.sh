@@ -74,11 +74,17 @@ conda install -y hklpy -c lightsource2-tag
 
 
 echo "#"
+echo "# Xi-CAM ------------------------------"
+pip install git+https://github.com/Xi-CAM/Xi-cam-unified
+
+
+echo "#"
 echo "# punx ------------------------------"
 # punx: Python Utilities for NeXus
 conda install -n ${CONDA_ENVIRONMENT} \
     -y PyGithub idna urllib3 requests deprecated pyjwt
 pip install punx
+
 
 echo "#"
 echo "# conda env '${CONDA_ENVIRONMENT}' created"
