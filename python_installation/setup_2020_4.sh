@@ -76,6 +76,8 @@ conda install -y hklpy -c lightsource2-tag
 echo "#"
 echo "# Xi-CAM ------------------------------"
 pip install git+https://github.com/Xi-CAM/Xi-cam-unified
+# Also need to install the plugins for XPCS. You need:
+pip install git+https://github.com/Xi-CAM/Xi-cam.XPCS
 
 
 echo "#"
