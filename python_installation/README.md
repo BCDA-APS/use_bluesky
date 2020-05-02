@@ -8,7 +8,6 @@ then you can create a custom conda environment for Bluesky.
 - [Install a new conda environment](#install-a-new-conda-environment)
   - [Quick Summary](#quick-summary)
     - [Use bash shell](#use-bash-shell)
-  - [Activate conda environment](#activate-conda-environment)
   - [Create the custom environment for Bluesky](#create-the-custom-environment-for-bluesky)
   - [Test the installation](#test-the-installation)
 
@@ -27,19 +26,15 @@ commands, check that you are using the `bash` shell first.
 Here's some [help](https://stackoverflow.com/questions/3327013/how-to-determine-the-current-shell-im-working-on)
 with that.
 
-## Activate conda environment
-
-TODO: this should be done by the installer?
-
 ## Create the custom environment for Bluesky
 
-Run: `bash ./setup_2020_4.sh`
+Run: `bash ./setup_2020_5.sh`
 
 Since the toolset for running bluesky is under continuous development,
 the best recommendations change as new software is released.
 
 The installer will create a new custom conda environment 
-and give it a calendar-based name, such as *bluesky_2020_4* .
+and give it a calendar-based name, such as *bluesky_2020_5* .
 This will preserve previously installed bluesky environments as fallbacks.
 
 **NOTE:** You might first get a warning that conda needs to be updated on the server.
