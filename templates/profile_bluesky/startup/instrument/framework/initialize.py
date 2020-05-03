@@ -4,16 +4,18 @@ initialize the bluesky framework
 """
 
 __all__ = [
-    'RE', 'callback_db', 'db', 'sd',
+    'RE', 'db', 'sd',
     'bec', 'peaks',
     'bp', 'bps', 'bpp',
-    'np',
     'summarize_plan',
+    'np',
+    'callback_db',
     ]
 
 from ..session_logs import logger
 logger.info(__file__)
 
+# add parent directory of instrument package to import path
 import os, sys
 sys.path.append(
     os.path.abspath(

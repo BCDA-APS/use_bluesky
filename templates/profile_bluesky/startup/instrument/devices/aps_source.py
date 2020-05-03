@@ -12,23 +12,11 @@ from ..session_logs import logger
 logger.info(__file__)
 
 import apstools.devices
-
 from ..framework import sd
 
-class MyApsDevice(apstools.devices.ApsMachineParametersDevice):
-    # for local modifications
-    pass
-
-aps = MyApsDevice(name="aps")
+aps = apstools.devices.ApsMachineParametersDevice(name="aps")
 sd.baseline.append(aps)
 
-# TODO: insertion device?
-# Cannot connect with either of these.
-# # apstools.devices.ApsUndulator
-# # apstools.devices.ApsUndulatorDual
-# class MyUndulatorDevice(apstools.devices.ApsUndulatorDual):
-#     # for local modifications
-#     pass
-
-# undulator = MyUndulatorDevice("ID29", name="undulator")
+# undulator = apstools.devices.ApsUndulator("ID45", name="undulator")
+# undulator = apstools.devices.ApsUndulatorDual("ID45", name="undulator")
 # sd.baseline.append(undulator)
