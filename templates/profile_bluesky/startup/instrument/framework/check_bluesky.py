@@ -29,3 +29,14 @@ if cur_version < req_version:
         f"Need bluesky version {ver_str} or higher"
         f", found version {bluesky.__version__}"
         )
+
+
+import ophyd
+req_version = (1, 4)
+cur_version = tuple(map(int, ophyd.__version__.split(".")[:2]))
+if cur_version < req_version:
+    ver_str = '.'.join((map(str,req_version)))
+    raise ValueError(
+        f"Need ophyd version {ver_str} or higher"
+        f", found version {ophyd.__version__}"
+        )
