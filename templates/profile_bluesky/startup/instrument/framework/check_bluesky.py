@@ -15,9 +15,9 @@ try:
 except ImportError:
     raise ImportError(
         "No module named `bluesky`\n"
-        f"This python is from directory: {sys.prefix}"
-        "\n"*2
-        "You should type 'exit' now and find the ipython with Bluesky."
+        f"This python is from directory: {sys.prefix}\n"
+        "\n"
+        "You should exit now and find the ipython with Bluesky."
         )
 
 
