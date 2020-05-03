@@ -90,7 +90,7 @@ get_ipython().register_magics(BlueskyMagics)
 from bluesky.callbacks.best_effort import BestEffortCallback
 bec = BestEffortCallback()
 callback_db['bec'] = RE.subscribe(bec)
-peaks = bec.peaks  # just as alias for less typing
+peaks = bec.peaks  # just an alias, for less typing
 bec.disable_baseline()
 
 # At the end of every run, verify that files were saved and
