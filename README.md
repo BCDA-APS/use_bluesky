@@ -15,8 +15,8 @@ from [NSLS-II](http://nsls-ii.github.io)
 
 1. [setup mongodb server](admin/README.md)
 1. [install Miniconda](python_installation/miniconda.md)
-1. [create conda environment for bluesky](python_installation/README.md#quick-summary)
-1. [setup ipython profile for bluesky](admin/README.md)
+1. [create ipython profile for bluesky](python_installation/README.md#create-ipython-profile-for-bluesky)
+1. [setup conda environment for bluesky](python_installation/README.md#quick-summary)
 1. [setup instrument profile](admin/README.md)
 1. [setup starter scripts](admin/README.md)
 

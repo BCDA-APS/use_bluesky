@@ -8,15 +8,17 @@ then you can create a custom conda environment for Bluesky.
 - [Install a new conda environment](#install-a-new-conda-environment)
   - [Quick Summary](#quick-summary)
     - [Use bash shell](#use-bash-shell)
-  - [Create the custom environment for Bluesky](#create-the-custom-environment-for-bluesky)
+  - [Create IPython profile for Bluesky](#create-ipython-profile-for-bluesky)
+  - [Setup custom environment for Bluesky](#setup-custom-environment-for-bluesky)
   - [Test the installation](#test-the-installation)
 
 ## Quick Summary
 
 1. [Install Anaconda or Miniconda](miniconda.md)
 1. use `bash` shell
+1. Create IPython profile for bluesky
 1. activate *any* conda environment (usually `base`)
-2. create environment for `bluesky`: `bash ./setup_2020_4.sh`
+1. create environment for `bluesky`: `bash ./setup_2020_4.sh`
 
 ### Use bash shell
 
@@ -26,7 +28,9 @@ commands, check that you are using the `bash` shell first.
 Here's some [help](https://stackoverflow.com/questions/3327013/how-to-determine-the-current-shell-im-working-on)
 with that.
 
-## Create the custom environment for Bluesky
+## Create IPython profile for Bluesky
+
+## Setup custom environment for Bluesky
 
 Run: `bash ./setup_2020_5.sh`
 
