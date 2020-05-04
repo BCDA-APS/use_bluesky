@@ -60,7 +60,7 @@ echo "#"
 echo "# environment ------------------------------"
 # still conflicts for python 3.8, drop to 3.7
 conda create -n ${CONDA_ENVIRONMENT} -y \
-    python=3.7 ipython jupyter jupyterlab notebook pylint pymongo psutil h5py lxml
+    python=3.7 ipython jupyter notebook pylint pymongo psutil h5py lxml
 
 conda activate ${CONDA_ENVIRONMENT}
 
