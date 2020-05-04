@@ -60,7 +60,7 @@ echo "#"
 echo "# environment ------------------------------"
 # still conflicts for python 3.8, drop to 3.7
 conda create -n ${CONDA_ENVIRONMENT} -y \
-    python=3.7 ipython jupyter notebook pylint pymongo psutil h5py lxml
+    python=3.7 ipython jupyter jupyterlab notebook pylint pymongo psutil h5py lxml
 
 conda activate ${CONDA_ENVIRONMENT}
 
@@ -75,7 +75,9 @@ echo "#"
 echo "# Bluesky framework ------------------------------"
 conda install -y \
     -c defaults -c conda-forge -c nsls2forge -c aps-anl-tag -c pydm-tag -c pcds-tag \
-    "bluesky>=1.6" "databroker>=1" event-model "ophyd>=1.4" pygobject happi \
+    "bluesky>=1.6" "databroker>=1" event-model "ophyd>=1.4" \
+    area-detector-handlers \
+    pygobject happi \
     apstools pyRestTable pvview spec2nexus stdlogpj \
     pydm imagecodecs-lite
 
