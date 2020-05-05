@@ -13,7 +13,7 @@ Objective:
 Use bluesky scans to find the peak center and width.
 Move the motor to the peak center.
 
-* [lesson4](lesson4.ipynb) - find a peak and lineup on it
+* [lesson4](lesson.ipynb) - find a peak and lineup on it
 
 
 Advanced:
