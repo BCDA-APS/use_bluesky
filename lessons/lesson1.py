@@ -20,7 +20,7 @@ RE = RunEngine({})
 scaler = ScalerCH("sky:scaler1", name="scaler")
 scaler.wait_for_connection()
 scaler.preset_time.put(1.5)
-print(scaler.preset_time.value)
+print(scaler.preset_time.get())
 
 scaler.channels.chan04.chname.put("scint")
 scaler.channels.chan07.chname.put("roi1")
