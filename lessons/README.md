@@ -8,9 +8,12 @@ This directory contains lessons, tutorials, examples, other - all in Jupyter not
 * [lesson2](lesson2.ipynb) - motor and scan
 * [lesson3](lesson3.ipynb) - show data as it is acquired
 * [lesson3: final](lesson3-final.ipynb) - final project from lesson3
-* [lesson4](lesson4.ipynb) - find a peak and lineup on it
-* [basic scan with plot](basic-scan-with-plot.ipynb) - starting point for a general notebook (after lesson3)
+* [lesson4](lesson4.ipynb) - scan scaler v. motor (simulator, no IOC required)
+* [lesson5](lesson5.ipynb) - find a peak and lineup on it (simulator, no IOC required)
+* [lesson5: advanced](lesson5_advanced.ipynb) - add to instrument package
+<!--
 * [lesson-tba-](working_with_area_detector_image_data.ipynb) - working with area detector image data
+-->
 
 ## Tips
 
@@ -22,7 +25,8 @@ This directory contains lessons, tutorials, examples, other - all in Jupyter not
 This session was started from the linux command line:
 
 ```
-jemian@otz .../JEMIAN/Documents $ /APSshare/anaconda3/BlueSky/bin/jupyter-notebook
+jemian@otz ~/Documents $ source /APSshare/anaconda3/Bluesky/bin/activate
+(base) jemian@otz ~/Documents $ jupyter-notebook
 ```
 
 This command produced the following console output and then started my default web browser with a one-time-token-authenticated connection to the Jupyter Notebook server (still running in the console):
