@@ -64,8 +64,8 @@ if old_md is not None:
 callback_db = {}
 
 # Set up a Broker.
-from databroker import Broker
-db = Broker.named('mongodb_config')
+import databroker
+db = databroker.temp().v1
 
 # Subscribe metadatastore to documents.
 # If this is removed, data is not saved to metadatastore.
