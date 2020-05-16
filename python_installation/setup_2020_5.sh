@@ -89,9 +89,8 @@ conda install -y hklpy -c lightsource2-tag
 
 echo "#"
 echo "# Xi-CAM ------------------------------"
-# TODO: install of Xi-CAM is still under development here
-# conda install -c nsls2forge xicam
-pip install git+https://github.com/Xi-CAM/Xi-cam-unified
+# no conda package
+pip install xicam
 # Also need to install the plugins for XPCS & SAXS. You need:
 pip install git+https://github.com/Xi-CAM/Xi-cam.XPCS
 pip install git+https://github.com/Xi-CAM/Xi-cam.SAXS
@@ -105,6 +104,7 @@ conda install -n ${CONDA_ENVIRONMENT} \
 pip install punx
 
 
+echo "# ------------------------------"
 echo "#"
 echo "# conda env '${CONDA_ENVIRONMENT}' created"
 echo "# activate with:    conda activate ${CONDA_ENVIRONMENT}"
