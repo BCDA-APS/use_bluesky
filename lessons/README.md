@@ -4,16 +4,14 @@ This directory contains lessons, tutorials, examples, other - all in Jupyter not
 
 ## Lessons
 
-* [lesson1](lesson1.ipynb) - scaler and count
-* [lesson2](lesson2.ipynb) - motor and scan
-* [lesson3](lesson3.ipynb) - show data as it is acquired
-* [lesson3: final](lesson3_-_final.ipynb) - final project from lesson3
-* [lesson4](lesson4.ipynb) - scan scaler v. motor (simulator, no IOC required)
-* [lesson5](lesson5.ipynb) - find a peak and lineup on it (simulator, no IOC required)
-* [lesson5: advanced](lesson5_advanced.ipynb) - *advanced* assignment
-<!--
-* [lesson-tba-](working_with_area_detector_image_data.ipynb) - working with area detector image data
--->
+* [lesson1](lesson1.ipynb) - EPICS : scaler and count
+* [lesson2](lesson2.ipynb) - EPICS : motor and scan
+* [lesson3](lesson3.ipynb) - EPICS : show data as it is acquired
+* [lesson3: final](lesson3_-_final.ipynb) - EPICS : final project
+* [lesson4](lesson4.ipynb) - simulator : scan scaler v. motor
+* [lesson5](lesson5.ipynb) - simulator : find a peak and lineup on it
+* [lesson5: advanced](lesson5_advanced.ipynb) - simulator : *advanced* assignment
+* [lesson6](lesson6.ipynb) - EPICS : area detector
 
 ## Tips
 
