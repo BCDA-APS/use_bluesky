@@ -86,21 +86,57 @@ echo "#"
 echo "# hklpy ------------------------------"
 conda install -y hklpy -c lightsource2-tag
 
-
-echo "#"
-echo "# Xi-CAM ------------------------------"
-# no conda package
-pip install xicam
-# Also need to install the plugins for XPCS & SAXS. You need:
-pip install git+https://github.com/Xi-CAM/Xi-cam.XPCS
-pip install git+https://github.com/Xi-CAM/Xi-cam.SAXS
+# 2020-05-22,PRJ: leave out for now
+# # echo "#"
+# # echo "# Xi-CAM ------------------------------"
+# # lots of prerequisites that pip wants to install
+# # pip install PyQt5 causes an error related to Qt and xcb for ipython console.
+# conda install -y \
+#     -c defaults \
+#     -c conda-forge \
+#     -c nsls2forge \
+#     -c dtasev \
+#     "PyQt5>=5.9.2" \
+#     astropy \
+#     pyfai \
+#     qdarkstyle \
+#     qtmodern \
+#     virtualenv \
+#     sphinx \
+#     PyWavelets \
+#     alabaster \
+#     astroscrappy \
+#     babel \
+#     dill \
+#     docutils \
+#     fabio \
+#     gitdb \
+#     gitpython \
+#     imagecodecs-lite \
+#     imageio \
+#     imagesize \
+#     numexpr \
+#     sasmodels \
+#     scikit-beam \
+#     scikit-image \
+#     silx \
+#     smmap \
+#     snowballstemmer \
+#     tifffile
+# # no conda package for Xi-CAM
+# pip install xicam
+# # Also need to install the plugins for XPCS & SAXS. You need:
+# pip install git+https://github.com/Xi-CAM/Xi-cam.XPCS
+# pip install git+https://github.com/Xi-CAM/Xi-cam.SAXS
 
 
 echo "#"
 echo "# punx ------------------------------"
 # punx: Python Utilities for NeXus
-conda install -n ${CONDA_ENVIRONMENT} \
-    -y PyGithub idna urllib3 requests deprecated pyjwt
+conda install -y \
+    PyGithub idna urllib3 requests deprecated pyjwt \
+    -c defaults \
+    -c conda-forge
 pip install punx
 
 
