@@ -12,6 +12,7 @@ This directory contains lessons, tutorials, examples, other - all in Jupyter not
 * [lesson5](lesson5.ipynb) - simulator : find a peak and lineup on it
 * [lesson5: advanced](lesson5_advanced.ipynb) - simulator : *advanced* assignment
 * [lesson6](lesson6.ipynb) - EPICS : area detector
+* [advanced](sandbox/images_darks_flats.ipynb) - EPICS : Images, Darks, & Flats with EPICS area detector, ophyd, and Bluesky
 
 ## Tips
 
