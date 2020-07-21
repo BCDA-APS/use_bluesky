@@ -30,6 +30,17 @@ with that.
 
 ## Create IPython profile for Bluesky
 
+If there is no `~/.ipython` directory (or the existing one contains only the
+default configuration), then:
+
+    ipython profile create bluesky
+
+Otherwise, create a new directory for use with Bluesky and ipython.
+Pick a directory name not already in use, such as `~/.ipython-bluesky`,
+then:
+
+    ipython profile create bluesky --ipython-dir=~/.ipython-bluesky
+
 ## Setup custom environment for Bluesky
 
 Run: `bash ./setup_2020_5.sh`
