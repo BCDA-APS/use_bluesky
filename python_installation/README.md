@@ -82,14 +82,16 @@ APS storage ring current:
 
     aps.current.value
 
-The complete structure is: `aps.summary()`
+The complete structure:
 
 <details>
-	
+<summary><tt>aps.summary()</tt></summary>
+
 ```
-In [3]: aps.summary()                                                                                      
+In [1]: aps.summary()                                                                                                   
 data keys (* hints)
 -------------------
+ aps_aps_cycle
  aps_current
  aps_fill_number
  aps_global_feedback
@@ -113,6 +115,7 @@ read attrs
 ----------
 current              EpicsSignalRO       ('aps_current')
 lifetime             EpicsSignalRO       ('aps_lifetime')
+aps_cycle            ApsCycleComputedRO  ('aps_aps_cycle')
 machine_status       EpicsSignalRO       ('aps_machine_status')
 operating_mode       EpicsSignalRO       ('aps_operating_mode')
 shutter_permit       EpicsSignalRO       ('aps_shutter_permit')
@@ -135,10 +138,10 @@ config keys
 -----------
 
 configuration attrs
-----------
+-------------------
 operator_messages    ApsOperatorMessagesDevice('aps_operator_messages')
 
-Unused attrs
+unused attrs
 ------------
 
 ```
@@ -148,49 +151,89 @@ Unused attrs
 Current values are: `aps.read()`
 
 <details>
+<summary><tt>aps.read()</tt></summary>
 
 ```
-In [8]: aps.read()                                                                                         
-Out[8]: 
+In [2]: aps.read()                                                                                                      
+Out[2]: 
 OrderedDict([('aps_current',
-              {'value': 88.52652776860398, 'timestamp': 1562701828.753756}),
+              {'value': 74.90453756160933, 'timestamp': 1595343111.512742}),
              ('aps_lifetime',
-              {'value': 52.583085617905894, 'timestamp': 1562701826.753587}),
+              {'value': 13.004700442180901, 'timestamp': 1595343111.356158}),
+             ('aps_aps_cycle',
+              {'value': '2020-2', 'timestamp': 1595343077.3078227}),
              ('aps_machine_status',
-              {'value': 'USER OPERATIONS', 'timestamp': 1562331601.371168}),
+              {'value': 'ASD Studies', 'timestamp': 1595250001.449054}),
              ('aps_operating_mode',
-              {'value': 'Delivered Beam', 'timestamp': 1562500392.942352}),
+              {'value': 'Stored Beam', 'timestamp': 631152000.0}),
              ('aps_shutter_permit',
-              {'value': 'PERMIT', 'timestamp': 1562500392.940957}),
-             ('aps_fill_number',
-              {'value': 25.0, 'timestamp': 1562500392.94135}),
+              {'value': 'NO PERMIT', 'timestamp': 1595250006.403736}),
+             ('aps_fill_number', {'value': 11.0, 'timestamp': 631152000.0}),
              ('aps_orbit_correction',
-              {'value': 0.0, 'timestamp': 1562701594.270834}),
+              {'value': 0.0, 'timestamp': 631152000.0}),
              ('aps_global_feedback',
-              {'value': 'On', 'timestamp': 1562701594.553689}),
+              {'value': 'On', 'timestamp': 631152000.0}),
              ('aps_global_feedback_h',
-              {'value': 'On', 'timestamp': 1562701594.553689}),
+              {'value': 'On', 'timestamp': 631152000.0}),
              ('aps_global_feedback_v',
-              {'value': 'On', 'timestamp': 1562701594.553689}),
+              {'value': 'On', 'timestamp': 631152000.0}),
              ('aps_operator_messages_operators',
-              {'value': 'Dee Weyer and Steven LaBuda',
-               'timestamp': 1562677538.647096}),
+              {'value': 'LaBuda, Kimbro', 'timestamp': 1595336092.424329}),
              ('aps_operator_messages_floor_coordinator',
-              {'value': 'Shane Flood (2-0101)',
-               'timestamp': 1562677404.908362}),
+              {'value': 'Clay White (2-0101)',
+               'timestamp': 1595336094.220797}),
              ('aps_operator_messages_fill_pattern',
-              {'value': '0+324x1 RHB', 'timestamp': 1561382181.863053}),
+              {'value': '', 'timestamp': 1595278298.418265}),
              ('aps_operator_messages_last_problem_message',
-              {'value': '', 'timestamp': 1562500477.95326}),
+              {'value': '', 'timestamp': 1595247250.36637}),
              ('aps_operator_messages_last_trip_message',
-              {'value': '', 'timestamp': 1562586730.877042}),
+              {'value': '', 'timestamp': 1595247255.006215}),
              ('aps_operator_messages_message6',
-              {'value': 'Scheduled Fill on Fill at 07:45 & 19:45',
-               'timestamp': 1562500507.033807}),
+              {'value': 'User Operations at 08:00 Wed. 7/22',
+               'timestamp': 1595336103.81407}),
              ('aps_operator_messages_message7',
-              {'value': '', 'timestamp': 1558051460.483074}),
+              {'value': '', 'timestamp': 1591647283.478823}),
              ('aps_operator_messages_message8',
-              {'value': '', 'timestamp': 1558051455.619456})])
+              {'value': '', 'timestamp': 1591647284.846647})])
+
+```
+
+</details>
+
+Current values are: `aps.read()`
+
+<details>
+<summary>as table: <tt>device_read2table(aps)</tt></summary>
+
+```
+In [4]: from apstools.utils import device_read2table                                                                    
+
+In [5]: device_read2table(aps)                                                                                          
+========================================== ================================== ==========================
+name                                       value                              timestamp                 
+========================================== ================================== ==========================
+aps_current                                74.82578332160934                  2020-07-21 09:52:40.512772
+aps_lifetime                               13.921180095258897                 2020-07-21 09:52:36.356164
+aps_aps_cycle                              2020-2                             2020-07-21 09:51:17.307823
+aps_machine_status                         ASD Studies                        2020-07-20 08:00:01.449054
+aps_operating_mode                         Stored Beam                        1989-12-31 18:00:00       
+aps_shutter_permit                         NO PERMIT                          2020-07-20 08:00:06.403736
+aps_fill_number                            11.0                               1989-12-31 18:00:00       
+aps_orbit_correction                       0.0                                1989-12-31 18:00:00       
+aps_global_feedback                        On                                 1989-12-31 18:00:00       
+aps_global_feedback_h                      On                                 1989-12-31 18:00:00       
+aps_global_feedback_v                      On                                 1989-12-31 18:00:00       
+aps_operator_messages_operators            LaBuda, Kimbro                     2020-07-21 07:54:52.424329
+aps_operator_messages_floor_coordinator    Clay White (2-0101)                2020-07-21 07:54:54.220797
+aps_operator_messages_fill_pattern                                            2020-07-20 15:51:38.418265
+aps_operator_messages_last_problem_message                                    2020-07-20 07:14:10.366370
+aps_operator_messages_last_trip_message                                       2020-07-20 07:14:15.006215
+aps_operator_messages_message6             User Operations at 08:00 Wed. 7/22 2020-07-21 07:55:03.814070
+aps_operator_messages_message7                                                2020-06-08 15:14:43.478823
+aps_operator_messages_message8                                                2020-06-08 15:14:44.846647
+========================================== ================================== ==========================
+
+Out[5]: <pyRestTable.rest_table.Table at 0x7f3c0654a990>
 
 ```
 
