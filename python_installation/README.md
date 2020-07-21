@@ -63,8 +63,6 @@ proceed with the installation.
 
 ## Test the installation
 
-TODO: keep?
-
 Beam lines of the Advanced Photon Source have access to EPICS PVs that tell the storage
 ring current and other real-time information from the facility.  These have been
 gathered into a special device from the `apstools` package.  (If you are not
@@ -74,11 +72,13 @@ than shown here.  You'll also need access to one or more EPICS PVs.)
 Now we can test if we have installed enough software to be useful.  Might still need more...
 
 ```
-import apstools.devices as APS_devices
-aps = APS_devices.ApsMachineParametersDevice(name="aps")
+from apstools.devices import ApsMachineParametersDevice
+aps = ApsMachineParametersDevice(name="aps")
 ```
 
-We need to wait for those PVs to connect.  Check that `aps.connected` returns `True` before continuing.  Test by looking at the APS storage ring current:
+We need to wait for those PVs to connect (could call `aps.wait_for_connections()`).
+Check that `aps.connected` returns `True` before continuing.  Test by looking at the
+APS storage ring current:
 
     aps.current.value
 
