@@ -49,7 +49,7 @@ def build_config(host, prefix):
             "config" : {
                 "host" : host,
                 "port" : 27017,
-                "database" : f"{prefix}-runs",
+                "database" : f"{prefix}-run_data",
                 "timezone" : TIME_ZONE,
             },
         },
@@ -59,7 +59,7 @@ def build_config(host, prefix):
             "config" : {
                 "host" : host,
                 "port" : 27017,
-                "database" : f"{prefix}-resources",
+                "database" : f"{prefix}-file_refs",
             },
         },
     }
@@ -78,14 +78,18 @@ def one_time_setup(db_name):
         print(f"{db_name}: version sentinels already installed")
     return len(cat)
 
+
 def main():
     args = command_options()
-    config = build_config(args.mongo_host, args.db_prefix)
-
     fname = f"{args.db_prefix}.yml"
-    with open(fname, "w") as fp:
-        fp.write(yaml.dump(config))
-    print(f"wrote: {fname}")
+
+    if os.path.exists(fname):
+        print(f"file '{fname}' exists, will not overwrite.")
+    else:
+        config = build_config(args.mongo_host, args.db_prefix)
+        with open(fname, "w") as fp:
+            fp.write(yaml.dump(config))
+        print(f"wrote: {fname}")
 
     count = one_time_setup(args.db_prefix)
     print(f"runs in the catalog: {count}")
