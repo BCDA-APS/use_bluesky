@@ -54,7 +54,7 @@ def main():
         os.path.join(temp_path, "blueskyStarter.sh"))
 
     # create archive file instrument.tar.gz
-    fname = os.path.join(local_path, "example_instrument.tar.gz")
+    fname = os.path.join(local_path, "instrument_template.tar.gz")
     with tarfile.open(fname, "w:gz") as tar:
         tar.add(temp_path, arcname="instrument_template")
 

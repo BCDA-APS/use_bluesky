@@ -62,11 +62,11 @@ is the basic layout:
 ```
 export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/templates/
 conda activate bluesky_2020_5
-wget ${URL}/example_instrument.tar.gz
+wget ${URL}/instrument_template.tar.gz
 mkdir ~/Documents/bluesky    # or your directory of choice
 cd ~Documents/bluesky
 tar xzf instrument.tar.gz
-/bin/rm  -rf example_instrument.tar.gz
+/bin/rm  -rf instrument_template.tar.gz
 mv ./instrument_template/instrument .
 mv ./instrument_template/setup.py .
 mv instrument_template/blueskyStarter.sh ~/bin/blueskyStarter.sh
@@ -86,9 +86,9 @@ to the instrument package must be defined within the Jupyter session.
 export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/templates/
 conda activate bluesky_2020_5
 cd ~/.ipython/profile_bluesky/startup
-wget ${URL}/example_instrument.tar.gz
+wget ${URL}/instrument_template.tar.gz
 tar xzf instrument.tar.gz
-/bin/rm  -rf example_instrument.tar.gz
+/bin/rm  -rf instrument_template.tar.gz
 mv ./instrument_template/instrument .
 mv ./instrument_template/00-instrument.py .
 mv instrument_template/blueskyStarter.sh ~/bin/blueskyStarter.sh
