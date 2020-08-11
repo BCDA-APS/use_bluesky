@@ -2,9 +2,16 @@
 
 Files and directories here are templates for installation.
 
+* [create ipython bluesky profile](/admin/README.md#administering-bluesky)
 
-## TODO: add instructions:
+# Install instrument package
 
-* how to create ipython bluesky profile
-* how to install standard instrument starting point
-* how to upgrade existing instrument directory
+TODO
+
+# Install bluesky starter scripts
+
+TODO
+
+## upgrade existing instrument package
+
+TODO
