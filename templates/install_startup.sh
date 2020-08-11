@@ -34,7 +34,6 @@ fi
 pushd ${DEST} && tar xzf ${TMPL} && popd
 
 # edit the startup template
-# TODO: replace `INSTRUMENT` with ${STATION}
 
 _places+=" 00-instrument.py"
 _places+=" instrument/framework/metadata.py"
@@ -42,6 +41,7 @@ _places+=" instrument/framework/metadata.py"
 # echo "_places = ${_places}"
 for fname in ${_places}
 do
+    # replace `INSTRUMENT` with ${STATION}
     CMD="sed -i s:'INSTRUMENT':'${STATION}':g ${DEST}/startup/${fname}" \
        && eval ${CMD}
     #    && echo ${CMD}
