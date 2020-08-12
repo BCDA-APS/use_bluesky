@@ -65,16 +65,18 @@ Use these bash commands to download and install the instrument package
 template as an independent source code directory.
 
 ```
-export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/templates/
-wget ${URL}/instrument_template.tar.gz
 mkdir ~/bluesky    # or your directory of choice
 cd ~/bluesky
+export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/templates/
+wget ${URL}/instrument_template.tar.gz
 tar xzf instrument_template.tar.gz
 /bin/rm  -rf instrument_template.tar.gz
 mv ./instrument_template/instrument .
 mv ./instrument_template/setup.py .
 mv ./instrument_template/README.md .
 mv instrument_template/blueskyStarter.sh ~/bin/blueskyStarter.sh
+/bin/rm -rf instrument_template
+conda activate bluesky_2020_5
 pip install -e .
 ```
 
