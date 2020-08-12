@@ -14,9 +14,9 @@ CONTENTS
     - [Download & Installation](#download--installation)
   - [ipython profile configuration](#ipython-profile-configuration)
     - [Download & Installation](#download--installation-1)
+  - [direct python code](#direct-python-code)
   - [happi database](#happi-database)
   - [configuration from YAML files](#configuration-from-yaml-files)
-  - [direct python code](#direct-python-code)
 - [Install bluesky starter scripts](#install-bluesky-starter-scripts)
 - [Revision control](#revision-control)
 
@@ -24,11 +24,11 @@ CONTENTS
 
 Configuration of a scientific instrument for Bluesky can be any of these methods:
 
-1. ipython profile configuration
 1. independent package installed into python environment
+1. ipython profile configuration
+1. direct python code
 1. [happi](https://pcdshub.github.io/happi) database
 1. configuration from YAML files
-1. direct python code
 
 Note the older method of defining the instrument in the
 [ipython profile](https://ipython.readthedocs.io/en/stable/config/intro.html#profiles)
@@ -104,6 +104,13 @@ mv ./instrument_template/README.md .
 mv instrument_template/blueskyStarter.sh ~/bin/blueskyStarter.sh
 /bin/rm -rf instrument_template
 ```
+
+## direct python code
+
+Sometimes, such as for demos or exectuable scripts, the instrument
+(or parts) are declared directly in the python code.  See the
+[lessons](/lessons/README.md) in this repository for examples.
+
 ## happi database
 
 [HAPPI](https://pcdshub.github.io/happi) is a database (using
@@ -118,12 +125,6 @@ under development at this time.  It's too early to document this now.
 The APS HT-HEDM instrument has developed their own YAML
 format to configure parts of the instrument, such as for
 [tomography](https://github.com/aps-ht-hedm/jupyter-ht-hedm/blob/master/seisidd/config/tomo_devices.yml).  Consult this team for more information
-
-## direct python code
-
-Sometimes, such as for demos or exectuable scripts, the instrument
-(or parts) are declared directly in the python code.  See the
-[lessons](/lessons/README.md) in this repository for examples.
 
 
 # Install bluesky starter scripts
