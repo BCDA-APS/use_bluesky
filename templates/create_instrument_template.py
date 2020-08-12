@@ -23,7 +23,7 @@ def main():
 
     # edit temp_path/instrument
     shutil.copy2(
-        os.path.join(pkg_path, "instrument", "devices", "ideas", "aps_source.py"),
+        os.path.join(temp_path, "instrument", "devices", "ideas", "aps_source.py"),
         os.path.join(temp_path, "instrument", "devices", "aps_source.py"))
     # TODO: edit instrument/devices/__init__.py
     #   - import .aps_source
