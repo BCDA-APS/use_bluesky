@@ -22,6 +22,15 @@ def main():
     shutil.copytree(src_path, dest)
 
     # edit temp_path/instrument
+    shutil.copy2(
+        os.path.join(pkg_path, "instrument", "devices", "ideas", "aps_source.py"),
+        os.path.join(temp_path, "instrument", "devices", "aps_source.py"))
+    # TODO: edit instrument/devices/__init__.py
+    #   - import .aps_source
+    #   - # import .motors
+    #   - # import .scaler
+    # TODO: create example instrument/devices/motors.py
+    # TODO: create example instrument/devices/scaler.py
     rm_paths = [
         ["instrument", "__pycache__"],
         ["instrument", "callbacks", "ideas"],
