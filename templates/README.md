@@ -18,6 +18,7 @@ CONTENTS
   - [configuration from YAML files](#configuration-from-yaml-files)
   - [direct python code](#direct-python-code)
 - [Install bluesky starter scripts](#install-bluesky-starter-scripts)
+- [Revision control](#revision-control)
 
 # Install instrument package
 
@@ -122,3 +123,10 @@ It is useful to create a bash shell script to start a bluesky
 console session.  The shell script can define environment variables
 needed only by this session.  See the example shell script
 [`blueskyStarter.sh`](/templates/blueskyStarter.sh) in this directory.
+
+# Revision control
+
+You are **encouraged strongly** to place your instrument package
+into a revision control system such as git.  Compare with this
+[table](https://github.com/BCDA-APS/use_bluesky/wiki#aps-list) of
+other bluesky instruments at the APS.
