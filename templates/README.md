@@ -17,7 +17,7 @@ CONTENTS
   - [direct python code](#direct-python-code)
   - [happi database](#happi-database)
   - [configuration from YAML files](#configuration-from-yaml-files)
-- [Install bluesky starter scripts](#install-bluesky-starter-scripts)
+- [Install bluesky starter script](#install-bluesky-starter-script)
 - [Revision control](#revision-control)
 
 # Install instrument package
@@ -127,7 +127,7 @@ format to configure parts of the instrument, such as for
 [tomography](https://github.com/aps-ht-hedm/jupyter-ht-hedm/blob/master/seisidd/config/tomo_devices.yml).  Consult this team for more information
 
 
-# Install bluesky starter scripts
+# Install bluesky starter script
 
 It is useful to create a bash shell script to start a bluesky
 console session.  The shell script can define environment variables
@@ -136,7 +136,7 @@ needed only by this session.  See the example shell script
 
 1. Install this script into your account's `~/bin` directory (or some directory
 on your exectuable `$PATH` where you install such things).
-1. Change the script's name to something relevant, such as `blueskyWONI` (for the *WONI* instrument)
+1. Change the script's name to something relevant, such as `blueskyWONI` (for the hypothetical *WONI* instrument)
 1. Make sure the script is executable (`chmod +x blueskyWONI`)
 1. In the script, edit `CONDA_ACTIVATE` for the path to your conda `base` environment.
 1. In the script, edit `CONDA_ENVIRONMENT` for the name of your conda environment for bluesky.  Use `base` if no custom environment.
