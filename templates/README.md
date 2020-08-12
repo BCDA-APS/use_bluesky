@@ -76,7 +76,7 @@ mv ./instrument_template/setup.py .
 mv ./instrument_template/README.md .
 mv instrument_template/blueskyStarter.sh ~/bin/blueskyStarter.sh
 /bin/rm -rf instrument_template
-conda activate bluesky_2020_5
+conda activate bluesky_2020_9
 pip install -e .
 ```
 

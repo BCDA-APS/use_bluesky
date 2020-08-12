@@ -18,7 +18,7 @@ then you can create a custom conda environment for Bluesky.
 1. use `bash` shell
 1. Create IPython profile for bluesky
 1. activate *any* conda environment (usually `base`)
-1. create environment for `bluesky`: `bash ./setup_2020_5.sh`
+1. create environment for `bluesky`: `bash ./setup_2020_9.sh`
 
 ### Use bash shell
 
@@ -43,13 +43,13 @@ then:
 
 ## Setup custom environment for Bluesky
 
-Run: `bash ./setup_2020_5.sh`
+Run: `bash ./setup_2020_9.sh`
 
 Since the toolset for running bluesky is under continuous development,
 the best recommendations change as new software is released.
 
 The installer will create a new custom conda environment 
-and give it a calendar-based name, such as *bluesky_2020_5* .
+and give it a calendar-based name, such as *bluesky_2020_9* .
 This will preserve previously installed bluesky environments as fallbacks.
 
 **NOTE:** You might first get a warning that conda needs to be updated on the server.

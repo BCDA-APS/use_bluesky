@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export CONDA_ACTIVATE=${HOME}/Apps/anaconda/bin/activate
-export CONDA_ENVIRONMENT=bluesky_2020_5
+export CONDA_ENVIRONMENT=bluesky_2020_9
 # bluesky
 
 export IPYTHON_PROFILE=bluesky

@@ -1,6 +1,6 @@
 ## Install NSLS-II Bluesky into Windows x86_64
 
-* caution: (2020-05-12) These notes should be updated for the 2020_5 setup.  I ran that bash script *once* in Windows and it sort of worked with some help.  Needs to be documented properly.
+* caution: (2020-05-12) These notes should be updated for the 2020_5 (or most recent) setup.  I ran that bash script *once* in Windows and it sort of worked with some help.  Needs to be documented properly.
 * caution: These are my installation notes, not yet a complete set of instructions for others.
 
 ### Install mongodb
