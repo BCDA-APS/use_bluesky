@@ -17,3 +17,6 @@ from .plans import *
 from .utils import *
 
 from apstools.utils import *
+
+# last line: ensure we have the console's logger
+from .session_logs import logger

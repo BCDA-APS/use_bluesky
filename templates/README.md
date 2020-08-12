@@ -33,7 +33,8 @@ Configuration of a scientific instrument for Bluesky can be any of these methods
 Note the older method of defining the instrument in the
 [ipython profile](https://ipython.readthedocs.io/en/stable/config/intro.html#profiles)
 using number files is deprecated as it quickly becomes difficult to manage
-a typical instrument at a beam line.
+a typical instrument at a beam line.  Rather than use numbered files, read below to
+install the instrument package into an ipython profile.
 
 No matter which method you pick, you are **encouraged strongly** to place your
 instrument package into a revision control system.
@@ -66,10 +67,11 @@ conda activate bluesky_2020_5
 wget ${URL}/instrument_template.tar.gz
 mkdir ~/Documents/bluesky    # or your directory of choice
 cd ~Documents/bluesky
-tar xzf instrument.tar.gz
+tar xzf instrument_template.tar.gz
 /bin/rm  -rf instrument_template.tar.gz
 mv ./instrument_template/instrument .
 mv ./instrument_template/setup.py .
+mv ./instrument_template/README.md .
 mv instrument_template/blueskyStarter.sh ~/bin/blueskyStarter.sh
 pip install -e .
 ```
@@ -88,10 +90,11 @@ export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/templat
 conda activate bluesky_2020_5
 cd ~/.ipython/profile_bluesky/startup
 wget ${URL}/instrument_template.tar.gz
-tar xzf instrument.tar.gz
+tar xzf instrument_template.tar.gz
 /bin/rm  -rf instrument_template.tar.gz
 mv ./instrument_template/instrument .
 mv ./instrument_template/00-instrument.py .
+mv ./instrument_template/README.md .
 mv instrument_template/blueskyStarter.sh ~/bin/blueskyStarter.sh
 /bin/rm -rf instrument_template
 ```
