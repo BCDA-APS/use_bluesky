@@ -61,12 +61,14 @@ is the basic layout:
 
 ### Download & Installation
 
+Use these bash commands to download and install the instrument package
+template as an independent source code directory.
+
 ```
 export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/templates/
-conda activate bluesky_2020_5
 wget ${URL}/instrument_template.tar.gz
-mkdir ~/Documents/bluesky    # or your directory of choice
-cd ~Documents/bluesky
+mkdir ~/bluesky    # or your directory of choice
+cd ~/bluesky
 tar xzf instrument_template.tar.gz
 /bin/rm  -rf instrument_template.tar.gz
 mv ./instrument_template/instrument .
@@ -85,9 +87,11 @@ to the instrument package must be defined within the Jupyter session.
 
 ### Download & Installation
 
+Use these bash commands to download and install the instrument package
+template in your ipython `bluesky` profile.
+
 ```
 export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/templates/
-conda activate bluesky_2020_5
 cd ~/.ipython/profile_bluesky/startup
 wget ${URL}/instrument_template.tar.gz
 tar xzf instrument_template.tar.gz
