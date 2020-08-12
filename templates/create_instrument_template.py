@@ -17,7 +17,7 @@ def main():
     src_path = os.path.join(pkg_path, "lessons", "instrument")
     temp_path = tempfile.mkdtemp()
 
-    # copy src_path to subdir of temp_path
+    # start with the instrument package used for the lessons
     dest = os.path.join(temp_path, "instrument")
     shutil.copytree(src_path, dest)
 
@@ -25,12 +25,19 @@ def main():
     shutil.copy2(
         os.path.join(temp_path, "instrument", "devices", "ideas", "aps_source.py"),
         os.path.join(temp_path, "instrument", "devices", "aps_source.py"))
-    # TODO: edit instrument/devices/__init__.py
-    #   - import .aps_source
-    #   - # import .motors
-    #   - # import .scaler
-    # TODO: create example instrument/devices/motors.py
-    # TODO: create example instrument/devices/scaler.py
+    # edit instrument/devices/__init__.py
+    shutil.copy2(
+        os.path.join(pkg_path, "templates", "example_devices_init.py"),
+        os.path.join(temp_path, "instrument", "devices", "__init__.py"))
+    # create example instrument/devices/motors.py
+    shutil.copy2(
+        os.path.join(pkg_path, "templates", "example_motors.py"),
+        os.path.join(temp_path, "instrument", "devices", "motors.py"))
+    # create example instrument/devices/scaler.py
+    shutil.copy2(
+        os.path.join(pkg_path, "templates", "example_scaler.py"),
+        os.path.join(temp_path, "instrument", "devices", "scaler.py"))
+    # remove items needed by the lessons
     rm_paths = [
         ["instrument", "__pycache__"],
         ["instrument", "callbacks", "ideas"],
@@ -61,6 +68,11 @@ def main():
     shutil.copy2(
         os.path.join(pkg_path, "templates", "example_blueskyStarter.sh"),
         os.path.join(temp_path, "blueskyStarter.sh"))
+
+    # copy pkg_path/templates/example_README.md to temp_path
+    shutil.copy2(
+        os.path.join(pkg_path, "templates", "example_README.md"),
+        os.path.join(temp_path, "README.md"))
 
     # create archive file instrument.tar.gz
     fname = os.path.join(local_path, "instrument_template.tar.gz")
