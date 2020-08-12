@@ -132,7 +132,17 @@ format to configure parts of the instrument, such as for
 It is useful to create a bash shell script to start a bluesky
 console session.  The shell script can define environment variables
 needed only by this session.  See the example shell script
-[`blueskyStarter.sh`](/templates/blueskyStarter.sh) in this directory.
+[`blueskyStarter.sh`](/templates/example_blueskyStarter.sh) in this directory.
+
+1. Install this script into your account's `~/bin` directory (or some directory
+on your exectuable `$PATH` where you install such things).
+1. Change the script's name to something relevant, such as `blueskyWONI` (for the *WONI* instrument)
+1. Make sure the script is executable (`chmod +x blueskyWONI`)
+1. In the script, edit `CONDA_ACTIVATE` for the path to your conda `base` environment.
+1. In the script, edit `CONDA_ENVIRONMENT` for the name of your conda environment for bluesky.  Use `base` if no custom environment.
+1. In the script, edit `IPYTHON_PROFILE` for the name of your IPython profile for bluesky.
+1. In the script, edit `IPYTHONDIR` for the path to your IPython directory.
+1. Add any other setup (such as environment variables) needed to run.
 
 # Revision control
 
