@@ -31,7 +31,6 @@ dependencies:
   - pvview
   - pydm
   - pyEpics>=3.4.2
-  - pygobject
   - pylint
   - pymongo
   - pyqt=5
