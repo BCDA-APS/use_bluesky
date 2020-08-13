@@ -21,6 +21,7 @@ dependencies:
   - jupyter
   - jupyterlab
   - lxml
+  - nexpy
   - notebook
   - ophyd>=1.5.1
   - pandoc
