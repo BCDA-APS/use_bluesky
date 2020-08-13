@@ -12,6 +12,7 @@ dependencies:
   - aps-dm-api
   - apstools
   - area-detector-handlers
+  - astropy
   - bluesky>=1.6.2
   - databroker>=1.0.6
   - h5py
@@ -35,7 +36,7 @@ dependencies:
   - pyEpics>=3.4.2
   - pylint
   - pymongo
-  - pyqt=5
+  - pyqt>=5.9.2
   # xicam requires pyqtgraph 0.10.0
   - pyqtgraph=0.10.0
   - pyRestTable
