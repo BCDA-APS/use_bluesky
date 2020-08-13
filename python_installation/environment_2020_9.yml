@@ -8,7 +8,7 @@ channels:
   - pcds-tag
 dependencies:
   # xicam requires python 3.7
-  - python>=3.7
+  - python=3.7
   - aps-dm-api
   - apstools
   - area-detector-handlers
