@@ -41,6 +41,7 @@ dependencies:
   - spec2nexus
   - sphinx
   - stdlogpj
+  - typhos
   - versioneer
   - xlrd
   - pip:
