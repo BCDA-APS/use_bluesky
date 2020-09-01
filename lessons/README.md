@@ -14,6 +14,10 @@ This directory contains lessons, tutorials, examples, other - all in Jupyter not
 * [lesson6](lesson6.ipynb) - EPICS : area detector
 * [advanced](sandbox/images_darks_flats.ipynb) - EPICS : Images, Darks, & Flats with EPICS area detector, ophyd, and Bluesky
 
+## In-Progress
+
+* [th_tth_limit_demo](th_tth_limit_demo.ipynb) - EPICS : Demo of dynamic limit signal
+
 ## Tips
 
 * [Windows](windows.md) - Installing ophyd, Bluesky, *et al.* on Windows 10
