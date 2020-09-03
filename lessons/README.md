@@ -2,7 +2,9 @@
 
 This directory contains lessons, tutorials, examples, other - all in Jupyter notebooks
 
-## Lessons
+## Lessons & Demonstrations
+
+LESSONS
 
 * [lesson1](lesson1.ipynb) - EPICS : scaler and count
 * [lesson2](lesson2.ipynb) - EPICS : motor and scan
@@ -12,8 +14,12 @@ This directory contains lessons, tutorials, examples, other - all in Jupyter not
 * [lesson5](lesson5.ipynb) - simulator : find a peak and lineup on it
 * [lesson5: advanced](lesson5_advanced.ipynb) - simulator : *advanced* assignment
 * [lesson6](lesson6.ipynb) - EPICS : area detector
-* [advanced](sandbox/images_darks_flats.ipynb) - EPICS : Images, Darks, & Flats with EPICS area detector, ophyd, and Bluesky
+
+DEMONSTRATIONS
+
+* [Area Detector Image Types](sandbox/images_darks_flats.ipynb) - EPICS : Images, Darks, & Flats with EPICS area detector, ophyd, and Bluesky
 * [dynamic limits 2 motors](demo_dynamic_limits_2motor.ipynb) - EPICS : Demo of dynamic limit signal to avoid two motor collision
+* [The `aps` device](basic_aps_info.ipynb) - EPICS : Basic information for beam lines from the APS accelerator
 
 ## Tips
 
