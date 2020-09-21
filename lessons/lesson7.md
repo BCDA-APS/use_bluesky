@@ -327,7 +327,7 @@ no solutions.
 
 The [`DiffractometerMixin`](https://apstools.readthedocs.io/en/latest/source/_diffractometer.html) 
 provides a helper to print the possible forward solutions for a
-list of *hkl* reflections.  (Each reflections is provided as a 
+list of *hkl* reflections.  (Each reflection is provided as a 
 python tuple or list.)  Show just the first of the possible 
 solutions for each of the (100) and (010) reflections:
 
@@ -380,6 +380,49 @@ Out[100]:
 
 and make a custom choice or constraints could be applied to 
 restrict the range of allowed solutions.
+
+TODO: no solutions
+
+```
+In [114]: fourc.calc.forward((5, 4, 35))
+---------------------------------------------------------------------------
+Error                                     Traceback (most recent call last)
+~/.conda/envs/bluesky_2020_9/lib/python3.8/site-packages/hkl/engine.py in pseudo_positions(self, values)
+    212         try:
+--> 213             geometry_list = self._engine.pseudo_axis_values_set(values,
+    214                                                                 self._units)
+
+Error: hkl-mode-auto-error-quark: none of the functions were solved !!! (0)
+
+During handling of the above exception, another exception occurred:
+
+ValueError                                Traceback (most recent call last)
+<ipython-input-114-7b5743692787> in <module>
+----> 1 fourc.calc.forward((5, 4, 35))
+
+~/.conda/envs/bluesky_2020_9/lib/python3.8/site-packages/hkl/calc.py in wrapped(self, *args, **kwargs)
+     42             initial_pos = self.physical_positions
+     43             try:
+---> 44                 return func(self, *args, **kwargs)
+     45             finally:
+     46                 self.physical_positions = initial_pos
+
+~/.conda/envs/bluesky_2020_9/lib/python3.8/site-packages/hkl/calc.py in forward(self, position, engine)
+    505                 raise ValueError('Engine unset')
+    506 
+--> 507             self.engine.pseudo_positions = position
+    508             return self.engine.solutions
+    509 
+
+~/.conda/envs/bluesky_2020_9/lib/python3.8/site-packages/hkl/engine.py in pseudo_positions(self, values)
+    214                                                                 self._units)
+    215         except GLib.GError as ex:
+--> 216             raise ValueError('Calculation failed (%s)' % ex)
+    217 
+    218         Position = self._calc.Position
+
+ValueError: Calculation failed (hkl-mode-auto-error-quark: none of the functions were solved !!! (0))
+```
 
 ## Constraints
 
@@ -434,7 +477,7 @@ In [110]: print(fourc.forwardSolutionsTable([[1,0,0],[0,1,0]], full=True))
 ========= ======== ======== ========= ========= ========
 ```
 
-Remove the constrain on `omega`:
+Remove the constraint on `omega`:
 
 ```
 In [111]: fourc.undoLastConstraints()
@@ -459,3 +502,11 @@ fourc = FourCircleDiffractometer('', name='fourc')
 ```
 
 TODO:
+
+1. define sample
+2. set wavelength
+3. set mode
+4. define two reflections
+5. calc UB matrix
+6. apply constraints
+7. sample *(00l)* scan
