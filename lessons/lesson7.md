@@ -381,7 +381,8 @@ Out[100]:
 and make a custom choice or constraints could be applied to 
 restrict the range of allowed solutions.
 
-TODO: no solutions
+If there are no solutions to the forward calculation,
+the *hkl* package raises a `ValueError` exception:
 
 ```
 In [114]: fourc.calc.forward((5, 4, 35))
@@ -422,6 +423,18 @@ ValueError                                Traceback (most recent call last)
     218         Position = self._calc.Position
 
 ValueError: Calculation failed (hkl-mode-auto-error-quark: none of the functions were solved !!! (0))
+```
+
+The `forwardSolutionsTable` does not raise an 
+error but displays `none` for that *hkl* reflection:
+
+```
+In [121]: print(fourc.forwardSolutionsTable( [ [5,4,35], ], full=True))
+========== ======== ===== === === ===
+(hkl)      solution omega chi phi tth
+========== ======== ===== === === ===
+[5, 4, 35] none                      
+========== ======== ===== === === ===
 ```
 
 ## Constraints
