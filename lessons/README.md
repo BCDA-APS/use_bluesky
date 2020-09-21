@@ -14,6 +14,7 @@ LESSONS
 * [lesson5](lesson5.ipynb) - simulator : find a peak and lineup on it
 * [lesson5: advanced](lesson5_advanced.ipynb) - simulator : *advanced* assignment
 * [lesson6](lesson6.ipynb) - EPICS : area detector
+* [lesson7](lesson7.md) - EPICS/simulator : four-circle diffractometer
 
 DEMONSTRATIONS
 
