@@ -487,7 +487,7 @@ In [121]: print(fourc.forwardSolutionsTable( [ [5,4,35], ], full=True))
 
 ## Constraints
 
-Constraints are applied to restrict the range of allowed
+Constraints are applied to restrict the
 motor positions that are allowed to be solutions of the forward
 calculation from a reflection *hkl* to motor positions.
 
