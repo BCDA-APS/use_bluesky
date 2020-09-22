@@ -243,7 +243,7 @@ HklSample(name='main', lattice=LatticeTuple(a=1.54, b=1.54, c=1.54, alpha=90.0, 
        [ 0.00000000e+00,  0.00000000e+00,  4.07999046e+00]]), reflections=[])
 ```
 
-The diffractometer support maintains a list of all defined samples
+The diffractometer support maintains a dictionary of all defined samples
 (`fourc.calc._samples`).  The `fourc.calc.sample` symbol points
 to one of these.  Let's illustrate by creating a new
 sample `orthorhombic`:
