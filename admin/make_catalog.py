@@ -37,6 +37,12 @@ def command_options():
         type=str,
         help="database prefix (e.g.: '45idc', no '.' allowed)")
 
+    msg = (
+            "use old-style Broker configuration YAML,"
+            " default will use intake style catalog"
+        )
+    parser.add_argument('-b', 'broker', type=str, help=msg)
+
     return parser.parse_args()
 
 
