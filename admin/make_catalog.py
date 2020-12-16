@@ -37,16 +37,32 @@ def command_options():
         type=str,
         help="database prefix (e.g.: '45idc', no '.' allowed)")
 
-    msg = (
+    parser.add_argument(
+        '-b',
+        '--broker',
+        default=False,
+        action='store_true',
+        help=(
             "use old-style Broker configuration YAML,"
             " default will use intake style catalog"
-        )
-    parser.add_argument('-b', 'broker', type=str, help=msg)
+        ),
+    )
+
+    parser.add_argument(
+        '-o',
+        '--output_path',
+        type=str,
+        default=".",
+        help=(
+            "directory in which to write configuration"
+            ", default is current directory"
+        ),
+    )
 
     return parser.parse_args()
 
 
-def build_config(host, prefix):
+def build_broker_config(host, prefix):
     config = {
         "description" : "heavyweight shared database",
         "metadatastore" : {
@@ -72,33 +88,67 @@ def build_config(host, prefix):
     return config
 
 
-def one_time_setup(db_name):
+def build_intake_config(host, prefix):
+    port = 27017
+    preamble = f"mongodb://{host}:{port}/{prefix}"
+    config = dict(
+        sources={
+            prefix: dict(
+                args=dict(
+                    metadatastore_db=f"{preamble}-run_data",
+                    asset_registry_db=f"{preamble}-file_refs",
+                ),
+                driver="bluesky-mongo-normalized-catalog",
+            )
+        }
+    )
+    return config
+
+
+def one_time_setup(args):
     import databroker
+
+    db_name = args.db_prefix
     cat = databroker.catalog[db_name]
-    try:
-        from databroker.assets.utils import install_sentinels
-        conf_dict = cat.v1._config["metadatastore"]["config"]
-        install_sentinels(conf_dict, version=1)
-        print(f"{db_name}: installing version sentinels")
-    except RuntimeError:
-        print(f"{db_name}: version sentinels already installed")
+    if args.broker:
+        try:
+            from databroker.assets.utils import install_sentinels
+            conf_dict = cat.v1._config["metadatastore"]["config"]
+            install_sentinels(conf_dict, version=1)
+            print(f"{db_name}: installing version sentinels")
+        except RuntimeError:
+            print(f"{db_name}: version sentinels already installed")
     return len(cat)
 
 
-def main():
-    args = command_options()
-    fname = f"{args.db_prefix}.yml"
+def setup(args):
+    if not os.path.exists(args.output_path):
+        raise FileNotFoundError(
+            f"Output path '{args.output_path}' not found."
+        )
+    fname = os.path.abspath(
+        os.path.join(args.output_path, f"{args.db_prefix}.yml")
+    )
 
     if os.path.exists(fname):
         print(f"file '{fname}' exists, will not overwrite.")
     else:
-        config = build_config(args.mongo_host, args.db_prefix)
+        if args.broker:
+            builder = build_broker_config
+        else:
+            builder = build_intake_config
+        config = builder(args.mongo_host, args.db_prefix)
         with open(fname, "w") as fp:
             fp.write(yaml.dump(config))
         print(f"wrote: {fname}")
 
-    count = one_time_setup(args.db_prefix)
+    count = one_time_setup(args)
     print(f"runs in the catalog: {count}")
+
+
+def main():
+    args = command_options()
+    setup(args)
 
 
 if __name__ == "__main__":
