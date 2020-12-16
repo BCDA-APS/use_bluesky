@@ -30,9 +30,6 @@ from ophyd.signal import EpicsSignalBase
 import warnings
 
 # convenience imports
-# from bluesky.callbacks import *
-# from bluesky.callbacks.broker import *
-# from bluesky.simulators import *
 from bluesky.simulators import summarize_plan
 import bluesky.plan_stubs as bps
 import bluesky.plans as bp
@@ -74,17 +71,17 @@ callback_db['bec'] = RE.subscribe(bec)
 peaks = bec.peaks  # just an alias, for less typing
 bec.disable_baseline()
 
-# At the end of every run, verify that files were saved and
+# Uncomment to enable ...
+# ... at the end of every run, verify that files were saved and
 # print a confirmation message.
 # callback_db['post_run_verify'] = RE.subscribe(post_run(verify_files_saved), 'stop')
 
 
-# Uncomment the following lines to turn on
-# verbose messages for debugging.
+# Uncomment to enable verbose messages for debugging.
 # ophyd.logger.setLevel(logging.DEBUG)
 
 # diagnostics
-#RE.msg_hook = ts_msg_hook
+# RE.msg_hook = ts_msg_hook
 
 # set default timeout for all EpicsSignal connections & communications
 if hasattr(EpicsSignalBase, "set_defaults"):
@@ -101,6 +98,6 @@ else:
         "  Cannot set default: auto_monitor=True to use CA cache."
     )
     EpicsSignalBase.set_default_timeout(
-        timeout=10, 
+        timeout=10,
         connection_timeout=5
     )
