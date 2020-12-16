@@ -145,7 +145,7 @@ def setup(args):
         print(f"wrote: {fname}")
 
     count = one_time_setup(args)
-    print(f"runs in the catalog: {count}")
+    print(f"runs in the '{args.db_prefix}' catalog: {count}")
 
 
 def main():
