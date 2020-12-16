@@ -19,29 +19,30 @@ import yaml
 # TIME_ZONE = "America/Chicago"
 TIME_ZONE = "US/Central"
 
+
 def command_options():
     import argparse
 
     parser = argparse.ArgumentParser(
         prog=os.path.split(sys.argv[0])[-1],
         description=__doc__.strip().splitlines()[0],
-        )
+    )
 
     parser.add_argument(
-        'mongo_host',
+        "mongo_host", type=str, help="MongoDB server host name"
+    )
+
+    parser.add_argument(
+        "db_prefix",
         type=str,
-        help="MongoDB server host name")
+        help="database prefix (e.g.: '45idc', no '.' allowed)",
+    )
 
     parser.add_argument(
-        'db_prefix',
-        type=str,
-        help="database prefix (e.g.: '45idc', no '.' allowed)")
-
-    parser.add_argument(
-        '-b',
-        '--broker',
+        "-b",
+        "--broker",
         default=False,
-        action='store_true',
+        action="store_true",
         help=(
             "use old-style Broker configuration YAML,"
             " default will use intake style catalog"
@@ -49,8 +50,8 @@ def command_options():
     )
 
     parser.add_argument(
-        '-o',
-        '--output_path',
+        "-o",
+        "--output_path",
         type=str,
         default=".",
         help=(
@@ -64,24 +65,24 @@ def command_options():
 
 def build_broker_config(host, prefix):
     config = {
-        "description" : "heavyweight shared database",
-        "metadatastore" : {
-            "module" : "databroker.headersource.mongo",
-            "class" : "MDS",
-            "config" : {
-                "host" : host,
-                "port" : 27017,
-                "database" : f"{prefix}-run_data",
-                "timezone" : TIME_ZONE,
+        "description": "heavyweight shared database",
+        "metadatastore": {
+            "module": "databroker.headersource.mongo",
+            "class": "MDS",
+            "config": {
+                "host": host,
+                "port": 27017,
+                "database": f"{prefix}-run_data",
+                "timezone": TIME_ZONE,
             },
         },
-        "assets" : {
-            "module" : "databroker.assets.mongo",
-            "class" : "Registry",
-            "config" : {
-                "host" : host,
-                "port" : 27017,
-                "database" : f"{prefix}-file_refs",
+        "assets": {
+            "module": "databroker.assets.mongo",
+            "class": "Registry",
+            "config": {
+                "host": host,
+                "port": 27017,
+                "database": f"{prefix}-file_refs",
             },
         },
     }
@@ -113,6 +114,7 @@ def one_time_setup(args):
     if args.broker:
         try:
             from databroker.assets.utils import install_sentinels
+
             conf_dict = cat.v1._config["metadatastore"]["config"]
             install_sentinels(conf_dict, version=1)
             print(f"{db_name}: installing version sentinels")
