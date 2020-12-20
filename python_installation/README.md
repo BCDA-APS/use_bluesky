@@ -43,6 +43,8 @@ then:
 
 ## Setup custom environment for Bluesky
 
+NOTE: This fails on Windows now.  There is no conda build for the `aps-dm-api` package for windows.
+
 Run: `conda env create -f environment_20201_1.yml`
 where the file `environment_20201_1.yml` comes from this directory.
 
