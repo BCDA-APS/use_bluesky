@@ -43,18 +43,19 @@ then:
 
 ## Setup custom environment for Bluesky
 
-NOTE: This fails on Windows now.  There is no conda build for the `aps-dm-api` package for windows.
-
 Run: `conda env create -f environment_20201_1.yml`
 where the file `environment_20201_1.yml` comes from this directory.
+
+NOTE: For Windows, run: `conda env create -f win_20201_1.yml`  A few packages
+(notably `apstools` and `hklpy`) are commented for reasons as noted.
 
 Since the toolset for running bluesky is under continuous development,
 the best recommendations change as new software is released.
 
-The installer will create a new custom conda environment 
-and give it a calendar-based name, such as *bluesky_2020_9* .
-This will not overwrite preserve previously installed bluesky environments, so they
-will remain available as fallbacks.
+The installer will create a new custom conda environment
+and give it a calendar-based name, such as *bluesky_2021_1* .
+This will not overwrite preserve previously installed bluesky
+environments, so they will remain available as fallbacks.
 
 **NOTE**: You might first get a warning that conda needs to be updated on the server.
 That's ok for now.
@@ -90,7 +91,7 @@ The complete structure:
 <summary><tt>aps.summary()</tt></summary>
 
 ```
-In [1]: aps.summary()                                                                                                   
+In [1]: aps.summary()
 data keys (* hints)
 -------------------
  aps_aps_cycle
@@ -156,8 +157,8 @@ Current values are: `aps.read()`
 <summary><tt>aps.read()</tt></summary>
 
 ```
-In [2]: aps.read()                                                                                                      
-Out[2]: 
+In [2]: aps.read()
+Out[2]:
 OrderedDict([('aps_current',
               {'value': 74.90453756160933, 'timestamp': 1595343111.512742}),
              ('aps_lifetime',
@@ -208,23 +209,23 @@ Current values are: `aps.read()`
 <summary>as table: <tt>device_read2table(aps)</tt></summary>
 
 ```
-In [4]: from apstools.utils import device_read2table                                                                    
+In [4]: from apstools.utils import device_read2table
 
-In [5]: device_read2table(aps)                                                                                          
+In [5]: device_read2table(aps)
 ========================================== ================================== ==========================
-name                                       value                              timestamp                 
+name                                       value                              timestamp
 ========================================== ================================== ==========================
 aps_current                                74.82578332160934                  2020-07-21 09:52:40.512772
 aps_lifetime                               13.921180095258897                 2020-07-21 09:52:36.356164
 aps_aps_cycle                              2020-2                             2020-07-21 09:51:17.307823
 aps_machine_status                         ASD Studies                        2020-07-20 08:00:01.449054
-aps_operating_mode                         Stored Beam                        1989-12-31 18:00:00       
+aps_operating_mode                         Stored Beam                        1989-12-31 18:00:00
 aps_shutter_permit                         NO PERMIT                          2020-07-20 08:00:06.403736
-aps_fill_number                            11.0                               1989-12-31 18:00:00       
-aps_orbit_correction                       0.0                                1989-12-31 18:00:00       
-aps_global_feedback                        On                                 1989-12-31 18:00:00       
-aps_global_feedback_h                      On                                 1989-12-31 18:00:00       
-aps_global_feedback_v                      On                                 1989-12-31 18:00:00       
+aps_fill_number                            11.0                               1989-12-31 18:00:00
+aps_orbit_correction                       0.0                                1989-12-31 18:00:00
+aps_global_feedback                        On                                 1989-12-31 18:00:00
+aps_global_feedback_h                      On                                 1989-12-31 18:00:00
+aps_global_feedback_v                      On                                 1989-12-31 18:00:00
 aps_operator_messages_operators            LaBuda, Kimbro                     2020-07-21 07:54:52.424329
 aps_operator_messages_floor_coordinator    Clay White (2-0101)                2020-07-21 07:54:54.220797
 aps_operator_messages_fill_pattern                                            2020-07-20 15:51:38.418265
@@ -252,19 +253,19 @@ Now test some of the simulators as above:
 <details>
 
 ```
-In [10]: sim.motor.position                                                                                                                                          
+In [10]: sim.motor.position
 Out[10]: 0
 
-In [11]: sim.motor.read()                                                                                                                                            
-Out[11]: 
+In [11]: sim.motor.read()
+Out[11]:
 OrderedDict([('motor', {'value': 0, 'timestamp': 1562779985.5141134}),
              ('motor_setpoint',
               {'value': 0, 'timestamp': 1562779985.5141122})])
 
-In [12]: sim.noisy_det.read()                                                                                                                                        
+In [12]: sim.noisy_det.read()
 Out[12]: {'noisy_det': {'value': 0.9765596019916091, 'timestamp': 1562779985.5194004}}
 
-In [13]: sim.noisy_det.value                                                                                                                                         
+In [13]: sim.noisy_det.value
 Out[13]: 0.9765596019916091
 
 ```

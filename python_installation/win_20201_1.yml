@@ -1,0 +1,63 @@
+name: bluesky_2021_1
+channels:
+  - defaults
+  - conda-forge
+  - aps-anl-tag
+  - nsls2forge
+  - pydm-tag
+  - pcds-tag
+dependencies:
+  - anaconda
+  - area-detector-handlers
+  - black
+  - bluesky>=1.6.2
+  - caproto
+  - conda-build
+  - coverage
+  - databroker-pack
+  - databroker>=1.0.6
+  - flake8
+  - h5py
+  - happi
+  - imagecodecs-lite
+  - ipython
+  - jupyter
+  - jupyterlab
+  - lxml
+  - nexpy
+  - notebook
+  - ophyd>=1.5.1
+  - pandas
+  - pandoc
+  - pint
+  - pip
+  - psutil
+  - punx
+  - pvview
+  - pydm
+  - pyEpics>=3.4.2
+  - pylint
+  - pymca
+  - pymongo
+  - pyqt=5
+  - pyRestTable
+  - pytest
+  - python
+  - qt=5
+  - scikit-image
+  - spec2nexus
+  - sphinx
+  - sphinxcontrib-napoleon
+  - stdlogpj
+  - twine
+  - typhos
+  - versioneer
+  - xlrd
+  # - aps-dm-api  no windows package available
+  # - apstools    pip install --no-deps apstools
+  # - epics-pydb  no windows package available
+  # - hklpy       no windows build of libhkl
+  - pip:
+    # - ipython-genutils==0.2.0
+    - sphinx-rtd-theme
+    - super-state-machine
