@@ -43,16 +43,16 @@ then:
 
 ## Setup custom environment for Bluesky
 
-Run: `bash ./setup_2020_9.sh`
-
-**NOTE**: In addition to the installer script, you need the `environment_2020_9.yml` file which defines the packages to be installed.
+Run: `conda env create -f environment_20201_1.yml`
+where the file `environment_20201_1.yml` comes from this directory.
 
 Since the toolset for running bluesky is under continuous development,
 the best recommendations change as new software is released.
 
 The installer will create a new custom conda environment 
 and give it a calendar-based name, such as *bluesky_2020_9* .
-This will preserve previously installed bluesky environments as fallbacks.
+This will not overwrite preserve previously installed bluesky environments, so they
+will remain available as fallbacks.
 
 **NOTE**: You might first get a warning that conda needs to be updated on the server.
 That's ok for now.
