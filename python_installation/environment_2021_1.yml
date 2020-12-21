@@ -58,6 +58,7 @@ dependencies:
   - versioneer
   - xlrd
   - pip:
+    - bluesky-live
     # - ipython-genutils==0.2.0
     - sphinx-rtd-theme
     - super-state-machine
