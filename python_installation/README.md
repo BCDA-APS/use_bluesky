@@ -43,10 +43,10 @@ then:
 
 ## Setup custom environment for Bluesky
 
-Run: `conda env create -f environment_20201_1.yml`
-where the file `environment_20201_1.yml` comes from this directory.
+Run: `conda env create -f environment_2021_1.yml`
+where the file `environment_2021_1.yml` comes from this directory.
 
-NOTE: For Windows, run: `conda env create -f win_20201_1.yml`  A few packages
+NOTE: For Windows, run: `conda env create -f win_2021_1.yml`  A few packages
 (notably `apstools` and `hklpy`) are commented for reasons as noted.
 
 Since the toolset for running bluesky is under continuous development,
