@@ -43,11 +43,29 @@ then:
 
 ## Setup custom environment for Bluesky
 
-Run: `conda env create -f environment_2021_1.yml`
-where the file `environment_2021_1.yml` comes from this directory.
+Activate a conda environment (such as the base environment).  For example at APS:
 
-NOTE: For Windows, run: `conda env create -f win_2021_1.yml`  A few packages
-(notably `apstools` and `hklpy`) are commented for reasons as noted.
+    bash
+    source /APSshare/miniconda/bin/activate base
+
+Download file `environment_2021_1.yml` to a temporary directory (such as `/tmp` on Linux).  Such as:
+
+    cd /tmp
+    wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/main/python_installation/environment_2021_1.yml
+
+This file is a text file in [YAML](https://yaml.org) that describes the packages (and versions) that are needed.
+
+Run the installer (takes ~10 minutes or so to finish, usually):
+
+    conda env create -f /tmp/environment_2021_1.yml
+
+This will create the new conda environment `bluesky_2021_1`.  You can activate
+it with the command:
+
+    conda activate bluesky_2021_1
+
+NOTE: For Windows, use file `win_2021_1.yml` from the same URL directory.  A few packages
+(notably `apstools` and `hklpy`) are commented out for reasons as noted.
 
 Since the toolset for running bluesky is under continuous development,
 the best recommendations change as new software is released.
