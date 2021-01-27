@@ -9,7 +9,7 @@ LESSONS
 * [lesson1](lesson1.ipynb) - EPICS : scaler and count
 * [lesson2](lesson2.ipynb) - EPICS : motor and scan
 * [lesson3](lesson3.ipynb) - EPICS : show data as it is acquired
-* [lesson3: final](lesson3_-_final.ipynb) - EPICS : final project
+* [lesson3: final](lesson3_final.ipynb) - EPICS : final project
 * [lesson4](lesson4.ipynb) - simulator : scan scaler v. motor
 * [lesson5](lesson5.ipynb) - simulator : find a peak and lineup on it
 * [lesson5: advanced](lesson5_advanced.ipynb) - simulator : *advanced* assignment
