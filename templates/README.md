@@ -43,8 +43,8 @@ instrument package into a revision control system.
 
 From experience, we've learned that configuration of a scientific instrument
 for the Bluesky framework is well-described as a Python package.  Both
-[USAXS](https://github.com/APS-USAXS/ipython-usaxs/tree/master/profile_bluesky/startup/instrument)
-and [XPCS](https://github.com/aps-8id-dys/ipython-8idiuser/tree/master/profile_bluesky/startup/instrument)
+[USAXS](https://github.com/APS-USAXS/ipython-usaxs/tree/main/profile_bluesky/startup/instrument)
+and [XPCS](https://github.com/aps-8id-dys/ipython-8idiuser/tree/main/profile_bluesky/startup/instrument)
 instruments are good examples.  The python package layout lends itself
 to an intuitive description of the instrument into its component parts.  Here
 is the basic layout:
@@ -67,7 +67,7 @@ template as an independent source code directory.
 ```
 mkdir ~/bluesky    # or your directory of choice
 cd ~/bluesky
-export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/templates/
+export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/main/templates/
 wget ${URL}/instrument_template.tar.gz
 tar xzf instrument_template.tar.gz
 /bin/rm  -rf instrument_template.tar.gz
@@ -93,7 +93,7 @@ Use these bash commands to download and install the instrument package
 template in your ipython `bluesky` profile.
 
 ```
-export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/master/templates/
+export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/main/templates/
 cd ~/.ipython/profile_bluesky/startup
 wget ${URL}/instrument_template.tar.gz
 tar xzf instrument_template.tar.gz
