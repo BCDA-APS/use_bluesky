@@ -65,6 +65,7 @@ Use these bash commands to download and install the instrument package
 template as an independent source code directory.
 
 ```
+bash
 mkdir ~/bluesky    # or your directory of choice
 cd ~/bluesky
 export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/main/templates/
