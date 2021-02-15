@@ -22,9 +22,11 @@
 
 
 # assumes tarball is in same directory as this bash script
-export STARTUP_TARBALL="$(realpath $(dirname $0))/2021_1_startup.tar.gz"
-# TODO: needs URL from GitHub repo
-export STARTUP_URL="TODO:"
+export TARNAME=2021_1_startup.tar.gz
+export STARTUP_TARBALL="$(realpath $(dirname $0))/${TARNAME}"
+# or get from web site
+export REPO=https://github.com/BCDA-APS/use_bluesky
+export STARTUP_URL="${REPO}/raw/main/python_installation/${TARNAME}"
 
 
 function show_usage() {
@@ -53,12 +55,11 @@ function perform_installation_tasks() {
         echo "Extracting instrument package template: '${STARTUP_TARBALL}'"
         tar xzf ${STARTUP_TARBALL}
     else
-        # TODO: If can't get the tarball locally, then need from URL
-        # echo "Extracting instrument package template: '${STARTUP_URL}'"
-        # wget ${STARTUP_URL} ./
-        # tar xzf local_tarball_name
-        # rm local_tarball_name
-        return
+        # If can't get the tarball locally, then get from URL
+        echo "Extracting instrument package template: '${STARTUP_URL}'"
+        wget ${STARTUP_URL} ./
+        tar xzf ${TARNAME}
+        rm ${TARNAME}
     fi
 
     echo "Installing to IPython profile directory: '$(realpath ${path})'"
