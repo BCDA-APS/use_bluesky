@@ -55,7 +55,7 @@ line name, instrument name, and databroker catalog name.  Each of these are
 one word with no internal whitespace.
 
 ```
-export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/main/python_installation/install_startup.sh
+export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/main/python_installation/
 cd ~/.ipython/profile_bluesky
 wget ${URL}/install_startup.sh
 bash ./install_startup.sh BEAMLINE INSTRUMENT CATALOG
