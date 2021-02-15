@@ -83,6 +83,9 @@ that shows the instrument it provides.
     cd ~/bin
     ln -s /home/beams1/JEMIAN/.ipython/profile_bluesky/startup/blueskyStarter.sh ./blueskyWNI.sh
 
+NOTE:  If you are not at the Advanced Photon Source, you will need to change the
+`CONDA_ACTIVATE` variable in `startup/blueskyStarter.sh` to fit your system.
+
 ## independent package installed into python environment
 
 From experience, we've learned that configuration of a scientific instrument
