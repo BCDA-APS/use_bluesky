@@ -5,6 +5,21 @@
 #     install Bluesky IPython startup directory
 #     with default instrument package into `pwd`
 #     (within a IPython profile directory).
+#
+# EXAMPLE
+#     cd ~/.ipython-bluesky/profile_bluesky
+#     path/to/install_startup.sh 45ID WNI wnicat
+#
+# (base) jemian@wow ~/.ipython/profile_testing $ /home/beams/JEMIAN/Documents/projects/BCDA-APS/use_bluesky/python_installation/install_startup.sh 45ID WNI wnicat
+# Extracting instrument package template: '/home/beams1/JEMIAN/Documents/projects/BCDA-APS/use_bluesky/python_installation/2021_1_startup.tar.gz'
+# Installing to IPython profile directory: '/home/beams1/JEMIAN/.ipython/profile_testing/profile_testing'
+# setting beam line name: 45ID
+# setting instrument name: WNI
+# setting databroker catalog: wnicat
+# editing starter shell script: /home/beams1/JEMIAN/.ipython/profile_testing/startup/blueskyStarter.sh
+# IPython directory: /home/beams1/JEMIAN/.ipython
+# IPython profile: testing
+
 
 # assumes tarball is in same directory as this bash script
 export STARTUP_TARBALL="$(realpath $(dirname $0))/2021_1_startup.tar.gz"
