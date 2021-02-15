@@ -12,6 +12,7 @@ CONTENTS
 - [Install instrument package](#install-instrument-package)
   - [ipython profile configuration](#ipython-profile-configuration)
     - [Download & Installation](#download--installation)
+    - [EXAMPLE](#example)
   - [independent package installed into python environment](#independent-package-installed-into-python-environment)
     - [Download & Installation](#download--installation-1)
   - [direct python code](#direct-python-code)
@@ -61,7 +62,7 @@ bash ./install_startup.sh BEAMLINE INSTRUMENT CATALOG
 rm ./install_startup.sh
 ```
 
-EXAMPLE
+### EXAMPLE
 
 ```
 (base) jemian@wow ~/.ipython/profile_testing $ ./install_startup.sh 45ID WNI wnicat
