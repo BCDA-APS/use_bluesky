@@ -10,9 +10,9 @@ CONTENTS
 
 - [Templates](#templates)
 - [Install instrument package](#install-instrument-package)
-  - [independent package installed into python environment](#independent-package-installed-into-python-environment)
-    - [Download & Installation](#download--installation)
   - [ipython profile configuration](#ipython-profile-configuration)
+    - [Download & Installation](#download--installation)
+  - [independent package installed into python environment](#independent-package-installed-into-python-environment)
     - [Download & Installation](#download--installation-1)
   - [direct python code](#direct-python-code)
   - [happi database](#happi-database)
@@ -24,11 +24,11 @@ CONTENTS
 
 Configuration of a scientific instrument for Bluesky can be any of these methods:
 
-1. independent package installed into python environment
-1. ipython profile configuration
-1. direct python code
+1. [ipython profile configuration](#ipython-profile-configuration) -- typical for APS beam lines
+1. [independent package installed into python environment](#independent-package-installed-into-python-environment)
+1. [direct python code](#direct-python-code)
 1. [happi](https://pcdshub.github.io/happi) database
-1. configuration from YAML files
+1. [configuration from YAML files](configuration-from-YAML-files)
 
 Note the older method of defining the instrument in the
 [ipython profile](https://ipython.readthedocs.io/en/stable/config/intro.html#profiles)
@@ -38,6 +38,49 @@ install the instrument package into an ipython profile.
 
 No matter which method you pick, you are **encouraged strongly** to place your
 instrument package into a revision control system.
+
+## ipython profile configuration
+
+This is the most common installation for APS instruments.  It works well
+for IPython console sessions.  It is slightly more difficult to use (than the
+independent package installation) for Jupyter notebook sessions since the path
+to the instrument package must be defined within the Jupyter session.
+
+### Download & Installation
+
+Use these bash commands to download and install the instrument package
+template in your ipython `bluesky` profile.  You'll need to know your beam
+line name, instrument name, and databroker catalog name.  Each of these are
+one word with no internal whitespace.
+
+```
+export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/main/python_installation/install_startup.sh
+cd ~/.ipython/profile_bluesky
+wget ${URL}/install_startup.sh
+bash ./install_startup.sh BEAMLINE INSTRUMENT CATALOG
+rm ./install_startup.sh
+```
+
+EXAMPLE
+
+```
+(base) jemian@wow ~/.ipython/profile_testing $ ./install_startup.sh 45ID WNI wnicat
+Extracting instrument package template: '/home/beams1/JEMIAN/.ipython/profile_bluesky/2021_1_startup.tar.gz'
+Installing to IPython profile directory: '/home/beams1/JEMIAN/.ipython/profile_bluesky'
+setting beam line name: 45ID
+setting instrument name: WNI
+setting databroker catalog: wnicat
+editing starter shell script: /home/beams1/JEMIAN/.ipython/profile_bluesky/startup/blueskyStarter.sh
+IPython directory: /home/beams1/JEMIAN/.ipython
+IPython profile: testing
+```
+
+It's a good idea to soft link the starter script `blueskyStarter.sh` into
+the `~/bin` directory (or some directory on the exectuable PATH) with a name
+that shows the instrument it provides.
+
+    cd ~/bin
+    ln -s /home/beams1/JEMIAN/.ipython/profile_bluesky/startup/blueskyStarter.sh ./blueskyWNI.sh
 
 ## independent package installed into python environment
 
@@ -79,31 +122,6 @@ mv instrument_template/blueskyStarter.sh ~/bin/blueskyStarter.sh
 /bin/rm -rf instrument_template
 conda activate bluesky_2020_9
 pip install -e .
-```
-
-## ipython profile configuration
-
-This is the most common installation for APS instruments.  It works well
-for IPython console sessions.  It is slightly more difficult to use (than the
-independent package installation) for Jupyter notebook sessions since the path
-to the instrument package must be defined within the Jupyter session.
-
-### Download & Installation
-
-Use these bash commands to download and install the instrument package
-template in your ipython `bluesky` profile.
-
-```
-export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/main/templates/
-cd ~/.ipython/profile_bluesky/startup
-wget ${URL}/instrument_template.tar.gz
-tar xzf instrument_template.tar.gz
-/bin/rm  -rf instrument_template.tar.gz
-mv ./instrument_template/instrument .
-mv ./instrument_template/00-instrument.py .
-mv ./instrument_template/README.md .
-mv instrument_template/blueskyStarter.sh ~/bin/blueskyStarter.sh
-/bin/rm -rf instrument_template
 ```
 
 ## direct python code
