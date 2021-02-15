@@ -38,7 +38,8 @@ a typical instrument at a beam line.  Rather than use numbered files, read below
 install the instrument package into an ipython profile.
 
 No matter which method you pick, you are **encouraged strongly** to place your
-instrument package into a revision control system.
+instrument package into a [revision control
+system](https://github.com/BCDA-APS/use_bluesky/wiki#aps-list).
 
 ## ipython profile configuration
 
