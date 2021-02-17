@@ -43,6 +43,8 @@ then:
 
 ## Setup custom environment for Bluesky
 
+More details on this step are described in the [wiki](https://github.com/BCDA-APS/use_bluesky/wiki/Install-Bluesky-packages).
+
 Activate a conda environment (such as the base environment).  For example at APS:
 
     bash
