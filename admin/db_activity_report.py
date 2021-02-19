@@ -160,30 +160,7 @@ class Repositories:
                 )
             )
             # fmt: on
-        # for instrument in registry.keys():
-        #     if instrument in databroker.catalog:
-        #         cat = databroker.catalog[instrument]
-        #         server = cat._metadatastore_db.client.address[0]
-        #         total_runs = len(cat)
-        #         if total_runs:
-        #             first_run = cat[-total_runs]
-        #             last_run = cat[-1]
-        #             first_date = ts2isotime(first_run.metadata["start"]["time"])
-        #             last_date = ts2isotime(last_run.metadata["start"]["time"])
-        #         else:
-        #             first_date, last_date = "", ""
-        #         recent_cat = cat.search(SEARCH_PERIOD)
-        #         recent_runs = len(recent_cat)
-        #         table.addRow(
-        #             (
-        #                 instrument[3:],
-        #                 server,
-        #                 recent_runs,
-        #                 total_runs,
-        #                 first_date,
-        #                 last_date,
-        #             )
-        #         )
+
         os.remove(config_file)
         return table
 
@@ -284,7 +261,7 @@ def main():
         wow
         xmd34id
     """
-    repos = Repositories("localhost")
+    repos = Repositories(servers)
     print("Bluesky (databroker) Repository Report")
     print(repos.repository_report())
     title = "Databroker Mongodb Server Activity Report"
