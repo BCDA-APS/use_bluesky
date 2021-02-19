@@ -20,6 +20,12 @@ import yaml
 
 
 DEFAULT_PORT = 27017
+DB_PREFIX = "bs--"
+SECOND = 1
+MINUTE = 60 * SECOND
+HOUR = 60 * MINUTE
+DAY = 24 * HOUR
+WEEK = 7 * DAY
 
 DatabaseNamePair = namedtuple("DatabaseNameSuffix", "runs refs")
 
@@ -41,6 +47,15 @@ DATABASE_NAME_SUFFIXES = [
 ]
 
 
+def ts2isotime(ts):
+    """Convert Python timestamp float to ISO-8601 text."""
+    return (
+        datetime.datetime
+        .fromtimestamp(ts)
+        .isoformat(sep=" ", timespec="minutes")
+    ).split()[0]
+
+
 class Repositories:
     """
     Bluesky (databroker) data repositories by server.
@@ -50,6 +65,7 @@ class Repositories:
         if not isinstance(servers, list):
             servers = [servers]
         self.registry = {}
+        self.since = ts2isotime(time.time() - 26 * WEEK)
         for server in servers:
             self.addServer(server)
 
@@ -69,47 +85,107 @@ class Repositories:
                 table.addRow((host, repo, pair.runs, pair.refs))
         return table
 
-    def activity_report(self):
+    def _build_test_catalog(self):
         path = databroker.catalog_search_path()[0]
         config_file = os.path.join(path, "db_activity.yml")
-        # FIXME:from here
-        with open(config_file, "w") as f:
-            f.write(yaml.dump(dict(sources=registry)))
 
+        reg = {
+            f"{DB_PREFIX}{repo}": dict(
+                args=dict(
+                    metadatastore_db = f"{server.uri}{pair.runs}",
+                    asset_registry_db = f"{server.uri}{pair.refs}"
+                ),
+                driver="bluesky-mongo-normalized-catalog"
+            )
+            for host, server in self.registry.items()
+            for repo, pair in server.repositories.items()
+        }
+        out = yaml.dump(dict(sources=reg))
+        with open(config_file, "w") as f:
+            f.write(out)
+
+        return config_file
+
+    def activity_report(self):
+        config_file = self._build_test_catalog()
         table = pyRestTable.Table()
-        table.addLabel("mongodb database")
-        table.addLabel("server")
-        table.addLabel(SEARCH_PERIOD_LABEL)
+        table.addLabel("Mongodb server")
+        table.addLabel("Databroker repository")
         table.addLabel("total runs")
+        table.addLabel(f"runs since {self.since}")
         table.addLabel("first run")
         table.addLabel("last run")
-        for instrument in registry.keys():
-            if instrument in databroker.catalog:
-                cat = databroker.catalog[instrument]
-                server = cat._metadatastore_db.client.address[0]
-                total_runs = len(cat)
-                if total_runs:
-                    first_run = cat[-total_runs]
-                    last_run = cat[-1]
-                    first_date = ts2isotime(first_run.metadata["start"]["time"])
-                    last_date = ts2isotime(last_run.metadata["start"]["time"])
-                else:
-                    first_date, last_date = "", ""
-                recent_cat = cat.search(SEARCH_PERIOD)
-                recent_runs = len(recent_cat)
-                table.addRow(
-                    (
-                        instrument[3:],
-                        server,
-                        recent_runs,
-                        total_runs,
-                        first_date,
-                        last_date,
-                    )
+
+        # Empirical:  Needed to add a pause here.
+        # Without the pause, the YAML config we just wrote is not found.
+        # 0.5 s was too short, 1 s worked.
+        time.sleep(1)
+
+        cat_list = list(databroker.yaml_catalogs)
+        for bs_repo in list(databroker.yaml_catalogs):
+            if not bs_repo.startswith(DB_PREFIX):
+                continue
+            repo = bs_repo[len(DB_PREFIX):]
+            # print(repo)
+
+            cat = databroker.catalog[bs_repo]
+            host = cat._metadatastore_db.client.address[0]
+            total_runs = len(cat)
+
+            if total_runs:
+                first_run = cat[-total_runs]
+                last_run = cat[-1]
+                first_date = ts2isotime(first_run.metadata["start"]["time"])
+                last_date = ts2isotime(last_run.metadata["start"]["time"])
+            else:
+                first_date, last_date = "", ""
+
+            search_period = databroker.queries.TimeRange(
+                since=self.since,
+                # until=until
+            )
+
+            recent_cat = cat.search(search_period)
+            recent_runs = len(recent_cat)
+
+            # fmt: off
+            table.addRow(
+                (
+                    host,
+                    repo,
+                    total_runs,
+                    recent_runs,
+                    first_date,
+                    last_date,
                 )
-        print(f"{TITLE}: {ts2isotime(time.time())}")
-        print(table)
+            )
+            # fmt: on
+        # for instrument in registry.keys():
+        #     if instrument in databroker.catalog:
+        #         cat = databroker.catalog[instrument]
+        #         server = cat._metadatastore_db.client.address[0]
+        #         total_runs = len(cat)
+        #         if total_runs:
+        #             first_run = cat[-total_runs]
+        #             last_run = cat[-1]
+        #             first_date = ts2isotime(first_run.metadata["start"]["time"])
+        #             last_date = ts2isotime(last_run.metadata["start"]["time"])
+        #         else:
+        #             first_date, last_date = "", ""
+        #         recent_cat = cat.search(SEARCH_PERIOD)
+        #         recent_runs = len(recent_cat)
+        #         table.addRow(
+        #             (
+        #                 instrument[3:],
+        #                 server,
+        #                 recent_runs,
+        #                 total_runs,
+        #                 first_date,
+        #                 last_date,
+        #             )
+        #         )
         os.remove(config_file)
+        return table
 
 
 class Server:
@@ -194,9 +270,26 @@ class Server:
 
 
 def main():
+    servers = """
+        localhost
+        32idcws
+        arcturus
+        bach
+        eggplant
+        groggy
+        otz
+        s100apps
+        s8idapps
+        usaxsserver
+        wow
+        xmd34id
+    """
     repos = Repositories("localhost")
     print("Bluesky (databroker) Repository Report")
     print(repos.repository_report())
+    title = "Databroker Mongodb Server Activity Report"
+    print(f"{title}: {ts2isotime(time.time())}")
+    print(repos.activity_report())
 
 
 if __name__ == "__main__":
