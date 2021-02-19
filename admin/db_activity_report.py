@@ -122,7 +122,7 @@ class Repositories:
         time.sleep(1)
 
         cat_list = list(databroker.yaml_catalogs)
-        for bs_repo in list(databroker.yaml_catalogs):
+        for bs_repo in cat_list:
             if not bs_repo.startswith(DB_PREFIX):
                 continue
             repo = bs_repo[len(DB_PREFIX):]
