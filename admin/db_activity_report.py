@@ -89,17 +89,16 @@ class Repositories:
         path = databroker.catalog_search_path()[0]
         config_file = os.path.join(path, "db_activity.yml")
 
-        reg = {
-            f"{DB_PREFIX}{repo}": dict(
-                args=dict(
-                    metadatastore_db = f"{server.uri}{pair.runs}",
-                    asset_registry_db = f"{server.uri}{pair.refs}"
-                ),
-                driver="bluesky-mongo-normalized-catalog"
-            )
-            for host, server in self.registry.items()
-            for repo, pair in server.repositories.items()
-        }
+        reg = {}
+        for host, server in self.registry.items():
+            for repo, pair in server.repositories.items():
+                reg[f"{DB_PREFIX}{host}-{repo}"] = dict(
+                    args=dict(
+                        metadatastore_db = f"{server.uri}{pair.runs}",
+                        asset_registry_db = f"{server.uri}{pair.refs}"
+                    ),
+                    driver="bluesky-mongo-normalized-catalog"
+                )
         out = yaml.dump(dict(sources=reg))
         with open(config_file, "w") as f:
             f.write(out)
@@ -126,6 +125,8 @@ class Repositories:
             if not bs_repo.startswith(DB_PREFIX):
                 continue
             repo = bs_repo[len(DB_PREFIX):]
+            _p = repo.find("-")
+            repo = repo[_p+1:]
             # print(repo)
 
             cat = databroker.catalog[bs_repo]
@@ -191,6 +192,8 @@ class Server:
 
     def identifyRepositories(self):
         db_list = self.get_databases()
+        if db_list is None:
+            return
         run_db, ref_db = BROKER_DATABASE_NAMES
         if run_db in db_list:
             # Original-style database names
@@ -214,7 +217,7 @@ class Server:
                 if ref_db in db_list:
                     db_list.remove(ref_db)
                 else:
-                    ref_db = ""
+                    ref_db = run_db
                 return instrument, run_db, ref_db
 
             for pair in DATABASE_NAME_SUFFIXES:
@@ -260,7 +263,7 @@ def main():
         usaxsserver
         wow
         xmd34id
-    """
+    """.split()
     repos = Repositories(servers)
     print("Bluesky (databroker) Repository Report")
     print(repos.repository_report())
