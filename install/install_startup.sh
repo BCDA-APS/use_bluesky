@@ -28,6 +28,10 @@ export STARTUP_TARBALL="$(realpath $(dirname $0))/${TARNAME}"
 export REPO=https://github.com/BCDA-APS/use_bluesky
 export STARTUP_URL="${REPO}/raw/main/install/${TARNAME}"
 
+# pip hangs after running any command 
+# https://github.com/pypa/pip/issues/9061
+export PYTHON_KEYRING_BACKEND=keyring.backends.null.Keyring
+
 
 function show_usage() {
     echo "usage: $0 BEAMLINE INSTRUMENT CATALOG"
