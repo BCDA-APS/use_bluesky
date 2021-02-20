@@ -1,44 +1,34 @@
 # Installation
 
-Follow these sections, in sequence, to install the Bluesky framework for an instrument.
+Follow these sections, in sequence, to install the Bluesky framework for an
+instrument.
 
 - [Installation](#installation)
-  - [Activate Conda base Environment](#activate-conda-base-environment)
+  - [Activate Conda "base" Environment](#activate-conda-base-environment)
+  - [Install Databroker Configuration File](#install-databroker-configuration-file)
   - [Install Bluesky Environment](#install-bluesky-environment)
   - [Activate Bluesky Environment](#activate-bluesky-environment)
   - [Create IPython Profile for Bluesky](#create-ipython-profile-for-bluesky)
-  - [Install Databroker Configuration File](#install-databroker-configuration-file)
   - [Install Instrument Package](#install-instrument-package)
   - [Commit Instrument Package to Version Control](#commit-instrument-package-to-version-control)
   - [Translate Previous SPEC Configuration](#translate-previous-spec-configuration)
   - [Add Environment Configuration to .bash_aliases](#add-environment-configuration-to-bash_aliases)
   - [Install Starter Script](#install-starter-script)
-  - [Try it](#try-it)
-    - [Test Existing Configuration](#test-existing-configuration)
-      - [Read](#read)
-      - [Move](#move)
-      - [Count](#count)
-      - [List, Describe, Summary](#list-describe-summary)
-    - [Next Steps](#next-steps)
-      - [Add Motor(s)](#add-motors)
-      - [Add Scaler(s)](#add-scalers)
-      - [Re-organize into Devices](#re-organize-into-devices)
-      - [Add Area Detector(s)](#add-area-detectors)
-      - [Other Device Support](#other-device-support)
-      - [Implement Custom Plans](#implement-custom-plans)
-      - [Review Metadata](#review-metadata)
+  - [Start Bluesky](#start-bluesky)
 
-## Activate Conda base Environment
+Once installed, proceed to these guides:
+
+* Test your installation following the [First Steps Guide](first_steps_guide.md)
+* Continue building the instrument package following the [Instrument Package Guide](instrument_package_guide.md)
+
+## Activate Conda "base" Environment
 
 TODO: install miniconda or anaconda
 
-## Install Bluesky Environment
-
-## Activate Bluesky Environment
-
-## Create IPython Profile for Bluesky
-
 ## Install Databroker Configuration File
+
+This file configures how Bluesky connects with its repository (and databases) on
+the MongoDB database server.
 
 Follow this template:
 
@@ -54,8 +44,73 @@ sources:
 Replace the `REPOSITORY` and `SERVER` terms and write to file:
 `~/.local/share/intake/catalogs.yml`.
 
+The beam line controls group (BCDA) will assign the REPOSITORY and its SERVER.
+
+## Install Bluesky Environment
+
+Get the installation configuration ([YAML](https://yaml.org)) file.  The file is
+versioned based on the APS run cycle.  This YAML file is for the first run
+(January-April) in 2021.
+
+```
+cd /tmp
+wget https://github.com/BCDA-APS/use_bluesky/raw/main/install/environment_2021_1.yml
+```
+
+Create the custom conda environment named in the file (`bluesky_2021_1`):
+
+```
+conda env create -f environment_2021_1.yml
+```
+
+## Activate Bluesky Environment
+
+```
+conda activate bluesky_2021_1
+```
+
+## Create IPython Profile for Bluesky
+
+If there is an existing `~/.ipython` directory (perhaps created for other use
+from this account), then choose a unique directory for bluesky.  Typical
+alternative is `~/.ipython-bluesky`.
+
+```
+export BLUESKY_DIR=~/.ipython
+ipython profile create bluesky --ipython-dir="${BLUESKY_DIR}"
+```
+
 
 ## Install Instrument Package
+
+Remove the existing `startup` directory (created from `ipython profile create` step above):
+
+```
+rm startup/README
+rmdir startup
+```
+
+Download the install script:
+
+```
+cd "${BLUESKY_DIR}/profile_bluesky"
+wget https://github.com/BCDA-APS/use_bluesky/raw/main/install/install_startup.sh
+```
+
+Run the installer
+
+```
+bash ./install_startup.sh  BEAMLINE INSTRUMENT REPOSITORY
+```
+
+where `BEAMLINE` `INSTRUMENT` `REPOSITORY` each contain no white space
+characters.  The terms BEAMLINE and INSTRUMENT will be added to the standard
+metadata added to every Bluesky
+[_run_](https://blueskyproject.io/bluesky/documents.html?highlight=run).
+Example: `bash ./install_startup.sh  45-ID FemtoScanner 45id_femtoscanner`
+
+The beam line controls group (BCDA) will assign the REPOSITORY and its SERVER.
+
 
 ## Commit Instrument Package to Version Control
 
@@ -63,75 +118,44 @@ Replace the `REPOSITORY` and `SERVER` terms and write to file:
 
 ## Add Environment Configuration to .bash_aliases
 
+The `~/.bash_aliases` file is the usual place to customize the bash shell.  It
+is executed from `~/.bashrc` when a new console is created.
+
+Add these lines to `~/.bash_aliases`:
+
+```
+export CONDA_ENVIRONMENT=bluesky_2021_1
+alias become_bluesky='conda activate "${CONDA_ENVIRONMENT}" '
+```
+
 ## Install Starter Script
 
-## Try it
+It is useful to create a local directory (such as `~/bin`) for custom starter
+scripts and executable file links.  Use these steps to configure your account.
+Add this line to `~/.bash_aliases`:
+
+```
+export PATH="~/bin:${PATH}"
+```
+
+and create the directory:
+
+```
+mkdir ~/bin
+```
+
+Add the starter script to `~/bin`:
+
+```
+cd ~/bin
+ln -s ${BLUESKY_DIR}/profile_bluesky/startup/blueskyStarter.sh ./
+```
+
+TIP: You might rename `~/bin/blueskyStarter.sh` to something appropriate for
+your instrument name, such as the hypothetical example above:
+`blueskyFemtoScanner.sh`
+
+## Start Bluesky
 
 * Change to desired working directory.
 * Start Bluesky session using the starter script.
-
-### Test Existing Configuration
-
-* Verify the existing configuration works as expected:
-
-  * motors have values matching EPICS
-  * scaler(s) match EPICS
-
-#### Read
-
-command | description
---- | ---
-`OBJECT.get()` | low-level command to show value of ophyd *Signal* named `OBJECT`
-`OBJECT.read()` | data acquisition command, includes timestamp
-`listdevice(OBJECT)` | table-version of `.read()`
-`OBJECT.summary()` | more information about `OBJECT`
-`MOTOR.position` | get readback, only for motor objects
-`MOTOR.user_readback.get()` | alternative to `MOTOR.position`
-
-#### Move
-
-command | description
---- | ---
-`%mov MOTOR value` | move MOTOR to value (command line only)
-`%movr MOTOR value` | relative move (command line only)
-`MOTOR.move(value)` | alternative to `%mov`
-`MOTOR.user_setpoint.put(value)` | alternative to `%mov`
-
-#### Count
-
-command | description
---- | ---
-`%ct` | 
-TODO: OTHER | 
-
-Count time setting is different for various types of detectors:
-
-detector | set count time
---- | ---
-scaler | `SCALER.preset_time.put(COUNT_TIME_S)`
-area detector | `AD.cam.acquire_time.put(COUNT_TIME_S)`
-
-#### List, Describe, Summary
-
-command | description
---- | ---
-`wa` | show all labeled objects
-`listobjects()` | table of all global objects
-`listruns()` | table of runs (default: last 20)
-`OBJECT.describe()` | 
-
-### Next Steps
-
-#### Add Motor(s)
-
-#### Add Scaler(s)
-
-#### Re-organize into Devices
-
-#### Add Area Detector(s)
-
-#### Other Device Support
-
-#### Implement Custom Plans
-
-#### Review Metadata
