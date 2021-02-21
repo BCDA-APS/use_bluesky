@@ -22,8 +22,8 @@ instrument.
 
 Once installed, proceed to these guides:
 
-* Test your installation following the [First Steps Guide](first_steps_guide.md)
-* Continue building the instrument package following the [Instrument Package Guide](instrument_package_guide.md)
+* Test your installation following the [First Steps Guide](../first_steps_guide.md)
+* Continue building the instrument package following the [Instrument Package Guide](../instrument_package_guide.md)
 
 **NOTE:** You will need to use the `bash` shell for the commands
 in this guide.  If you get strange errors from the various
