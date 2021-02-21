@@ -1,6 +1,6 @@
 # use_bluesky
 
-Tools to help APS use the [Bluesky framework](blueskyproject.io) ([GitHub](https://github.com/bluesky)).
+Tools to help APS use the [Bluesky framework](https://blueskyproject.io) ([GitHub](https://github.com/bluesky)).
 
 **Contents**
 * [Wiki](https://github.com/BCDA-APS/use_bluesky/wiki): Includes list of APS instruments
