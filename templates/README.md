@@ -2,19 +2,16 @@
 
 Files and directories here are templates for installation.
 
-It is assumed you have already
-[created a custom conda environment](/python_installation/README.md#quick-summary)
-for your use of the Bluesky framework.
+It is assumed you have already [created a custom conda
+environment](/install/README.md#activate-conda-base-environment) for your use of
+the Bluesky framework.
 
 CONTENTS
 
 - [Templates](#templates)
 - [Install instrument package](#install-instrument-package)
   - [ipython profile configuration](#ipython-profile-configuration)
-    - [Download & Installation](#download--installation)
-    - [EXAMPLE](#example)
   - [independent package installed into python environment](#independent-package-installed-into-python-environment)
-    - [Download & Installation](#download--installation-1)
   - [direct python code](#direct-python-code)
   - [happi database](#happi-database)
   - [configuration from YAML files](#configuration-from-yaml-files)
@@ -48,22 +45,12 @@ for IPython console sessions.  It is slightly more difficult to use (than the
 independent package installation) for Jupyter notebook sessions since the path
 to the instrument package must be defined within the Jupyter session.
 
-### Download & Installation
+See the [installation guide](/install/README.md).
 
-Use these bash commands to download and install the instrument package
-template in your ipython `bluesky` profile.  You'll need to know your beam
-line name, instrument name, and databroker catalog name.  Each of these are
-one word with no internal whitespace.
+<details>
+<summary>Example (TODO: NEEDS REVISION!)</summary>
 
-```
-export URL=https://raw.githubusercontent.com/BCDA-APS/use_bluesky/main/python_installation/
-cd ~/.ipython/profile_bluesky
-wget ${URL}/install_startup.sh
-bash ./install_startup.sh BEAMLINE INSTRUMENT CATALOG
-rm ./install_startup.sh
-```
-
-### EXAMPLE
+2021-02-21 -- The new installation requires these instructions to be re-written.
 
 ```
 (base) jemian@wow ~/.ipython/profile_testing $ ./install_startup.sh 45ID WNI wnicat
@@ -88,6 +75,8 @@ NOTE:  If you do not have an Anaconda python distribution on path
 `/APSshare/anaconda3/x86_64`, you will need to change the
 `CONDA_ACTIVATE` variable in `startup/blueskyStarter.sh` to fit your system.
 
+</details>
+
 ## independent package installed into python environment
 
 From experience, we've learned that configuration of a scientific instrument
@@ -108,7 +97,10 @@ is the basic layout:
         other/          # could be `utils` instead
 ```
 
-### Download & Installation
+<details>
+<summary>Example (TODO: NEEDS REVISION!)</summary>
+
+2021-02-21 -- The new installation requires these instructions to be re-written.
 
 Use these bash commands to download and install the instrument package
 template as an independent source code directory.
@@ -129,6 +121,8 @@ mv instrument_template/blueskyStarter.sh ~/bin/blueskyStarter.sh
 conda activate bluesky_2020_9
 pip install -e .
 ```
+
+</details>
 
 ## direct python code
 
@@ -159,15 +153,8 @@ console session.  The shell script can define environment variables
 needed only by this session.  See the example shell script
 [`blueskyStarter.sh`](/templates/example_blueskyStarter.sh) in this directory.
 
-1. Install this script into your account's `~/bin` directory (or some directory
-on your exectuable `$PATH` where you install such things).
-1. Change the script's name to something relevant, such as `blueskyWONI` (for the hypothetical *WONI* instrument)
-1. Make sure the script is executable (`chmod +x blueskyWONI`)
-1. In the script, edit `CONDA_ACTIVATE` for the path to your conda `base` environment.
-1. In the script, edit `CONDA_ENVIRONMENT` for the name of your conda environment for bluesky.  Use `base` if no custom environment.
-1. In the script, edit `IPYTHON_PROFILE` for the name of your IPython profile for bluesky.
-1. In the script, edit `IPYTHONDIR` for the path to your IPython directory.
-1. Add any other setup (such as environment variables) needed to run.
+Follow this guide to [install](/install.README.md#install-starter-script) a
+starter script.
 
 # Revision control
 

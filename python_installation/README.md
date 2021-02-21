@@ -1,5 +1,11 @@
 # Install a new conda environment
 
+NOTE: These instructions are old.  New instructions are in the
+[`install` folder](../install/README.md).  This directory will be
+removed in 2021-05.
+
+--------
+
 If you have an existing python installation with conda installed,
 then you can create a custom conda environment for Bluesky.
 
