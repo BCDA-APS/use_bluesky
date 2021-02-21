@@ -1,6 +1,9 @@
 # Guide: First Steps with Bluesky
 
-Verify the existing configuration works as expected:
+This is a quick-reference guide for those learning how
+to use the Bluesky Framework for data acquisition.
+
+Use these commands to verify the existing configuration works as expected:
 
   * motors have values matching EPICS
   * scaler(s) match EPICS
@@ -21,9 +24,9 @@ command | description
 `OBJECT.get()` | low-level command to show value of ophyd *Signal* named `OBJECT`
 `OBJECT.read()` | data acquisition command, includes timestamp
 `listdevice(OBJECT)` | table-version of `.read()`
-`OBJECT.summary()` | more information about `OBJECT`
 `MOTOR.position` | get readback, only for motor objects
 `MOTOR.user_readback.get()` | alternative to `MOTOR.position`
+`OBJECT.summary()` | more information about `OBJECT`
 
 <details>
 <summary>Examples:</summary>
@@ -45,7 +48,10 @@ m1_user_setpoint 0.0   2021-02-20 21:42:29.109200
 
 Out[12]: <pyRestTable.rest_table.Table at 0x7fe0649cbd00>
 
-In [13]: m1.summary()
+In [13]: m1.position
+Out[13]: 0.0
+
+In [14]: m1.summary()
 data keys (* hints)
 -------------------
 *m1
@@ -90,9 +96,6 @@ soft_limit_lo        EpicsSignal         ('m1_soft_limit_lo')
 soft_limit_hi        EpicsSignal         ('m1_soft_limit_hi')
 steps_per_rev        EpicsSignal         ('m1_steps_per_rev')
 
-
-In [14]: m1.position
-Out[14]: 0.0
 
 ```
 
