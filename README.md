@@ -3,15 +3,15 @@
 Tools to help APS use the [Bluesky framework](blueskyproject.io)([GitHub](https://github.com/bluesky)).
 
 **Contents**
-* [wiki](https://github.com/BCDA-APS/use_bluesky/wiki): Wiki, starts with list of installations
-* [install](install/README.md): Installation Guide
+* [Wiki](https://github.com/BCDA-APS/use_bluesky/wiki): Includes list of APS instruments
+* [`/install`](install/README.md): Installation Guide
 * [First Steps Guide](first_steps_guide.md) : First Steps to use Bluesky after installation
 * [Instrument Package Guide](instrument_package_guide.md): Building the `instrument` package
-* [lessons](lessons/README.md): lessons, tutorials, examples, other - all in Jupyter notebooks
-* [templates](templates/README.md):
+* [`/lessons`](lessons/README.md): Jupyter notebooks with lessons, tutorials, examples, other
+* [`/templates`](templates/README.md): (2021-02-21: needs update)
   * used in lessons
   * templates for installation
-* [admin](admin/README.md): Administering Bluesky
+* [`/admin`](admin/README.md): Administering Bluesky
 
 **Other resources**
 
