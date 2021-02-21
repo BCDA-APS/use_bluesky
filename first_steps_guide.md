@@ -409,7 +409,7 @@ plan function | NOT allowed | call Bluesky [plans](https://blueskyproject.io/blu
 command line | allowed | use magics (such as `%mov`), `.put()`, and/or `RE(a_plan())`
 
 <details>
-<summary>Examples</summary>
+<summary>Examples:</summary>
 
 <b>plan function</b>
 
