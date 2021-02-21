@@ -55,7 +55,7 @@ If you installed your own, then:
 
     source /path/to/miniconda3/bin/activate base
 
-Once activate, you can see all installed environments with this command:
+Once activated, you can see all installed environments with this command:
 
 ```
 mintadmin@mint-vm:/tmp$ conda env list
@@ -142,10 +142,9 @@ before continuing.  Test by looking at the APS storage ring current:
 
     aps.current.value
 
-The complete structure:
 
 <details>
-<summary><tt>aps.summary()</tt></summary>
+<summary><tt>aps.summary()</tt>: complete structure</summary>
 
 ```
 In [1]: aps.summary()
@@ -208,10 +207,9 @@ unused attrs
 
 </details>
 
-Current values are: `aps.read()`
 
 <details>
-<summary><tt>aps.read()</tt></summary>
+<summary><tt>aps.read()</tt>: current timestamped values</summary>
 
 ```
 In [2]: aps.read()
@@ -260,10 +258,9 @@ OrderedDict([('aps_current',
 
 </details>
 
-Current values are: `aps.read()`
 
 <details>
-<summary>as table: <tt>device_read2table(aps)</tt></summary>
+<summary><tt>device_read2table(aps): <tt>aps.read()</tt> in table with formatted timestamps</tt></summary>
 
 ```
 In [4]: from apstools.utils import device_read2table
@@ -305,9 +302,9 @@ simulators provided in *ophyd*.
     import ophyd.sim
     sim = ophyd.sim.hw()
 
-Now test some of the simulators as above:
 
 <details>
+<summary>Test some of the simulators</summary>
 
 ```
 In [10]: sim.motor.position
@@ -327,6 +324,7 @@ Out[13]: 0.9765596019916091
 
 ```
 
+</details>
 
 
 ## Create IPython Profile for Bluesky
@@ -376,7 +374,11 @@ REPOSITORY and its SERVER.
 
 ## Commit Instrument Package to Version Control
 
-TODO:
+Until this section is written, compare with other APS instruments
+listed on the [wiki](https://github.com/BCDA-APS/use_bluesky/wiki).
+
+<details>
+<summary>TODO:</summary>
 
 * identify or create GitHub organization
 * create empty GitHub repository
@@ -384,6 +386,7 @@ TODO:
 * adjust the .gitignore file
 * add new content, commit, and push back to GitHub
 * See the [wiki](https://github.com/BCDA-APS/use_bluesky/wiki) for details.
+</details>
 
 ## Translate Previous SPEC Configuration
 
@@ -400,7 +403,8 @@ then make sure to import this file in
 `${INSTRUMENT}/devices/__init__.py` following the pattern of other
 imports there.
 
-Example:
+<details>
+<summary><tt>spec2ophyd</tt> example:</summary>
 
 ```
 (bluesky_2021_1) mintadmin@mint-vm:/tmp$ spec2ophyd /home/mintadmin/Documents/projects/BCDA-APS/apstools/apstools/migration/config
@@ -489,6 +493,8 @@ upd2 = c0.channels.chan04.s
 trd = c0.channels.chan05.s
 I000 = c0.channels.chan06.s
 ```
+
+</details>
 
 ## Add Environment Configuration to .bash_aliases
 
