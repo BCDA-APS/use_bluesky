@@ -258,6 +258,7 @@ def main():
         eggplant
         groggy
         otz
+        poof
         s100apps
         s8idapps
         usaxsserver

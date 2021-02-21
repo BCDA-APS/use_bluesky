@@ -1,6 +1,8 @@
 
 # How to backup (and move/merge bluesky's mongodb data)
 
+It is possible that these tools are superceded by [databroker-pack](https://github.com/bluesky/databroker-pack).
+
 ## Goal
 
 * Mitigate risk of data loss (hardware failure, data corruption, ...) 
