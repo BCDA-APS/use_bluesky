@@ -1,15 +1,18 @@
-# First Steps Guide
+# Guide: First Steps with Bluesky
 
-* Verify the existing configuration works as expected:
+Verify the existing configuration works as expected:
 
   * motors have values matching EPICS
   * scaler(s) match EPICS
 
-- [First Steps Guide](#first-steps-guide)
+**Contents**
+- [Guide: First Steps with Bluesky](#guide-first-steps-with-bluesky)
   - [Read](#read)
   - [Move](#move)
   - [Count](#count)
   - [List, Describe, Summary](#list-describe-summary)
+  - [Bluesky Plans _vs_. Command-line Actions](#bluesky-plans-vs-command-line-actions)
+  - [Log files](#log-files)
 
 ## Read
 
@@ -21,6 +24,9 @@ command | description
 `OBJECT.summary()` | more information about `OBJECT`
 `MOTOR.position` | get readback, only for motor objects
 `MOTOR.user_readback.get()` | alternative to `MOTOR.position`
+
+<details>
+<summary>Examples:</summary>
 
 ```python
 In [10]: m1.user_setpoint.get()
@@ -90,6 +96,8 @@ Out[14]: 0.0
 
 ```
 
+</details>
+
 ## Move
 
 command | description
@@ -101,6 +109,9 @@ command | description
 `bps.mv(MOTOR, value)` | bluesky plan command to move and wait for completion
 `bps.mv(MOTOR.user_setpoint, value)` | bluesky plan command, same
 `bps.mvr(MOTOR, value)` | bluesky plan command, relative move
+
+<details>
+<summary>Examples:</summary>
 
 ```python
 In [15]: %mov m1 1
@@ -116,6 +127,9 @@ In [19]: RE(bps.mv(m1, 0))
 Out[19]: ()                                                                                                                                 
 ```
 
+</details>
+
+
 ## Count
 
 command | description
@@ -130,6 +144,9 @@ detector | set count time
 --- | ---
 scaler | `SCALER.preset_time.put(COUNT_TIME_S)`
 area detector | `AD.cam.acquire_time.put(COUNT_TIME_S)`
+
+<details>
+<summary>Examples:</summary>
 
 ```python
 In [20]: scaler.preset_time.get()
@@ -166,6 +183,8 @@ OrderedDict([('I0Mon', {'value': 11.0, 'timestamp': 1613880389.315847}),
 
 ```
 
+</details>
+
 ## List, Describe, Summary
 
 command | description
@@ -175,6 +194,9 @@ command | description
 `listruns()` | table of runs (default: last 20)
 `OBJECT.describe()` | OBJECT metadata: PV, type, units, limits, precision, ... (written as part of a run)
 `OBJECT.summary()` | OBJECT details in human readable terms
+
+<details>
+<summary>Examples:</summary>
 
 ```python
 In [43]: %wa
@@ -371,7 +393,52 @@ update_rate          EpicsSignal         ('scaler_update_rate')
 auto_count_update_rate EpicsSignal         ('scaler_auto_count_update_rate')
 
 ```
+
+</details>
+
+## Bluesky Plans _vs_. Command-line Actions
+
+There is a difference in the commands to use depending on the context.
+
+context | blocking? | command style
+--- | --- | ---
+plan function | allowed | call Bluesky [plans](https://blueskyproject.io/bluesky/plans.html) written as [generator](https://wiki.python.org/moin/Generators) functions using `yield from a_plan()`
+command line | allowed | use magics (such as `%mov`), `.put()`, and/or `RE(a_plan())`
+
+<details>
+<summary>Examples</summary>
+
+<b>plan function</b>
+
+```python
+def _insertFilters_(a, b):
+    """plan: insert the EPICS-specified filters"""
+    yield from bps.mv(pf4_AlTi.fPosA, int(a), pf4_AlTi.fPosB, int(b))
+    yield from bps.sleep(0.5)       # allow all blades to re-position
+
+# then call from another plan such as
+
+    yield from _insertFilters_(0, 0)
 ```
+
+<b>command line actions</b>
+
+```python
+%mov pf4_AlTi.fPosA int(a) pf4_AlTi.fPosB int(b)
+# or
+pf4_AlTi.fPosA.put(int(a))
+pf4_AlTi.fPosB.put(int(b))
+# or
+RE(bps.mv(bps.mv(pf4_AlTi.fPosA, int(a), pf4_AlTi.fPosB, int(b))))
+```
+
+NOTE: On the command line, we can ignore the 0.5 s sleep needed by automated
+procedures.
+
+</details>
+
+If you are translating PyEpics code to Bluesky plans, consult this
+[guide](https://blueskyproject.io/bluesky/from-pyepics-to-bluesky.html?highlight=blocking).
 
 ## Log files
 
@@ -383,10 +450,43 @@ Python [logging](https://docs.python.org/3/library/logging.html) package.
 
 In the IPython session, use the `!` to run a linux command:
 
+<details>
+<summary>Examples:</summary>
+
 ```python
 In [50]: !ls -lAFgh .logs
-total 24K
--rw-rw-r-- 1 mintadmin  13K Feb 20 22:13 ipython_console.log
--rw-rw-r-- 1 mintadmin 6.2K Feb 20 21:42 ipython_logger.log
+total 36K
+-rw-rw-r-- 1 prjemian prjemian 1.6K Feb 20 12:31 ipython_console.log
+-rw-rw-r-- 1 prjemian prjemian  411 Feb 20 12:23 ipython_console.log.001~
+-rw-rw-r-- 1 prjemian prjemian  832 Feb 20 12:19 ipython_console.log.002~
+-rw-rw-r-- 1 prjemian prjemian  154 Feb 20 12:17 ipython_console.log.003~
+-rw-rw-r-- 1 prjemian prjemian  250 Feb 20 12:17 ipython_console.log.004~
+-rw-rw-r-- 1 prjemian prjemian  13K Feb 20 12:23 ipython_logger.log
+
+In [51]: !head .logs/ipython_console.log
+# IPython log file
+
+# Sat, 20 Feb 2021 12:23:20
+listobjects()
+#[Out]# <pyRestTable.rest_table.Table at 0x7f65265a9ee0>
+# Sat, 20 Feb 2021 12:23:26
+listruns()
+#[Out]# <pyRestTable.rest_table.Table at 0x7f64b9e912b0>
+# Sat, 20 Feb 2021 12:23:28
+db
+
+In [52]: !head .logs/ipython_logger.log
+|2021-02-20 12:14:55.966|INFO|92929|bluesky-session|session_logs|35|MainThread| - ############################################################ startup
+|2021-02-20 12:14:55.966|INFO|92929|bluesky-session|session_logs|36|MainThread| - logging started
+|2021-02-20 12:14:55.966|INFO|92929|bluesky-session|session_logs|37|MainThread| - logging level = 10
+|2021-02-20 12:14:55.966|INFO|92929|bluesky-session|collection|7|MainThread| - /home/prjemian/.ipython/profile_bluesky/startup/instrument/collection.py
+|2021-02-20 12:14:55.966|INFO|92929|bluesky-session|console|11|MainThread| - /home/prjemian/.ipython/profile_bluesky/startup/instrument/mpl/console.py
+|2021-02-20 12:14:56.182|INFO|92929|bluesky-session|collection|11|MainThread| - bluesky framework
+|2021-02-20 12:14:56.183|INFO|92929|bluesky-session|check_python|9|MainThread| - /home/prjemian/.ipython/profile_bluesky/startup/instrument/framework/check_python.py
+|2021-02-20 12:14:56.183|INFO|92929|bluesky-session|check_bluesky|9|MainThread| - /home/prjemian/.ipython/profile_bluesky/startup/instrument/framework/check_bluesky.py
+|2021-02-20 12:14:56.688|INFO|92929|bluesky-session|initialize|15|MainThread| - /home/prjemian/.ipython/profile_bluesky/startup/instrument/framework/initialize.py
+|2021-02-20 12:14:57.281|INFO|92929|bluesky-session|initialize|67|MainThread| - New directory to store RE.md between sessions: /home/prjemian/.config/Bluesky_RunEngine_md
 
 ```
+
+</details>

@@ -3,6 +3,8 @@
 Follow these sections, in sequence, to install the Bluesky framework for an
 instrument.
 
+
+**Contents**
 - [Installation](#installation)
   - [Activate Conda "base" Environment](#activate-conda-base-environment)
   - [Install MongoDB server](#install-mongodb-server)
