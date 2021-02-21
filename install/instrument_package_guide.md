@@ -11,14 +11,22 @@
 
 ## Add Motor(s)
 
+TODO:
 ## Add Scaler(s)
 
+TODO:
 ## Re-organize into Devices
 
+TODO:
 ## Add Area Detector(s)
 
+TODO:
 ## Other Device Support
 
+TODO:
 ## Implement Custom Plans
 
+TODO:
 ## Review Metadata
+
+TODO:
