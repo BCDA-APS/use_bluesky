@@ -5,35 +5,24 @@ Tools to help APS use [Bluesky](http://nsls-ii.github.io/bluesky)
 from [NSLS-II](http://nsls-ii.github.io)
 
 - [use_bluesky](#use_bluesky)
-  - [Installation](#installation)
-  - [Resources](#resources)
-    - [In this repository](#in-this-repository)
-    - [Other resources](#other-resources)
+  - [In this repository](#in-this-repository)
+  - [Other resources](#other-resources)
   - [Notes](#notes)
 
-## Installation
-
-1. [setup mongodb server](admin/README.md)
-1. [install Miniconda](python_installation/miniconda.md)
-1. [create ipython profile for bluesky](python_installation/README.md#create-ipython-profile-for-bluesky)
-1. [setup conda environment for bluesky](python_installation/README.md#setup-custom-environment-for-bluesky)
-1. [setup instrument profile](templates/README.md#install-instrument-package)
-1. [setup starter script](templates/README.md#install-bluesky-starter-script)
-
-## Resources
-
-### In this repository
+## In this repository
 
 * [wiki](https://github.com/BCDA-APS/use_bluesky/wiki):
   Wiki, starts with list of installations
+* [install](install/README.md): Installation Guide
 * [lessons](lessons/README.md): lessons, tutorials, examples,
   other - all in Jupyter notebooks
 * [templates](templates/README.md):
-  Files and directories here are templates for installation
+  * used in lessons
+  * templates for installation
 * [admin](admin/README.md):
   Administering Bluesky
 
-### Other resources
+## Other resources
 
 resource | link(s)
 ---- | ----

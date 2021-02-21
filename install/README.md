@@ -5,6 +5,7 @@ instrument.
 
 - [Installation](#installation)
   - [Activate Conda "base" Environment](#activate-conda-base-environment)
+  - [Install MongoDB server](#install-mongodb-server)
   - [Install Databroker Configuration File](#install-databroker-configuration-file)
   - [Install Bluesky Environment](#install-bluesky-environment)
   - [Activate Bluesky Environment](#activate-bluesky-environment)
@@ -65,6 +66,14 @@ base                  *  /home/mintadmin/Apps/anaconda
 ```
 
 
+## Install MongoDB server
+
+If you need to provide your own MongoDB server, follow this
+[guide](https://github.com/BCDA-APS/use_bluesky/wiki/mongodb-server).
+
+At the APS, the beam line controls group (BCDA) will assign the
+REPOSITORY and its SERVER.
+
 ## Install Databroker Configuration File
 
 This file configures how Bluesky connects with its repository (and
@@ -84,8 +93,8 @@ sources:
 Replace the `REPOSITORY` and `SERVER` terms and write to file:
 `~/.local/share/intake/catalogs.yml`.
 
-The beam line controls group (BCDA) will assign the REPOSITORY and its
-SERVER.
+At the APS, the beam line controls group (BCDA) will assign the
+REPOSITORY and its SERVER.
 
 ## Install Bluesky Environment
 
@@ -361,7 +370,8 @@ metadata added to every Bluesky
 [_run_](https://blueskyproject.io/bluesky/documents.html?highlight=run).
 Example: `bash ./install_startup.sh  45-ID FemtoScanner 45id_femtoscanner`
 
-The beam line controls group (BCDA) will assign the REPOSITORY and its SERVER.
+At the APS, the beam line controls group (BCDA) will assign the
+REPOSITORY and its SERVER.
 
 
 ## Commit Instrument Package to Version Control
@@ -373,6 +383,7 @@ TODO:
 * clone GitHub repository to the startup directory or .ipython
 * adjust the .gitignore file
 * add new content, commit, and push back to GitHub
+* See the [wiki](https://github.com/BCDA-APS/use_bluesky/wiki) for details.
 
 ## Translate Previous SPEC Configuration
 
