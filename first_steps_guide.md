@@ -405,7 +405,7 @@ There is a difference in the commands to use depending on the context.
 
 context | blocking? | command style
 --- | --- | ---
-plan function | allowed | call Bluesky [plans](https://blueskyproject.io/bluesky/plans.html) written as [generator](https://wiki.python.org/moin/Generators) functions using `yield from a_plan()`
+plan function | NOT allowed | call Bluesky [plans](https://blueskyproject.io/bluesky/plans.html) written as [generator](https://wiki.python.org/moin/Generators) functions using `yield from a_plan()`
 command line | allowed | use magics (such as `%mov`), `.put()`, and/or `RE(a_plan())`
 
 <details>
