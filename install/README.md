@@ -347,6 +347,7 @@ Remove the existing `startup` directory (created from `ipython profile
 create` step above):
 
 ```
+cd "${BLUESKY_DIR}/profile_bluesky"
 rm startup/README
 rmdir startup
 ```
