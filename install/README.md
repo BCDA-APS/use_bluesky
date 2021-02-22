@@ -398,12 +398,12 @@ of the SPEC config file into ophyd commands.  The output is to the
 console.  Use a pipe to direct the output to a new file:
 
 ```
-export INSTRUMENT=${BLUESKY_DIR}/profile/bluesky/startup/instrument
-spec2ophyd CONFIG_FILE | tee ${INSTRUMENT}/devices/spec.py
+export INSTRUMENT_DIR=${BLUESKY_DIR}/profile/bluesky/startup/instrument
+spec2ophyd CONFIG_FILE | tee ${INSTRUMENT_DIR}/devices/spec.py
 ```
 
 then make sure to import this file in
-`${INSTRUMENT}/devices/__init__.py` following the pattern of other
+`${INSTRUMENT_DIR}/devices/__init__.py` following the pattern of other
 imports there.
 
 <details>
