@@ -298,15 +298,15 @@ Out[5]: <pyRestTable.rest_table.Table at 0x7f3c0654a990>
 
 </details>
 
+
+<details>
+<summary>Test some of the simulators (without EPICS)</summary>
+
 You can still test that *ophyd* is working without a set of EPICS PVs by using the
 simulators provided in *ophyd*.
 
     import ophyd.sim
     sim = ophyd.sim.hw()
-
-
-<details>
-<summary>Test some of the simulators</summary>
 
 ```
 In [10]: sim.motor.position
