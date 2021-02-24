@@ -108,7 +108,7 @@ command | description
 `%mov MOTOR value` | interactive command move MOTOR to value (command line only)
 `%movr MOTOR value` | interactive command relative move (command line only)
 `MOTOR.move(value)` | ophyd command to `%mov`
-`MOTOR.user_setpoint.put(value)` | ophyd to set motor `.VAL` field but not waiy
+`MOTOR.user_setpoint.put(value)` | ophyd to set motor `.VAL` field but not wait
 `bps.mv(MOTOR, value)` | bluesky plan command to move and wait for completion
 `bps.mv(MOTOR.user_setpoint, value)` | bluesky plan command, same
 `bps.mvr(MOTOR, value)` | bluesky plan command, relative move
