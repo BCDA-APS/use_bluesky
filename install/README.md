@@ -142,7 +142,7 @@ We need to wait for those PVs to connect (could call
 `aps.wait_for_connections()`). Check that `aps.connected` returns `True`
 before continuing.  Test by looking at the APS storage ring current:
 
-    aps.current.value
+    aps.current.get()
 
 
 <details>
@@ -321,7 +321,7 @@ OrderedDict([('motor', {'value': 0, 'timestamp': 1562779985.5141134}),
 In [12]: sim.noisy_det.read()
 Out[12]: {'noisy_det': {'value': 0.9765596019916091, 'timestamp': 1562779985.5194004}}
 
-In [13]: sim.noisy_det.value
+In [13]: sim.noisy_det.get()
 Out[13]: 0.9765596019916091
 
 ```
