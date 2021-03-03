@@ -8,7 +8,7 @@ channels:
   - pcds-tag
 dependencies:
   - python>=3.8
-  - anaconda
+  # - anaconda
   - aps-dm-api
   - apstools
   - area-detector-handlers
