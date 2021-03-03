@@ -7,7 +7,7 @@ channels:
   - pydm-tag
   - pcds-tag
 dependencies:
-  - anaconda
+  # - anaconda
   - area-detector-handlers
   - black
   - bluesky>=1.6.2
