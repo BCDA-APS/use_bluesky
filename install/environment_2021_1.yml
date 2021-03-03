@@ -8,7 +8,8 @@ channels:
   - pcds-tag
 dependencies:
   - python>=3.8
-  - anaconda
+  # remove anaconda package, it makes install and update take much longer or become unsuccessful
+  # - anaconda
   - aps-dm-api
   - apstools
   - area-detector-handlers
