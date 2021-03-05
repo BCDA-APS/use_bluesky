@@ -513,9 +513,18 @@ alias become_bluesky='conda activate "${CONDA_ENVIRONMENT}" '
 
 ## Install Starter Script
 
-It is useful to create a local directory (such as `~/bin`) for custom starter
-scripts and executable file links.  Use these steps to configure your account.
-Add this line to `~/.bash_aliases`:
+The commands and settings to configure the local environment to begin a
+Bluesky session can be arranged by a simple shell script that starts the
+session.  A sample starter has been provided:
+[`blueskyStarter.sh`](./blueskyStarter.sh).
+
+To allow this starter script to be called from the any directory (such
+as the user's data directory), the starter script can be placed in a
+directory on the user's executable path.
+
+It is useful to create a local directory (such as `~/bin`) for custom
+starter scripts and executable file links.  Use these steps to configure
+your account. Add this line to `~/.bash_aliases`:
 
 ```
 export PATH="~/bin:${PATH}"
