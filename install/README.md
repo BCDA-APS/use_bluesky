@@ -398,7 +398,7 @@ of the SPEC config file into ophyd commands.  The output is to the
 console.  Use a pipe to direct the output to a new file:
 
 ```
-export INSTRUMENT_DIR=${BLUESKY_DIR}/profile/bluesky/startup/instrument
+export INSTRUMENT_DIR=${BLUESKY_DIR}/profile_bluesky/startup/instrument
 spec2ophyd CONFIG_FILE | tee ${INSTRUMENT_DIR}/devices/spec.py
 ```
 
