@@ -6,21 +6,30 @@ This directory contains lessons, tutorials, examples, other - all in Jupyter not
 
 LESSONS
 
-* [lesson1](lesson1.ipynb) - EPICS : scaler and count
-* [lesson2](lesson2.ipynb) - EPICS : motor and scan
-* [lesson3](lesson3.ipynb) - EPICS : show data as it is acquired
-* [lesson3: final](lesson3_final.ipynb) - EPICS : final project
-* [lesson4](lesson4.ipynb) - simulator : scan scaler v. motor
-* [lesson5](lesson5.ipynb) - simulator : find a peak and lineup on it
-* [lesson5: advanced](lesson5_advanced.ipynb) - simulator : *advanced* assignment
-* [lesson6](lesson6.ipynb) - EPICS : area detector
-* [lesson7](lesson7.ipynb) - simulator : four-circle diffractometer
+* [lesson1](https://nbviewer.jupyter.org/github/BCDA-APS/use_bluesky/blob/main/lessons/lesson1.ipynb) - EPICS : scaler and count
+* [lesson2](https://nbviewer.jupyter.org/github/BCDA-APS/use_bluesky/blob/main/lessons/lesson2.ipynb) - EPICS : motor and scan
+* [lesson3](https://nbviewer.jupyter.org/github/BCDA-APS/use_bluesky/blob/main/lessons/lesson3.ipynb) - EPICS : show data as it is acquired
+* [lesson3: final](https://nbviewer.jupyter.org/github/BCDA-APS/use_bluesky/blob/main/lessons/lesson3_final.ipynb) - EPICS : final project
+* [lesson4](https://nbviewer.jupyter.org/github/BCDA-APS/use_bluesky/blob/main/lessons/lesson4.ipynb) - simulator : scan scaler v. motor
+* [lesson5](https://nbviewer.jupyter.org/github/BCDA-APS/use_bluesky/blob/main/lessons/lesson5.ipynb) - simulator : find a peak and lineup on it
+* [lesson5: advanced](https://nbviewer.jupyter.org/github/BCDA-APS/use_bluesky/blob/main/lessons/lesson5_advanced.ipynb) - simulator : *advanced* assignment
+* [lesson6](https://nbviewer.jupyter.org/github/BCDA-APS/use_bluesky/blob/main/lessons/lesson6.ipynb) - EPICS : area detector
+* [lesson7](https://nbviewer.jupyter.org/github/BCDA-APS/use_bluesky/blob/main/lessons/lesson7.ipynb) - simulator : four-circle diffractometer
 
 DEMONSTRATIONS
 
 * [Area Detector Image Types](sandbox/images_darks_flats.ipynb) - EPICS : Images, Darks, & Flats with EPICS area detector, ophyd, and Bluesky
 * [dynamic limits 2 motors](demo_dynamic_limits_2motor.ipynb) - EPICS : Demo of dynamic limit signal to avoid two motor collision
 * [The `aps` device](basic_aps_info.ipynb) - EPICS : Basic information for beam lines from the APS accelerator
+* [Watch a temperature](https://nbviewer.jupyter.org/github/BCDA-APS/bluesky_instrument_training/blob/main/watch_temperature.ipynb)
+* [Access data later, after the measurement](https://nbviewer.jupyter.org/github/BCDA-APS/bluesky_instrument_training/blob/main/after_measurement.ipynb)
+* [Count the scaler](https://nbviewer.jupyter.org/github/BCDA-APS/bluesky_instrument_training/blob/main/count_scaler.ipynb)
+* [Lineup a 1-D peak](https://nbviewer.jupyter.org/github/BCDA-APS/bluesky_instrument_training/blob/main/lineup_1d_peak.ipynb)
+* [Locate peak on 2-D area detector image](https://nbviewer.jupyter.org/github/BCDA-APS/bluesky_instrument_training/blob/main/locate_image_peak.ipynb)
+* [Command Review](https://nbviewer.jupyter.org/github/BCDA-APS/bluesky_instrument_training/blob/main/command_review.ipynb)
+* [Copy data to another workstation](/resources/example-data/README.md)
+* [Analyze 2-D data on Windows workstation](https://nbviewer.jupyter.org/github/BCDA-APS/bluesky_instrument_training/blob/main/resources/example-data/demonstrate.ipynb)
+* [run a Linux command as a Device](https://nbviewer.jupyter.org/github/BCDA-APS/use_bluesky/blob/main/lessons/linux_command_as_Device/demo_doodle.ipynb)
 
 ## Tips
 
