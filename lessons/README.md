@@ -30,6 +30,9 @@ DEMONSTRATIONS
 * [Copy data to another workstation](/resources/example-data/README.md)
 * [Analyze 2-D data on Windows workstation](https://nbviewer.jupyter.org/github/BCDA-APS/bluesky_instrument_training/blob/main/resources/example-data/demonstrate.ipynb)
 * [run a Linux command as a Device](https://nbviewer.jupyter.org/github/BCDA-APS/use_bluesky/blob/main/lessons/linux_command_as_Device/demo_doodle.ipynb)
+* [Overview of the `instrument` package](https://nbviewer.jupyter.org/github/BCDA-APS/bluesky_instrument_training/blob/main/describe_instrument.ipynb)
+* [Custom bluesky plan](https://nbviewer.jupyter.org/github/BCDA-APS/bluesky_instrument_training/blob/main/custom_plan.ipynb)
+* [Databroker analysis of 2-D image](https://nbviewer.jupyter.org/github/BCDA-APS/bluesky_instrument_training/blob/main/databroker_analysis.ipynb)
 
 ## Tips
 
