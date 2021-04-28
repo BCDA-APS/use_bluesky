@@ -22,7 +22,7 @@ Bluesky framework | [documentation](https://blueskyproject.io),  [GitHub](https:
 MongoDB | [home](https://www.mongodb.com/)
 PyDM | [documentation](https://slaclab.github.io/pydm/),  [GitHub](https://github.com/slaclab/pydm),  [PyPI](https://pypi.org/project/pydm/),  [conda](https://anaconda.org/conda-forge/pydm)
 PyEPICS | [documentation](https://pyepics.github.io/pyepics/),  [PyPI](https://pypi.org/project/pyepics/),  [GitHub](https://github.com/pyepics/pyepics)
-training VM | [docs](https://github.com/BCDA-APS/epics-bluesky-vm), [installn](https://github.com/BCDA-APS/epics-bluesky-vm/blob/main/install_vm.md)
+training VM | [docs](https://github.com/BCDA-APS/epics-bluesky-vm), [install](https://github.com/BCDA-APS/epics-bluesky-vm/blob/main/install_vm.md)
 
 <!-- databroker -->
 <!-- jupyter -->
