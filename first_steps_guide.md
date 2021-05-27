@@ -432,7 +432,7 @@ def _insertFilters_(a, b):
 pf4_AlTi.fPosA.put(int(a))
 pf4_AlTi.fPosB.put(int(b))
 # or
-RE(bps.mv(bps.mv(pf4_AlTi.fPosA, int(a), pf4_AlTi.fPosB, int(b))))
+RE(bps.mv(pf4_AlTi.fPosA, int(a), pf4_AlTi.fPosB, int(b)))
 ```
 
 NOTE: On the command line, we can ignore the 0.5 s sleep needed by automated
