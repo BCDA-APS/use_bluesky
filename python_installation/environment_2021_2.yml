@@ -1,11 +1,15 @@
 name: bluesky_2021_2
+
+# use:
+#   date; conda env create --force -f ./environment_2021_2.yml; date
+
 channels:
   - defaults
   - conda-forge
   - nsls2forge
   - aps-anl-tag
+
 dependencies:
-  # - anaconda
   # --- Python core packages
   - python>=3.8
   - ipython
@@ -39,9 +43,7 @@ dependencies:
   - apstools
   - area-detector-handlers
   - bluesky>=1.6.7
-  - bluesky-queueserver
-  - bluesky-webclient
-  - bluesky-widgets
+  - bluesky-kafka
   - databroker-pack
   - databroker>=1.2.3
   - happi
@@ -64,7 +66,7 @@ dependencies:
   - sphinxcontrib-napoleon
   - twine
   - versioneer
-  # pip not needed now: all packages included from above
-  # - pip:
-  #   # - sphinx-rtd-theme
-  #   - super-state-machine
+  - pip:
+    - bluesky-queueserver
+    # - bluesky-webclient
+    - bluesky-widgets
