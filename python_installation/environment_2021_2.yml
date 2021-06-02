@@ -23,29 +23,31 @@ dependencies:
   - pyqt=5
   - qt=5
   # --- support packages
+  - aps-dm-api
+  - epics-base>=7.0.5
   - h5py
   - imagecodecs-lite
   - ipympl
   - lxml
   - pandas
   - pint
+  - pyEpics>=3.4.3
   - pymongo
   - scikit-image
   - xlrd
   # --- Bluesky framework packages
-  - aps-dm-api
   - apstools
   - area-detector-handlers
   - bluesky>=1.6.7
-  - bluesky-widgets 
+  - bluesky-queueserver
+  - bluesky-webclient
+  - bluesky-widgets
   - databroker-pack
   - databroker>=1.2.3
-  - epics-base>=7.0.5
   - happi
   - hklpy>=0.3.16
   - ophyd>=1.6.1
   - pydm
-  - pyEpics>=3.4.3
   # --- user-requested packages
   - nexpy
   - punx
