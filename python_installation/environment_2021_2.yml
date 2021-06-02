@@ -69,5 +69,5 @@ dependencies:
   - pip:
     - bluesky-queueserver
     # - bluesky-webclient
-    - bluesky-widgets
     - git+https://github.com/bluesky/bluesky-webclient
+    - bluesky-widgets
