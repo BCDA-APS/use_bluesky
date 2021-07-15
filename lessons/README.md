@@ -32,7 +32,7 @@ DEMONSTRATIONS
 * [Databroker: **Pack** - Export a few runs to give to a user](https://github.com/BCDA-APS/epics-bluesky-vm/blob/main/external_data/README.md) (accessing the data from databroker)
 * [Databroker: **Unpack** - Import a package of runs.](https://nbviewer.jupyter.org/github/BCDA-APS/epics-bluesky-vm/blob/main/external_data/unpack.ipynb) using databroker-pack
 * [Databroker: Analyze a 2-D image](https://nbviewer.jupyter.org/github/BCDA-APS/bluesky_instrument_training/blob/main/databroker_analysis.ipynb) using databroker
-* [Databroker: Plot $(x,y)$ data from a run](https://nbviewer.jupyter.org/github/BCDA-APS/use_bluesky/blob/main/lessons/plot_x_y_databroker.ipynb) using databroker
+* [Databroker: Plot (x,y) data from a run](https://nbviewer.jupyter.org/github/BCDA-APS/use_bluesky/blob/main/lessons/plot_x_y_databroker.ipynb) using databroker
 * [Diffractometer examples](https://blueskyproject.io/hklpy/examples/index.html) using hklpy
 * [dynamic limits with 2 motors](demo_dynamic_limits_2motor.ipynb) - EPICS : Demo of dynamic limit signal to avoid two motor collision
 * [Lineup a 1-D peak](https://nbviewer.jupyter.org/github/BCDA-APS/bluesky_instrument_training/blob/main/lineup_1d_peak.ipynb) using ophyd, bluesky, and the *instrument* package
