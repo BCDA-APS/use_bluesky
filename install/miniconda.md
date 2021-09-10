@@ -4,7 +4,8 @@ These instructions describing installation of either a
 Miniconda or Anaconda Python distribution, providing
 the [`conda`](https://docs.conda.io) virtual environment management tool.
 
-**Contents**
+CONTENTS
+
 - [Install Miniconda](#install-miniconda)
   - [Download](#download)
   - [Choose an installation location](#choose-an-installation-location)
@@ -12,25 +13,25 @@ the [`conda`](https://docs.conda.io) virtual environment management tool.
 
 ## Download
 
-Download an installer for Python v3.  (Python v2 was end-of-life 2019-12-31.)
+Download an installer for Python v3.  (Python v2 
+was end-of-life 2019-12-31.)
 
 Given the choice between Anaconda and Miniconda, use *Anaconda* if you 
 want a full-featured base environment.  Choose *Miniconda* for a minimal 
 base environment (which makes it easier to upgrade and manage the 
 additional conda environment we'll use for bluesky).  Your choice.
 
-**TIP**:  With Miniconda, you usually do not add additional packages to the base
-environment.  Instead, you'd create custom conda environments, as needed.
-Smaller, more specific environments make it easier to manage the dependencies
-(including python version) required to run certain Python applications.
+**TIP**:  With Miniconda, you usually do not add additional packages to 
+the base environment.  Instead, you'd create custom conda environments, as needed.
+Smaller, more specific environments make it easier to manage the
+dependencies (including python version) required to run certain Python applications.
 
 distribution  | instructions
 ---- | ----
-[Anaconda](https://www.anaconda.com/distribution/#download-section) | Click the green button for "Python 3 version" (64-bit) for your operating system.
-[Miniconda](https://repo.anaconda.com/miniconda/) | Pick the `Miniconda3-latest-*` installer for your operating system and architecture.
+[Anaconda](https://www.anaconda.com/distribution/#download-section) | click the green button for "Python 3.7 version" (64-bit) for your operating system
+[Miniconda](https://repo.anaconda.com/miniconda/) | pick the `Miniconda3-latest-*` installer for your operating system and architecture
 
-Then, save the installer file (goes into your `Downloads` folder on most
-operating systems).
+Then, save the installer file (goes into your `Downloads` folder on most operating systems).
 
 ## Choose an installation location
 
