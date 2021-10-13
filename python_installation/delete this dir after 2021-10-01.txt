@@ -1,5 +1,0 @@
-Look for content in this repository's `/install` directory instead.
-
-If not found there, look in subdirectory (from here)
-`./for_deletion/` and create in issue at
-https://github.com/BCDA-APS/use_bluesky/issues/new
