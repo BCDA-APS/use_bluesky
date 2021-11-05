@@ -1,5 +1,8 @@
 name: bluesky_2022_1
 
+# use:
+#   conda env create --force -f win_2022_1.yml
+
 channels:
   - defaults
   - conda-forge
@@ -26,7 +29,7 @@ dependencies:
   - pyqt=5
   - qt=5
   # --- support packages
-  - aps-dm-api
+  # - aps-dm-api
   - epics-base>=7.0.5
   - h5py
   - imagecodecs-lite
@@ -70,5 +73,4 @@ dependencies:
     # - bluesky-webclient is NOT Python software, don't install it this way
     #    https://github.com/bluesky/bluesky-webclient
     
-    # TODO: will this work?
     - https://github.com/BCDA-APS/adl2pydm/archive/main.zip
