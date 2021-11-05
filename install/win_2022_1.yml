@@ -1,13 +1,12 @@
 name: bluesky_2022_1
 
-# use:
-#   date; conda env create --force -f ./environment_2022_1.yml; date
-
 channels:
   - defaults
   - conda-forge
   - aps-anl-tag
   - nsls2forge
+  - pydm-tag
+  - pcds-tag
 
 dependencies:
   # --- Python core packages
@@ -45,7 +44,7 @@ dependencies:
   - bluesky>=1.8.1
   - databroker>=1.2.4
   - databroker-pack
-  - hklpy>=1.0.1
+  # - hklpy>=1.0.1
   - ophyd>=1.6.3
   - pydm
   # --- optional Bluesky framework packages for evaluation
