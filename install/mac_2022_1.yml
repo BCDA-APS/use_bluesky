@@ -1,5 +1,6 @@
 name: bluesky_2022_1
 
+# NOTE: As of 2021-01-05, this has not been tested on a Mac.
 # use:
 #   conda env create --force -f mac_2022_1.yml
 
