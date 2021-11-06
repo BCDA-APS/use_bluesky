@@ -68,7 +68,6 @@ dependencies:
   - twine
   - versioneer
   - pip:
+    - https://github.com/BCDA-APS/adl2pydm/archive/main.zip
     # - bluesky-webclient is NOT Python software, don't install it this way
     #    https://github.com/bluesky/bluesky-webclient
-    
-    - https://github.com/BCDA-APS/adl2pydm/archive/main.zip
