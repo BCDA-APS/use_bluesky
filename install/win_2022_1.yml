@@ -8,8 +8,6 @@ channels:
   - conda-forge
   - aps-anl-tag
   - nsls2forge
-  - pydm-tag
-  - pcds-tag
 
 dependencies:
   # --- Python core packages
@@ -42,7 +40,7 @@ dependencies:
   - scikit-image
   - xlrd
   # --- Bluesky framework packages
-  - apstools
+  # - apstools>=1.5.3
   - area-detector-handlers
   - bluesky>=1.8.1
   - databroker>=1.2.4
@@ -70,7 +68,7 @@ dependencies:
   - twine
   - versioneer
   - pip:
-    # - bluesky-webclient is NOT Python software, don't install it this way
-    #    https://github.com/bluesky/bluesky-webclient
-    
+    - apstools>=1.5.3
     - https://github.com/BCDA-APS/adl2pydm/archive/main.zip
+    # # - bluesky-webclient is NOT Python software, don't install it this way
+    # #    https://github.com/bluesky/bluesky-webclient
