@@ -12,7 +12,7 @@ channels:
 
 dependencies:
   # --- Python core packages
-  - python<3.9
+  - python<3.8
   - ipython
   - jupyter
   - jupyterlab
@@ -28,7 +28,7 @@ dependencies:
   - pyqt=5
   - qt=5
   # --- support packages
-  # - aps-dm-api
+  - aps-dm-api
   - epics-base>=7.0.5
   - h5py
   - imagecodecs-lite
