@@ -106,7 +106,7 @@ first run (January-April) in 2021.
 
 ```
 cd /tmp
-wget https://github.com/BCDA-APS/use_bluesky/raw/main/install/environment_2021_1.yml
+wget https://github.com/BCDA-APS/use_bluesky/raw/main/install/environment_2022_2.yml
 ```
 
 Create the custom conda environment named in the file (`bluesky_2021_1`):
