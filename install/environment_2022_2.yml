@@ -43,6 +43,8 @@ dependencies:
   # - apstools
   - area-detector-handlers
   - bluesky>=1.8.1
+  - bluesky-queueserver
+  - bluesky-widgets
   - databroker>=1.2.4
   - databroker-pack
   - hklpy>=1.0.1
@@ -69,8 +71,6 @@ dependencies:
     - apstools
     - https://github.com/BCDA-APS/adl2pydm/archive/main.zip
     # --- optional Bluesky framework packages for evaluation
-    - bluesky-queueserver
     - bluesky-queueserver-api
-  # - bluesky-widgets
   #   # - bluesky-webclient is NOT Python software, don't install it this way
   #   #    https://github.com/bluesky/bluesky-webclient
