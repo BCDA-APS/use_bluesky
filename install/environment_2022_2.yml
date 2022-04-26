@@ -28,8 +28,10 @@ dependencies:
   - qt=5
   # --- support packages
   - aps-dm-api>=5
+  - bitshuffle
   - epics-base>=7.0.5
   - h5py
+  - hdf5plugins
   - imagecodecs-lite
   - ipympl
   - lxml
