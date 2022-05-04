@@ -10,6 +10,7 @@ channels:
   - nsls2forge
 
 dependencies:
+
   # --- Python core packages
   - python=3.9
   - ipython
@@ -18,16 +19,18 @@ dependencies:
   - notebook
   - pip
   - psutil
+
   # --- testing and quality assurance
   - black
   - flake8
   - pylint
   - pytest
+
   # --- Qt
   - pyqt=5
   - qt=5
-  # --- support packages
-  - aps-dm-api>=5
+
+  # --- general support packages
   - bitshuffle
   - epics-base>=7.0.5
   - h5py
@@ -41,18 +44,12 @@ dependencies:
   - pymongo
   - scikit-image
   - xlrd
-  # --- Bluesky framework packages
-  # - apstools
-  - area-detector-handlers
-  - bluesky>=1.8.1
-  - bluesky-queueserver
-  - bluesky-widgets
-  - databroker>=1.2.4
-  - databroker-pack
-  - hklpy>=1.0.1
-  - ophyd>=1.6.3
-  - pydm
+
+  # # --- Bluesky framework packages
+  # all moved to pip install (conda takes additional 10m to solve)
+
   # --- user-requested packages
+  - aps-dm-api>=5
   - nexpy
   - punx
   - pvview
@@ -61,18 +58,29 @@ dependencies:
   - spec2nexus
   - stdlogpj
   - xrayutilities
-  # --- packaging and publishing
+
+  # # --- packaging and publishing
   # - conda-build
   # - coverage
   # - sphinx
   # - sphinxcontrib-napoleon
   # - twine
   # - versioneer
+
   - pip:
-    - apsbss
     - apstools
+    - area-detector-handlers
+    - bluesky-queueserver
+    - bluesky-queueserver-api
+    - bluesky-widgets
+    - bluesky>=1.8.1
+    - databroker-pack
+    - databroker>=1.2.4,<2
+    - hklpy
+    - ophyd>=1.6.3
+    - pydm
+
     - https://github.com/BCDA-APS/adl2pydm/archive/main.zip
     # --- optional Bluesky framework packages for evaluation
-    - bluesky-queueserver-api
-  #   # - bluesky-webclient is NOT Python software, don't install it this way
-  #   #    https://github.com/bluesky/bluesky-webclient
+    # - bluesky-webclient is NOT Python software, don't install it this way
+    #    https://github.com/bluesky/bluesky-webclient
