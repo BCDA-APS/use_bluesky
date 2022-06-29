@@ -22,7 +22,7 @@ channels:
 dependencies:
 
   # --- Python core packages
-  - python
+  - python >=3.9
   - ipython
   - jupyter
   - jupyterlab
@@ -71,7 +71,7 @@ dependencies:
 
   # --- user-requested packages
   - aps-dm-api >=5   # linux-64  osx-64
-  - c2dataviewer  # --- linux-64
+  # - c2dataviewer  # --- linux-64
   - nexpy
   - punx
   - pvapy
