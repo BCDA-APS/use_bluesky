@@ -465,6 +465,7 @@ sed -i s+"^from ."+"# from ."+g instrument/plans/__init__.py
 ```bash
 cd /tmp/bluesky_training
 tar cf - bluesky | (cd "${HOME}" && tar xf -)
+cd /tmp
 /bin/rm -rf /tmp/bluesky_training
 
 cd "${HOME}"
