@@ -604,12 +604,10 @@ I000 = c0.channels.chan06.s
 
 ## Add Environment Configuration to .bash_aliases
 
-FIXME:
+The `~/.bash_aliases` file is the usual place to customize the bash shell.  If
+it exists, it is executed from `~/.bashrc` when a new console is created.
 
-The `~/.bash_aliases` file is the usual place to customize the bash shell.  It
-is executed from `~/.bashrc` when a new console is created.
-
-Add these lines to `~/.bash_aliases`:
+Add these lines to `~/.bash_aliases` (or `~/.bashrc` if the other does not exist):
 
 ```
 export CONDA_ENVIRONMENT=bluesky_2022_3
@@ -618,7 +616,6 @@ alias become_bluesky='conda activate "${CONDA_ENVIRONMENT}" '
 
 ## Install Starter Script
 
-FIXME:
 
 The commands and settings to configure the local environment to begin a
 Bluesky session can be arranged by a simple shell script that starts the
@@ -643,12 +640,7 @@ and create the directory:
 mkdir ~/bin
 ```
 
-Add the starter script to `~/bin`:
-
-```
-cd ~/bin
-ln -s ${BLUESKY_DIR}/profile_bluesky/startup/blueskyStarter.sh ./
-```
+The starter script was added above, in the [Install](#install) section.
 
 TIP: You might rename `~/bin/blueskyStarter.sh` to something appropriate for
 your instrument name, such as the hypothetical example above:
