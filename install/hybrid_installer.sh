@@ -8,7 +8,7 @@ function usage {
     exit
 }
 
-# ----- parse command line inputs
+# ----- 1. accepts an environment file name and optional environment name
 
 UMAMBA=$(which micromamba)
 CONDA=$(which conda)
@@ -62,8 +62,18 @@ fi
 # echo yml_file=${yml_file}
 echo "create ${options} -n ${environment} ${yml_file}"
 
-# ----- build test micromamba environment
+# ----- 2. build test micromamba environment
 
 temp_env=env_$(date "+%H%M%S")
 # echo temp_env=${temp_env}
 micromamba create -n "${temp_env}" -f "${yml_file}"
+
+# ----- 3. create a pip requirements file from the input environment file
+
+pip_req=/tmp/pip_req_$(date "+%H%M%S")
+
+# ----- 4. generate the explicit package list for conda
+# ----- 5. remove the test micromamba environment
+# ----- 6. create named conda environment with the explicit list
+# ----- 7. pip install remaining components in the named conda environment
+# ----- 8. remove pip requirements file and conda explicit file
