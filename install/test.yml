@@ -10,7 +10,7 @@ dependencies:
 
   # --- Python core packages
   - python >=3.9
-  - ipython
+  - spec2nexus
   - pip
 
   - pip:
