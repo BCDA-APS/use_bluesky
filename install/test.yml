@@ -1,0 +1,20 @@
+name: hybrid_test_environment
+
+# ./hybrid_installer.sh test.yml
+
+channels:
+  - conda-forge
+  - defaults
+
+dependencies:
+
+  # --- Python core packages
+  - python >=3.9
+  - ipython
+  - pip
+
+  - pip:
+    - pyRestTable
+    # --- optional Bluesky framework packages for evaluation
+    # - bluesky-webclient is NOT Python software, don't install it this way
+    #    https://github.com/bluesky/bluesky-webclient
