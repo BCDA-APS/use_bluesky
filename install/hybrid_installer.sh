@@ -101,11 +101,12 @@ conda activate "${environment}"
 
 # ----- 7. pip install remaining components in the named conda environment
 
-# TODO: What if no pip requirements?
-conda env list
-
-$(which pip) install -r "${pip_req_file}"
-
+line_count=($(wc -l "${pip_req_file}"))
+if [ "${line_count[0]}" != "0" ]; then
+    # only if requirements file is not empty
+    conda env list
+    $(which pip) install -r "${pip_req_file}"
+fi
 # ----- 8. remove pip requirements file and conda explicit file
 
 if [ "${CLEANUP}" == "Yes" ]; then
