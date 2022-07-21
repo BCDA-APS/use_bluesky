@@ -5,8 +5,10 @@ Tool used in support of hybrid_installer.sh
 """
 
 import argparse
-import sys
-import ruamel_yaml as yaml
+try:
+    import ruamel_yaml as yaml
+except ModuleNotFoundError:
+    import yaml
 
 
 def read_yml(env_file):
@@ -16,20 +18,20 @@ def read_yml(env_file):
     return all_specs
 
 
-def get_pip_requirements(specs):
-    for item in specs["dependencies"]:
-        # print(item)
-        if isinstance(item, dict):
-            reqs = item.get("pip")
+def print_pip_requirements(specs):
+    for req in specs["dependencies"]:
+        # print(req)
+        if isinstance(req, dict):
+            reqs = req.get("pip")
             if reqs is not None:
                 print("\n".join(sorted(reqs)))
 
 
-def get_conda_requirements(specs):
-    pass
+def print_conda_requirements(specs):
+    pass  # TODO: but not needed
 
 
-def get_environment_name(specs):
+def print_environment_name(specs):
     print(specs["name"])
 
 
@@ -46,13 +48,16 @@ def get_user_parameters():
 
 def main():
     args = get_user_parameters()
-    all_specs = read_yml(args.env_file)
     func = dict(
-        conda=get_pip_requirements,
-        name=get_environment_name,
-        pip=get_pip_requirements,
-    )[args.function](read_yml(args.env_file))
+        conda=print_pip_requirements,
+        name=print_environment_name,
+        pip=print_pip_requirements,
+    )[args.function]
+    func(read_yml(args.env_file))
 
 
 if __name__ == "__main__":
+    # import sys
+    # sys.argv.append("pip")
+    # sys.argv.append("./install/test.yml")
     main()
