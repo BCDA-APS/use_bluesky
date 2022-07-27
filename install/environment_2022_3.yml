@@ -68,6 +68,8 @@ dependencies:
   - hklpy >=1.0.3  # --- linux-64
   - ophyd >=1.6.3
   - pydm
+  # https://github.com/pydata/xarray/issues/6818
+  - xarray !=2022.6.0  # incompatible with numpy=1.20
 
   # --- user-requested packages
   - aps-dm-api >=5   # linux-64  osx-64
@@ -89,6 +91,9 @@ dependencies:
   - sphinxcontrib-napoleon
   - twine
   - versioneer
+  - mamba
+  - micromamba
+  - pygithub
 
   - pip:
     - happi
