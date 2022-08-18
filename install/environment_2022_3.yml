@@ -57,6 +57,7 @@ dependencies:
   - xlrd
 
   # --- Bluesky framework packages
+  - adl2pydm
   - apstools
   - area-detector-handlers
   - bluesky-queueserver
@@ -96,9 +97,8 @@ dependencies:
   - pygithub
 
   - pip:
-    - happi
+    # - happi
     - tiled[all]
-    - https://github.com/BCDA-APS/adl2pydm/archive/main.zip
     # --- optional Bluesky framework packages for evaluation
     # - bluesky-webclient is NOT Python software, don't install it this way
     #    https://github.com/bluesky/bluesky-webclient
