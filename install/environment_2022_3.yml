@@ -66,6 +66,7 @@ dependencies:
   - bluesky >=1.8.1
   - databroker-pack
   - databroker =1.2
+  - happi
   - hklpy >=1.0.3  # --- linux-64
   - ophyd >=1.6.3
   - pydm
@@ -97,7 +98,6 @@ dependencies:
   - pygithub
 
   - pip:
-    # - happi
     - tiled[all]
     # --- optional Bluesky framework packages for evaluation
     # - bluesky-webclient is NOT Python software, don't install it this way
