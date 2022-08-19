@@ -70,6 +70,7 @@ dependencies:
   - hklpy >=1.0.3  # --- linux-64
   - ophyd >=1.6.3
   - pydm
+  - tiled-server
   # https://github.com/pydata/xarray/issues/6818
   - xarray !=2022.6.0  # incompatible with numpy=1.20
 
@@ -97,8 +98,7 @@ dependencies:
   - micromamba
   - pygithub
 
-  - pip:
-    - tiled[all]
-    # --- optional Bluesky framework packages for evaluation
-    # - bluesky-webclient is NOT Python software, don't install it this way
-    #    https://github.com/bluesky/bluesky-webclient
+  # - pip:
+  #   # --- optional Bluesky framework packages for evaluation
+  #   # - bluesky-webclient is NOT Python software, don't install it this way
+  #   #    https://github.com/bluesky/bluesky-webclient
