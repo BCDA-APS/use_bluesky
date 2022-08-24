@@ -17,7 +17,8 @@ channels:
   - apsu
   - aps-anl-tag
   - defaults
-  - sveseli
+  # - sveseli
+  # - nsls2forge
 
 dependencies:
 
@@ -58,7 +59,7 @@ dependencies:
 
   # --- Bluesky framework packages
   - adl2pydm
-  - apstools
+  - apstools >=1.6.3
   - area-detector-handlers
   - bluesky-queueserver
   - bluesky-queueserver-api
