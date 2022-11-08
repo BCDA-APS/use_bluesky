@@ -17,7 +17,8 @@ channels:
   - apsu
   - aps-anl-tag
   - defaults
-  - sveseli
+  # - sveseli
+  # - nsls2forge
 
 dependencies:
 
@@ -57,7 +58,8 @@ dependencies:
   - xlrd
 
   # --- Bluesky framework packages
-  - apstools
+  - adl2pydm
+  - apstools >=1.6.3
   - area-detector-handlers
   - bluesky-queueserver
   - bluesky-queueserver-api
@@ -65,9 +67,11 @@ dependencies:
   - bluesky >=1.8.1
   - databroker-pack
   - databroker =1.2
+  - happi
   - hklpy >=1.0.3  # --- linux-64
   - ophyd >=1.6.3
   - pydm
+  - tiled-server
   # https://github.com/pydata/xarray/issues/6818
   - xarray !=2022.6.0  # incompatible with numpy=1.20
 
@@ -95,10 +99,7 @@ dependencies:
   - micromamba
   - pygithub
 
-  - pip:
-    - happi
-    - tiled[all]
-    - https://github.com/BCDA-APS/adl2pydm/archive/main.zip
-    # --- optional Bluesky framework packages for evaluation
-    # - bluesky-webclient is NOT Python software, don't install it this way
-    #    https://github.com/bluesky/bluesky-webclient
+  # - pip:
+  #   # --- optional Bluesky framework packages for evaluation
+  #   # - bluesky-webclient is NOT Python software, don't install it this way
+  #   #    https://github.com/bluesky/bluesky-webclient
