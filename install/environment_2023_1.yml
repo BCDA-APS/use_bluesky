@@ -6,6 +6,9 @@ name: bluesky_2023_1
 #   eval "$(micromamba shell hook --shell=bash)"
 #   micromamba activate bluesky_2023_1
 
+# download:
+#   wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/main/install/environment_2023_1.yml
+
 channels:
   - conda-forge
   - apsu
