@@ -85,13 +85,14 @@ dependencies:
   # --- packaging and publishing
   - conda-build
   - coverage
+  - mamba
+  - micromamba
+  - pydata-sphinx-theme
+  - pygithub
   - sphinx
   - sphinxcontrib-napoleon
   - twine
   - versioneer
-  - mamba
-  - micromamba
-  - pygithub
 
   - pip:
     - happi
