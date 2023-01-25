@@ -9,6 +9,10 @@ name: bluesky_2023_1
 # download:
 #   wget https://raw.githubusercontent.com/BCDA-APS/use_bluesky/main/install/environment_2023_1.yml
 
+# Add/revise environment variable for default bluesky environment.
+# Might be defined in either ~/.bashrc or ~/.bash_aliases
+# export BLUESKY_CONDA_ENV=bluesky_2023_1
+
 channels:
   - conda-forge
   - apsu
@@ -70,8 +74,6 @@ dependencies:
   - xarray !=2022.6.0  # incompatible with numpy=1.20
 
   # --- user-requested packages
-  - aps-dm-api >=5   # linux-64  osx-64
-  # - c2dataviewer  # --- linux-64
   - nexpy
   - punx
   - pvapy
@@ -94,9 +96,12 @@ dependencies:
   - twine
   - versioneer
 
-  # - apsbss
+  # if using this environment at APS, then uncomment these (and apsbss below)
+  # - aps-dm-api >=5   # linux-64  osx-64
+  # - c2dataviewer  # --- linux-64
 
   - pip:
+    # - apsbss  # only works on APS subnet
     # - happi
     - tiled[all]
     - https://github.com/BCDA-APS/adl2pydm/archive/main.zip
