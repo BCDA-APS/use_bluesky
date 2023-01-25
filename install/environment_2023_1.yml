@@ -94,8 +94,10 @@ dependencies:
   - twine
   - versioneer
 
+  # - apsbss
+
   - pip:
-    - happi
+    # - happi
     - tiled[all]
     - https://github.com/BCDA-APS/adl2pydm/archive/main.zip
     # --- optional Bluesky framework packages for evaluation
