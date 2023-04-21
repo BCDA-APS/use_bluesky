@@ -3,7 +3,7 @@
 **NOTICE** 2023-04-13: This repository will be archived by 2023-09-01.
 It should not be used for new work.  All content of this repository
 (environment files, training documents, reference material) is migrating
-to https://github.com/BCDA-APS/bluesky_training.  
+to https://bcda-aps.github.io/bluesky_training/
 
 Tools to help APS use the [Bluesky framework](https://blueskyproject.io) ([GitHub](https://github.com/bluesky)).
 ----
