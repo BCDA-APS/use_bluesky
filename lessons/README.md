@@ -1,5 +1,12 @@
 # notebooks
 
+**NOTICE** 2023-04-24:  DO NOT USE.
+This material is out of date and will not be updated here.
+This repository will be archived by 2023-09-01.
+It should not be used for new work.  All content of this repository
+(environment files, training documents, reference material) is migrating
+to https://bcda-aps.github.io/bluesky_training/
+
 This directory contains lessons, tutorials, examples, other - all in Jupyter notebooks
 
 ## Lessons & Demonstrations

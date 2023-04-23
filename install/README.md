@@ -1,8 +1,15 @@
 # Installation
 
+**NOTICE** 2023-04-24: DO NOT USE.
+This document is out of date.
+See latest version: https://bcda-aps.github.io/bluesky_training/instrument/_install_new_instrument.html.
+This repository will be archived by 2023-09-01.
+It should not be used for new work.  All content of this repository
+(environment files, training documents, reference material) is migrating
+to https://bcda-aps.github.io/bluesky_training/
+
 Follow these sections, in sequence, to install the Bluesky framework for an
 instrument.
-
 
 **Contents**
 - [Installation](#installation)

@@ -1,5 +1,13 @@
 # Install Miniconda
 
+**NOTICE** 2023-04-24: DO NOT USE.
+These document is out of date.
+See latest version: https://bcda-aps.github.io/bluesky_training/reference/_conda_base.html.
+This repository will be archived by 2023-09-01.
+It should not be used for new work.  All content of this repository
+(environment files, training documents, reference material) is migrating
+to https://bcda-aps.github.io/bluesky_training/
+
 These instructions describing installation of either a
 Miniconda or Anaconda Python distribution, providing
 the [`conda`](https://docs.conda.io) virtual environment management tool.

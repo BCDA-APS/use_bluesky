@@ -1,6 +1,6 @@
 # use_bluesky
 
-**NOTICE** 2023-04-13: This repository will be archived by 2023-09-01.
+**NOTICE** 2023-04-13: DO NOT USE.  This repository will be archived by 2023-09-01.
 It should not be used for new work.  All content of this repository
 (environment files, training documents, reference material) is migrating
 to https://bcda-aps.github.io/bluesky_training/

@@ -1,5 +1,13 @@
 # Instrument Package Guide
 
+**NOTICE** 2023-04-24: DO NOT USE.
+These document is out of date.
+See latest version: https://bcda-aps.github.io/bluesky_training/howto/first_steps_guide.html.
+This repository will be archived by 2023-09-01.
+It should not be used for new work.  All content of this repository
+(environment files, training documents, reference material) is migrating
+to https://bcda-aps.github.io/bluesky_training/
+
 The instrument package defines the features of your equipment for use with data
 acquisition using the Bluesky framework.  It is structured as a Python
 [package](https://python-packaging-tutorial.readthedocs.io/en/latest/setup_py.html)

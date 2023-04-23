@@ -1,5 +1,13 @@
 # Guide: First Steps with Bluesky
 
+**NOTICE** 2023-04-24: DO NOT USE.
+These instructions are out of date.
+See new version: https://bcda-aps.github.io/bluesky_training/howto/first_steps_guide.html.
+This repository will be archived by 2023-09-01.
+It should not be used for new work.  All content of this repository
+(environment files, training documents, reference material) is migrating
+to https://bcda-aps.github.io/bluesky_training/
+
 This is a quick-reference guide for those learning how
 to use the Bluesky Framework for data acquisition.
 
