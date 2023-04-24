@@ -13,6 +13,7 @@ instrument.
 
 **Contents**
 - [Installation](#installation)
+  - [Typical Directory Layout](#typical-directory-layout)
   - [Activate Conda "base" Environment](#activate-conda-base-environment)
   - [Install MongoDB server](#install-mongodb-server)
   - [Install Databroker Configuration File](#install-databroker-configuration-file)
@@ -21,6 +22,13 @@ instrument.
     - [Test that Bluesky Works](#test-that-bluesky-works)
   - [Create IPython Profile for Bluesky](#create-ipython-profile-for-bluesky)
   - [Install Instrument Package](#install-instrument-package)
+    - [Download the Starting Point](#download-the-starting-point)
+    - [Edit Basic Details](#edit-basic-details)
+      - [conda environment name](#conda-environment-name)
+      - [databroker catalog name](#databroker-catalog-name)
+      - [instrument-based metadata](#instrument-based-metadata)
+      - [Remove training repository components](#remove-training-repository-components)
+    - [Install](#install)
   - [Commit Instrument Package to Version Control](#commit-instrument-package-to-version-control)
   - [Translate Previous SPEC Configuration](#translate-previous-spec-configuration)
   - [Add Environment Configuration to .bash_aliases](#add-environment-configuration-to-bash_aliases)
@@ -38,6 +46,30 @@ commands, check that you are using the `bash` shell first.
 Here's some [advice](https://stackoverflow.com/questions/3327013/how-to-determine-the-current-shell-im-working-on) to determine the
 current shell.
 
+## Typical Directory Layout
+
+```text
+~/
+  bin/
+    blueskyStarter.sh  --> ~/bluesky/blueskyStarter.sh
+  bluesky/
+    blueskyStarter.sh
+    console/
+      __start_bluesky_instrument__.py
+    instrument/
+  .ipython-bluesky/
+    profile_bluesky/
+      startup/
+        __start_bluesky_instrument__.py --> ~/bluesky/console/__start_bluesky_instrument__.py
+```
+
+and [`__start_bluesky_instrument__.py`](https://github.com/BCDA-APS/bluesky_training/blob/main/bluesky/console/__start_bluesky_instrument__.py) is summarized by:
+
+```py
+import pathlib, sys
+sys.path.append(str(pathlib.Path.home() / "bluesky"))
+from instrument.collection import *
+```
 
 ## Activate Conda "base" Environment
 
@@ -71,7 +103,6 @@ mintadmin@mint-vm:/tmp$ conda env list
 # conda environments:
 #
 base                  *  /home/mintadmin/Apps/anaconda
-
 ```
 
 
@@ -80,8 +111,8 @@ base                  *  /home/mintadmin/Apps/anaconda
 If you need to provide your own MongoDB server, follow this
 [guide](https://github.com/BCDA-APS/use_bluesky/wiki/mongodb-server).
 
-At the APS, the beam line controls group (BCDA) will assign the
-REPOSITORY and its SERVER.
+At the APS, the IT group manages the MongoDB servers and the beam line
+controls group (BCDA) will make assignments (REPOSITORY and SERVER).
 
 ## Install Databroker Configuration File
 
@@ -90,7 +121,7 @@ databases) on the MongoDB database server.
 
 Follow this template:
 
-```
+```yml
 sources:
   REPOSITORY:
     args:
@@ -102,30 +133,35 @@ sources:
 Replace the `REPOSITORY` and `SERVER` terms and write to file:
 `~/.local/share/intake/catalogs.yml`.
 
+NOTE: The actual directory is `${XDG_CONFIG_HOME}/intake/catalogs.yml`.  The example above assumes the default value `XDG_CONFIG_HOME=$HOME}/.local/share`.
+
 At the APS, the beam line controls group (BCDA) will assign the
-REPOSITORY and its SERVER.
+REPOSITORY and its SERVER.  The maintain a list of all
+[APS configurations](https://git.aps.anl.gov/bcda/bluesky-catalogs/-/blob/master/APS_assignments.yml)
+(restricted access).
 
 ## Install Bluesky Environment
 
 Get the installation configuration ([YAML](https://yaml.org)) file.  The
-file is versioned based on the APS run cycle.  This YAML file is for the
-first run (January-April) in 2021.
+file is versioned based on the APS run cycle.  The YAML file shown here is for the
+third run (October-December) in 2022.  Use the most recent YAML file available
+in the repository.  The appropriate environment name is built into the file.
 
-```
+```bash
 cd /tmp
-wget https://github.com/BCDA-APS/use_bluesky/raw/main/install/environment_2022_2.yml
+wget https://github.com/BCDA-APS/use_bluesky/raw/main/install/environment_2022_3.yml
 ```
 
-Create the custom conda environment named in the file (`bluesky_2021_1`):
+Create the custom conda environment named in the file (`bluesky_2022_3`):
 
-```
-conda env create -f environment_2021_1.yml
+```bash
+conda env create -f environment_2022_3.yml
 ```
 
 ## Activate Bluesky Environment
 
-```
-conda activate bluesky_2021_1
+```bash
+conda activate bluesky_2022_3
 ```
 
 ### Test that Bluesky Works
@@ -342,45 +378,113 @@ If there is an existing `~/.ipython` directory (perhaps created for other use
 from this account), then choose a unique directory for bluesky.  Typical
 alternative is `~/.ipython-bluesky`.
 
-```
-export BLUESKY_DIR=~/.ipython
+```bash
+export BLUESKY_DIR=~/.ipython-bluesky
+mkdir -p "${BLUESKY_DIR}"
 ipython profile create bluesky --ipython-dir="${BLUESKY_DIR}"
 ```
 
-
 ## Install Instrument Package
 
-Remove the existing `startup` directory (created from `ipython profile
-create` step above):
+### Download the Starting Point
 
-```
-cd "${BLUESKY_DIR}/profile_bluesky"
-rm startup/README
-rmdir startup
-```
+These steps install the instrument package from the training
+repository.  It is the best starting point for a new installation.
 
-Download the install script:
-
-```
-cd "${BLUESKY_DIR}/profile_bluesky"
-wget https://github.com/BCDA-APS/use_bluesky/raw/main/install/install_startup.sh
+```bash
+cd /tmp
+git clone https://github.com/BCDA-APS/bluesky_training
+cd bluesky_training/bluesky
 ```
 
-Run the installer
+### Edit Basic Details
 
+Edit content in the bluesky directory (and subdirectories below).
+
+#### conda environment name
+
+```bash
+sed -i s+"training_2022"+"bluesky_2022_3"+g ./blueskyStarter.sh
+sed -i s+"training_2022"+"bluesky_2022_3"+g ./run_qstarter_py.sh
 ```
-bash ./install_startup.sh  BEAMLINE INSTRUMENT REPOSITORY
+
+#### databroker catalog name
+
+Use the same name as `REPOSITORY` in the 
+[Install Databroker Configuration File](#install-databroker-configuration-file)
+section above.
+
+```bash
+CATALOG_NAME=USE_ASSIGNED_CATALOG_NAME
+sed -i s+"training"+"${CATALOG_NAME}"+g console/__start_bluesky_instrument__.py
+sed -i s+"training"+"${CATALOG_NAME}"+g export_data.sh
+sed -i s+"training"+"${CATALOG_NAME}"+g instrument/framework/initialize.py
+sed -i s+"databroker_catalog training"+"databroker_catalog ${CATALOG_NAME}"+g instrument/iconfig.yml
+sed -i s+"training"+"${CATALOG_NAME}"+g qserver.sh
+sed -i s+"training"+"${CATALOG_NAME}"+g qstarter.py
+sed -i s+"training"+"${CATALOG_NAME}"+g run_qstarter_py.sh
 ```
 
-where `BEAMLINE` `INSTRUMENT` `REPOSITORY` each contain no white space
-characters.  The terms BEAMLINE and INSTRUMENT will be added to the standard
-metadata added to every Bluesky
-[_run_](https://blueskyproject.io/bluesky/documents.html?highlight=run).
-Example: `bash ./install_startup.sh  45-ID FemtoScanner 45id_femtoscanner`
+#### instrument-based metadata
 
-At the APS, the beam line controls group (BCDA) will assign the
-REPOSITORY and its SERVER.
+Start with some basic metadata about the instrument.
+Leave a placeholder to record a user's proposal ID.
+Keep in mind that metadata keys, such as these, may be used
+to find and retireve data from the databroker.
 
+```bash
+# no white space in NAME_THE_INSTRUMENT
+sed -i s+"beamline_id: Bluesky_training"+"beamline_id: NAME_THE_INSTRUMENT"+g instrument/iconfig.yml
+# name you'd use to refer to this instrument
+sed -i s+"instrument_name: BCDA EPICS Bluesky training"+"instrument_name: APS 44ID XYZ"+g instrument/iconfig.yml
+# set a default value for proposal ID (update from shell for each new proposal's beam time)
+sed -i s+"proposal_id: training"+"proposal_id: commissioning"+g instrument/iconfig.yml
+```
+
+#### Remove training repository components
+
+Rather than deleting the content, it is commented out
+so the configuration and files described may be used
+as reference.
+
+The training repo uses some specific IOCs.  Comment that out.
+
+```bash
+sed -i s+"^AD"+"# AD"+g instrument/iconfig.yml
+sed -i s+"^GP"+"# GP"+g instrument/iconfig.yml
+sed -i s+"^BLUESKY_MOUNT_PATH"+"# BLUESKY_MOUNT_PATH"+g instrument/iconfig.yml
+```
+
+The training repo uses some specific devices from those IOCs.  Comment that out.
+
+```bash
+sed -i s+"^from ."+"# from ."+g instrument/devices/__init__.py
+```
+
+Comment out any example plans.
+
+```bash
+sed -i s+"^from ."+"# from ."+g instrument/plans/__init__.py
+```
+
+### Install
+
+```bash
+cd /tmp/bluesky_training
+tar cf - bluesky | (cd "${HOME}" && tar xf -)
+cd /tmp
+/bin/rm -rf /tmp/bluesky_training
+
+cd "${HOME}"
+mkdir -p bin
+
+cd "${HOME}"/bin
+ln -s "${HOME}"/bluesky/blueskyStarter.sh ./
+
+cp \
+  "${HOME}"/bluesky/console/__start_bluesky_instrument__.py \
+  "${HOME}"/.ipython-bluesky/profile_bluesky/startup/
+```
 
 ## Commit Instrument Package to Version Control
 
@@ -404,7 +508,7 @@ The [`apstools`]() package has an application that will translate most
 of the SPEC config file into ophyd commands.  The output is to the
 console.  Use a pipe to direct the output to a new file:
 
-```
+```bash
 export INSTRUMENT_DIR=${BLUESKY_DIR}/profile_bluesky/startup/instrument
 spec2ophyd CONFIG_FILE | tee ${INSTRUMENT_DIR}/devices/spec.py
 ```
@@ -416,8 +520,8 @@ imports there.
 <details>
 <summary><tt>spec2ophyd</tt> example:</summary>
 
-```
-(bluesky_2021_1) mintadmin@mint-vm:/tmp$ spec2ophyd /home/mintadmin/Documents/projects/BCDA-APS/apstools/apstools/migration/config
+```bash
+(bluesky_2022_3) mintadmin@mint-vm:/tmp$ spec2ophyd /home/mintadmin/Documents/projects/BCDA-APS/apstools/apstools/migration/config
 """
 ophyd commands from SPEC config file
 
@@ -508,17 +612,18 @@ I000 = c0.channels.chan06.s
 
 ## Add Environment Configuration to .bash_aliases
 
-The `~/.bash_aliases` file is the usual place to customize the bash shell.  It
-is executed from `~/.bashrc` when a new console is created.
+The `~/.bash_aliases` file is the usual place to customize the bash shell.  If
+it exists, it is executed from `~/.bashrc` when a new console is created.
 
-Add these lines to `~/.bash_aliases`:
+Add these lines to `~/.bash_aliases` (or `~/.bashrc` if the other does not exist):
 
 ```
-export CONDA_ENVIRONMENT=bluesky_2021_1
+export CONDA_ENVIRONMENT=bluesky_2022_3
 alias become_bluesky='conda activate "${CONDA_ENVIRONMENT}" '
 ```
 
 ## Install Starter Script
+
 
 The commands and settings to configure the local environment to begin a
 Bluesky session can be arranged by a simple shell script that starts the
@@ -543,12 +648,7 @@ and create the directory:
 mkdir ~/bin
 ```
 
-Add the starter script to `~/bin`:
-
-```
-cd ~/bin
-ln -s ${BLUESKY_DIR}/profile_bluesky/startup/blueskyStarter.sh ./
-```
+The starter script was added above, in the [Install](#install) section.
 
 TIP: You might rename `~/bin/blueskyStarter.sh` to something appropriate for
 your instrument name, such as the hypothetical example above:
@@ -558,3 +658,7 @@ your instrument name, such as the hypothetical example above:
 
 * Change to desired working directory.
 * Start Bluesky session using the starter script.
+
+```bash
+blueskyStarter.sh
+```

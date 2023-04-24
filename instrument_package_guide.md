@@ -20,6 +20,7 @@ reference for ideas rather than a set of requirements.
 **Contents**
 - [Instrument Package Guide](#instrument-package-guide)
   - [Basic Structure](#basic-structure)
+  - [Instrument Configuration File](#instrument-configuration-file)
   - [Add Motor(s)](#add-motors)
   - [Add Scaler(s)](#add-scalers)
   - [Re-organize into Devices](#re-organize-into-devices)
@@ -37,6 +38,7 @@ these directories may contain python file(s).
 
 ```
 instrument/       <-- all aspects of the equipment
+    iconfig.yml   <-- configuration details specific to your instrument
     callbacks/    <-- your custom Python code that responds to RunEngine documents or other
     devices/      <-- your equipment and its connections with EPICS
     framework/    <-- Configure the Bluesky framework
@@ -55,6 +57,42 @@ In any of the Python files, the
 that identifies which Python symbols from that file will be imported by default.
 (Any Python symbol may be imported by name, this just controls the more general
 case.)
+
+## Instrument Configuration File
+
+To make it easier for teams to manage the instrument configuration, certain
+details of the instrument configuration (such as timeout durations and default
+metadata) are described in the file `instrument/iconfig.yml`.  This is a text
+file in [YAML](https://yaml.org) format.  Some of these details are used when
+connecting to the databroker, others are used when configuring device or plan
+details.
+
+For example, these keys:
+
+```yml
+ADSIM_IOC_PREFIX: "ad:"
+AD_IMAGE_DIR: "adsimdet/%Y/%m/%d"
+AD_MOUNT_PATH: /tmp
+BLUESKY_MOUNT_PATH: /tmp/docker_ioc/iocad/tmp
+```
+
+are used in the area detector setup (of the training example):
+
+```py
+from .. import iconfig
+# ...
+IOC = iconfig["ADSIM_IOC_PREFIX"]
+IMAGE_DIR = iconfig["AD_IMAGE_DIR"]
+AD_IOC_MOUNT_PATH = pathlib.Path(iconfig["AD_MOUNT_PATH"])
+BLUESKY_MOUNT_PATH = pathlib.Path(iconfig["BLUESKY_MOUNT_PATH"])
+# ...
+adsimdet = MySimDetector(IOC, name="adsimdet", labels=("area_detector",))
+```
+
+Feel free to add keys (following the rules for YAML files).
+You might refer to another
+[example `iconfig.yml` file](https://github.com/BCDA-APS/bdp_controls/blob/main/qserver/instrument/iconfig.yml)
+for additionaL ideas.
 
 ## Add Motor(s)
 
@@ -84,7 +122,7 @@ CAUTION: Avoid certain names such as
 [`del`](https://docs.python.org/3/reference/simple_stmts.html?highlight=del#the-del-statement)
 and
 [`lambda`](https://docs.python.org/3/reference/expressions.html?highlight=lambda#lambda)
-since these are reserved Python names with very important meanings.  
+since these are reserved Python names with very important meanings.
 
 Be sure to add this new motor symbol to the `__all__` list near the top of the file.
 
@@ -302,8 +340,8 @@ print(f"m1 is now at {m1.position:.3f}")
 Start the bluesky session:
 
 ```
-(base) prjemian@zap:/tmp/demo$ blueskyZap.sh 
-Python 3.8.5 (default, Sep  4 2020, 07:30:14) 
+(base) prjemian@zap:/tmp/demo$ blueskyZap.sh
+Python 3.8.5 (default, Sep  4 2020, 07:30:14)
 Type 'copyright', 'credits' or 'license' for more information
 IPython 7.20.0 -- An enhanced Interactive Python. Type '?' for help.
 
@@ -333,7 +371,7 @@ I Sun-15:20:23 -    to change SPEC file, use command:   newSpecFile('title')
 I Sun-15:20:23 - /home/prjemian/.ipython/profile_bluesky/startup/instrument/devices/motors.py
 I Sun-15:20:23 - /home/prjemian/.ipython/profile_bluesky/startup/instrument/devices/scaler.py
 
-In [1]: 
+In [1]:
 ```
 
 Run the `my_code.py` file:
@@ -342,7 +380,7 @@ Run the `my_code.py` file:
 In [1]: %run -i my_code.py
 m1 is now at 3.000
 
-In [2]: 
+In [2]:
 ```
 
 </details>
