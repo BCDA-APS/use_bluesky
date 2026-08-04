@@ -1,3 +1,7 @@
+> **⚠️ ARCHIVED REPOSITORY**
+> 
+> This repository has been archived and is no longer maintained. The code is provided for historical reference and may contain unpatched or unknown vulnerabilities. It should not be used in production systems.
+
 # use_bluesky
 
 **NOTICE** 2023-04-13: DO NOT USE.  This repository will be archived by 2023-09-01.
